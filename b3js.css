@@ -1,0 +1,74 @@
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+#webglArea {
+	float: left;
+	width: 49vw;
+	margin-right: 0.5vw;
+	margin-left: 0.5vw;
+	height: 99vh;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+	background-color: #DDDDDD;
+}
+
+canvas {
+	border: 0;
+	margin: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+}
+
+#enlargeButton {
+	width: 5vh;
+	height: 5vh;
+	z-index: 1;
+	outline: none;
+	font-size: 3vh;
+	text-align: center;
+	background-color: #DDDDDD;
+	color: black;
+	border: 1px solid #DDDDDD;
+	right:51vw;
+	top: 94vh;
+	position: absolute;
+}
+
+#runButton, #showButton {
+	float: left;
+	width: 24vw;
+	margin-right: 0.5vw;
+	margin-left: 0.5vw;
+	height: 3.5vh;
+	margin-top: 0.5vh;
+	outline: none;
+	font-size: 1.5vh;
+	text-align: center;
+	background-color: #DDDDDD;
+	color: black;
+	border: 1px solid #DDDDDD;
+}
+
+#enlargeButton:hover, #runButton:hover, #showButton:hover {
+	background-color: #E4E4E4;
+	color: black;
+}
+
+#blocklyArea {
+	float: left;
+	width: 49vw;
+	margin-right: 0.5vw;
+	margin-left: 0.5vw;
+	height: 95vh;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+}
+
+#blocklyDiv {
+	position: absolute;
+}
