@@ -7,17 +7,17 @@ var webglCanvas = document.getElementById("webglCanvas");
 var blocklyArea = document.getElementById("blocklyArea");
 var blocklyDiv = document.getElementById("blocklyDiv");
 
-var request = new XMLHttpRequest();
+var xhr = new XMLHttpRequest();
 var workspace = undefined;
 
 // /=====================================================================\
 //	onload ~ onresize
 // \=====================================================================/
-request.onload = function () {
-	if (request.readyState === 4 && request.status === 200) {
+xhr.onload = function () {
+	if (xhr.readyState === 4 && xhr.status === 200) {
 
 		var options = {
-			toolbox : request.responseText,
+			toolbox : xhr.responseText,
 			collapse : true,
 			comments : true,
 			disable : true,
@@ -70,9 +70,9 @@ request.onload = function () {
 	}
 };
 
-request.overrideMimeType("text/xml");
-request.open("GET", "src/toolbox.xml", true);
-request.send(null);
+xhr.overrideMimeType("text/xml");
+xhr.open("GET", "src/toolbox.xml", true);
+xhr.send();
 
 // /=====================================================================\
 //	void openFullScreen()

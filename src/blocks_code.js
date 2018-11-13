@@ -21,12 +21,12 @@ Blockly.JavaScript['initialization'] = function(block) {
 		"camera.position.z = 5;\n"+
 
 		"var animate = function () {\n"+
-			"requestAnimationFrame( animate );\n"+
+		"	requestAnimationFrame( animate );\n"+
 
-			"cube.rotation.x += 0.01;\n"+
-			"cube.rotation.y += 0.01;\n"+
+		"	cube.rotation.x += 0.01;\n"+
+		"	cube.rotation.y += 0.01;\n"+
 
-			"renderer.render( scene, camera );\n"+
+		"	renderer.render( scene, camera );\n"+
 		"};\n"+
 		"animate();";
   return code;
