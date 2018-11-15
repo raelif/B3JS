@@ -5,6 +5,35 @@ html, body{
 	padding: 0;
 }
 
+canvas {
+	border: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+button {
+	float: left;
+	text-align: center;
+	outline: none;
+	background-color: #DDDDDD;
+	color: black;
+	border: 1px solid #DDDDDD;
+	position: relative;
+}
+
+button:hover {
+	background-color: #E4E4E4;
+	color: black;
+}
+
+input {
+	position: absolute;
+	top: 0; left: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
 #webglArea {
 	float: left;
 	width: 49vw;
@@ -16,43 +45,26 @@ html, body{
 	background-color: #DDDDDD;
 }
 
-canvas {
-	border: 0;
-	margin: 0;
-	width: 100%;
-	height: 100%;
-}
-
 #enlargeButton {
 	width: 5vh;
 	height: 5vh;
-	outline: none;
 	font-size: 3vh;
-	text-align: center;
-	background-color: #DDDDDD;
-	color: black;
-	border: 1px solid #DDDDDD;
-	position: relative;
 }
 
-#runButton, #showButton {
-	float: left;
-	width: 24vw;
+#runButton, #saveButton {
+	width: 16vw;
 	margin-right: 0.5vw;
 	margin-left: 0.5vw;
 	height: 3.5vh;
 	margin-top: 0.5vh;
-	outline: none;
 	font-size: 1.5vh;
-	text-align: center;
-	background-color: #DDDDDD;
-	color: black;
-	border: 1px solid #DDDDDD;
 }
 
-#enlargeButton:hover, #runButton:hover, #showButton:hover {
-	background-color: #E4E4E4;
-	color: black;
+#importButton {
+	width: 16vw;
+	height: 3.5vh;
+	margin-top: 0.5vh;
+	font-size: 1.5vh;
 }
 
 #blocklyArea {

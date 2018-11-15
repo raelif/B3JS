@@ -90,16 +90,52 @@ function openFullscreen() {
 }
 
 // /=====================================================================\
-//	void showCode()
+//	void saveProject()
 // \=====================================================================/
-function showCode() {
+function saveProject() {
 	// Generate JavaScript code and display it.
 	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
-	alert(code);
+	var xml = Blockly.Xml.workspaceToDom(workspace);
+	var xml_text = Blockly.Xml.domToText(xml);
 
-	//var xml = Blockly.Xml.workspaceToDom(workspace);
-	//var xml_text = Blockly.Xml.domToText(xml);
+	var filename = prompt("Save As");
+	console.log(filename);
+
+	var downloadFile = function(content, type) {
+		var download = document.createElement("a");
+		download.style.display = "none";
+		download.setAttribute("href", "data:text/" + type + "; charset=utf-8,"
+			+ encodeURIComponent(content));
+		download.setAttribute("download", filename);
+
+		document.body.appendChild(download);
+		download.click();
+		document.body.removeChild(download);
+	};
+
+	if (filename !== null && filename !== "") {
+		downloadFile(code, "javascript");
+		downloadFile(xml_text, "xml");
+	}
+}
+
+// /=====================================================================\
+//	void importProject()
+// \=====================================================================/
+function importProject() {
+	var importedXml = document.getElementById("importedXml").files[0];
+	if (importedXml !== null) {
+		const fileReader = new FileReader();
+		fileReader.onload = function(e) {
+			var textFromFile = e.target.result;
+
+			workspace.clear();
+			Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(textFromFile), workspace);
+		};
+
+		fileReader.readAsText(importedXml, "UTF-8");
+	}
 }
 
 // /=====================================================================\

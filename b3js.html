@@ -4,17 +4,21 @@
 	<head>
 		<title>B3JS</title>
 		<link rel="stylesheet" type="text/css" href="b3js.css">
+		<link rel="icon" type="image/x-icon" href="resources/favicon.ico">
 	</head>
 
 	<body>
 		<div id="webglArea">
 			<button id="enlargeButton" type="button" onClick="openFullscreen()">&#x2922;</button>
-			<canvas id="webglCanvas"></canvas>
+			<canvas id="webglCanvas"/>
 		</div>
-		<button id="showButton" type="button" onClick="showCode()">Show Code</button>
+		<button id="saveButton" type="button" onClick="saveProject()">Save Project</button>
+		<button id="importButton">Import Project
+			<input id="importedXml" type="file" accept="text/xml" onChange="importProject()" onClick="this.value=null;"/>
+		</button>
 		<button id="runButton" type="button" onClick="runCode()">Run Code</button>
 		<div id="blocklyArea">
-			<div id="blocklyDiv"></div>
+			<div id="blocklyDiv"/>
 		</div>
 
 		<script type="text/javascript" src="lib/blockly_compressed.js"></script>

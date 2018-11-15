@@ -28,6 +28,6 @@ Blockly.JavaScript['initialization'] = function(block) {
 
 		"	renderer.render( scene, camera );\n"+
 		"};\n"+
-		"animate();";
+		"animate();\n";
   return code;
 };
