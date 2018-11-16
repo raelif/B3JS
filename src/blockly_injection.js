@@ -96,8 +96,7 @@ function saveProject() {
 	// Generate JavaScript code and display it.
 	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
 	var code = Blockly.JavaScript.workspaceToCode(workspace);
-	var xml = Blockly.Xml.workspaceToDom(workspace);
-	var xml_text = Blockly.Xml.domToText(xml);
+	var xml_text = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 
 	var filename = prompt("Save As");
 	console.log(filename);
@@ -107,7 +106,8 @@ function saveProject() {
 		download.style.display = "none";
 		download.setAttribute("href", "data:text/" + type + "; charset=utf-8,"
 			+ encodeURIComponent(content));
-		download.setAttribute("download", filename);
+		type === "xml" ? type = type : type = "js";
+		download.setAttribute("download", filename + "." + type);
 
 		document.body.appendChild(download);
 		download.click();

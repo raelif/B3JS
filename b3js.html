@@ -13,9 +13,9 @@
 			<canvas id="webglCanvas"/>
 		</div>
 		<button id="saveButton" type="button" onClick="saveProject()">Save Project</button>
-		<button id="importButton">Import Project
+		<div id="importButton" class="fakeButton">Import Project
 			<input id="importedXml" type="file" accept="text/xml" onChange="importProject()" onClick="this.value=null;"/>
-		</button>
+		</div>
 		<button id="runButton" type="button" onClick="runCode()">Run Code</button>
 		<div id="blocklyArea">
 			<div id="blocklyDiv"/>
