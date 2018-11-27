@@ -1,5 +1,11 @@
 <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
-  <category name="B3JS"></category>
+  <category name="eB3JS">
+    <block type="eb3js_dummy"></block>
+    <block type="eb3js_scene"></block>
+    <block type="eb3js_scene_add">
+      <field name="NAME">SCENE</field>
+    </block>
+  </category>
   <sep></sep>
   <category name="Logic" colour="#5C81A6">
     <block type="controls_if"></block>
@@ -28,7 +34,7 @@
       <field name="MODE">WHILE</field>
     </block>
     <block type="controls_for">
-      <field name="VAR" id="^{C,xD}F[AT[e5=*c{J~" variabletype="">i</field>
+      <field name="VAR" id="W06$`2b:ts31.^)jfB@J" variabletype="">i</field>
       <value name="FROM">
         <shadow type="math_number">
           <field name="NUM">1</field>
@@ -46,7 +52,7 @@
       </value>
     </block>
     <block type="controls_forEach">
-      <field name="VAR" id="u%1?PVmAv3I6)lIMC014" variabletype="">j</field>
+      <field name="VAR" id="$9G9X=rx)AAP:m7g@^k{" variabletype="">j</field>
     </block>
     <block type="controls_flow_statements">
       <field name="FLOW">BREAK</field>
@@ -160,7 +166,7 @@
       <mutation items="2"></mutation>
     </block>
     <block type="text_append">
-      <field name="VAR" id="imHjJ()rb3*}Le52}{{}" variabletype="">item</field>
+      <field name="VAR" id=".$^]Z{xtCQng;7Nd}gc7" variabletype="">item</field>
       <value name="TEXT">
         <shadow type="text">
           <field name="TEXT"></field>
@@ -185,7 +191,7 @@
       <field name="END">FIRST</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id="ikw7x+wf1B$;aky+@x/T" variabletype="">text</field>
         </block>
       </value>
       <value name="FIND">
@@ -199,7 +205,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id="ikw7x+wf1B$;aky+@x/T" variabletype="">text</field>
         </block>
       </value>
     </block>
@@ -209,7 +215,7 @@
       <field name="WHERE2">FROM_START</field>
       <value name="STRING">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id="ikw7x+wf1B$;aky+@x/T" variabletype="">text</field>
         </block>
       </value>
     </block>
@@ -266,7 +272,7 @@
       <field name="END">FIRST</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="LI.kDgkUol048:C!JiQo" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -276,7 +282,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="LI.kDgkUol048:C!JiQo" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -286,7 +292,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="LIST">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="LI.kDgkUol048:C!JiQo" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -296,7 +302,7 @@
       <field name="WHERE2">FROM_START</field>
       <value name="LIST">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="LI.kDgkUol048:C!JiQo" variabletype="">list</field>
         </block>
       </value>
     </block>

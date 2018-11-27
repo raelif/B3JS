@@ -3,81 +3,106 @@ html, body, canvas {
 	height: 100%;
 	margin: 0;
 	border: 0;
+}
+
+#menu {
+	float: left;
+	width: 99vw;
+	margin-left: 0.5vw;
+	margin-right: 0.5vw;
+	height: 3.5vh;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+}
+
+#menu ul {
+	width: 100%;
+	height: 100%;
+	margin: 0;
 	padding: 0;
 }
 
-button, .fakeButton {
+#menu li {
 	float: left;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	outline: none;
-	font-family: Arial;
-	font-size: 1.5vmin;
-	background-color: #DDDDDD;
-	color: black;
+	width: 25%;
+	height: 100%;
+	list-style: none;
 	position: relative;
 }
 
-button:hover, .fakeButton:hover {
-	background-color: #E4E4E4;
-	color: black;
+#menu li a {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	cursor: default;
+	user-select: none;
+	font-family: Arial;
+	font-size: 2vmin;
+	background-color: #4D4D4D;
+	color: white;
 }
 
-input {
+#menu li a:hover {
+	background-color: #646464;
+}
+
+#menu ul ul {
+	padding-top: 0.5vh;
+	visibility: hidden;
+	position: absolute;
+}
+
+#menu ul li:hover ul {
+	visibility: visible;
+}
+
+#menu ul ul li {
+	width: 100%;
+}
+
+#menu ul ul li a {
+	cursor: default;
+	background-color: #4D4D4D;
+}
+
+#menu ul ul li a:hover {
+	background-color: #646464;
+}
+
+#importedXml {
 	width: 100%;
 	height: 100%;
 	opacity: 0;
-	cursor: pointer;
+	margin: 0;
+	border: 0;
+	overflow: hidden;
 	position: absolute;
 }
 
 #webglArea {
 	float: left;
 	width: 49vw;
-	margin-right: 0.5vw;
 	margin-left: 0.5vw;
-	height: 99vh;
-	margin-top: 0.5vh;
+	margin-right: 0.5vw;
+	height: 95vh;
 	margin-bottom: 0.5vh;
-	background-color: #DDDDDD;
-}
-
-#enlargeButton {
-	width: 4vmin;
-	margin-right: 0.5vmin;
-	margin-left: 0.5vmin;
-	height: 4vmin;
-	margin-top: 0.5vmin;
-	margin-bottom: 0.5vmin;
-	border: 1px solid #DDDDDD;
-}
-
-#saveButton, #runButton {
-	width: 16vw;
-	margin-right: 0.5vw;
-	margin-left: 0.5vw;
-	height: 3.5vh;
-	margin-top: 0.5vh;
-	border: 1px solid #DDDDDD;
-}
-
-#importButton {
-	width: 16vw;
-	height: 3.5vh;
-	margin-top: 0.5vh;
+	background-color: #000000;
 }
 
 #blocklyArea {
 	float: left;
 	width: 49vw;
-	margin-right: 0.5vw;
 	margin-left: 0.5vw;
+	margin-right: 0.5vw;
 	height: 95vh;
-	margin-top: 0.5vh;
 	margin-bottom: 0.5vh;
 }
 
 #blocklyDiv {
-	position: absolute;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	border: 0;
 }
