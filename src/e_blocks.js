@@ -154,10 +154,10 @@ Blockly.JavaScript['eb3js_dummy'] = function(block) {
 		"var context = webglCanvas.getContext( 'webgl2' );\n"+
 
 		// Camera ~ Can use outside Scope!!!
-		"var camera = new THREE.PerspectiveCamera( 75, webglCanvas.offsetWidth/webglCanvas.offsetHeight, 0.1, 1000 );\n"+
+		"camera = new THREE.PerspectiveCamera( 75, webglCanvas.offsetWidth/webglCanvas.offsetHeight, 0.1, 1000 );\n"+
 
 		// Renderer
-		"var renderer = new THREE.WebGLRenderer( { canvas: webglCanvas, context: context } );\n"+
+		"renderer = new THREE.WebGLRenderer( { canvas: webglCanvas, context: context } );\n"+
 		"renderer.setSize( webglCanvas.offsetWidth, webglCanvas.offsetHeight );\n"+
 
 		// Cube = Geometry + Material

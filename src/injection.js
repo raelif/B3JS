@@ -9,17 +9,26 @@ var blocklyDiv = document.getElementById('blocklyDiv');
 
 var checkExp = document.getElementById('checkExp');
 
-var workspace = undefined;
+var workspace;
+
+var camera;
+var renderer;
 
 var onresize = function() {
+	// Resize webglCanvas.
+	webglCanvas.style.width = webglArea.offsetWidth + "px";
+	webglCanvas.style.height = webglArea.offsetHeight + "px";
+
+	if (renderer && camera) {
+		camera.aspect = webglArea.offsetWidth/webglArea.offsetHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize(webglArea.offsetWidth, webglArea.offsetHeight);
+	}
+
 	// Resize blocklyDiv
 	blocklyDiv.style.width = blocklyArea.offsetWidth + "px";
 	blocklyDiv.style.height = blocklyArea.offsetHeight + "px";
 	Blockly.svgResize(workspace);
-
-	// Resize webglCanvas.
-	webglCanvas.style.width = webglArea.offsetWidth + "px";
-	webglCanvas.style.height = webglArea.offsetHeight + "px";
 };
 
 window.addEventListener('resize', onresize, false);
@@ -64,6 +73,9 @@ function loadWorkspace() {
 				}
 			};
 
+			if (workspace) {
+				workspace.dispose();
+			}
 			workspace = Blockly.inject(blocklyDiv, options);
 			onresize();
 		}
@@ -71,7 +83,7 @@ function loadWorkspace() {
 
 	xhr.overrideMimeType('text/xml');
 	if (checkExp.checked) {
-		xhr.open('GET', "src/exp_toolbox.xml", true);
+		xhr.open('GET', "src/e_toolbox.xml", true);
 	} else {
 		xhr.open('GET', "src/toolbox.xml", true);
 	}
@@ -147,7 +159,6 @@ function openFullscreen() {
 // \=====================================================================/
 function expertMode() {
 	checkExp.checked = !checkExp.checked;
-	workspace.dispose();
 	loadWorkspace();
 }
 
