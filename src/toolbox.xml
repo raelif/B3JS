@@ -1,5 +1,83 @@
 <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
-  <category name="B3JS"></category>
+  <category name="B3JS">
+    <block type="dummy"></block>
+    <block type="value_element">
+      <field name="DROP">0</field>
+    </block>
+    <block type="create_element">
+      <field name="NAME"></field>
+    </block>
+    <block type="add_scene"></block>
+    <block type="set_scene">
+      <field name="FIELD">BACKGROUND</field>
+    </block>
+    <block type="value_camera">
+      <field name="DROP">0</field>
+    </block>
+    <block type="create_camera">
+      <field name="NAME"></field>
+      <field name="TYPE">PERSPECTIVE</field>
+      <field name="FOV">0</field>
+      <field name="NEAR">0</field>
+      <field name="FAR">0</field>
+    </block>
+    <block type="set_camera">
+      <field name="FIELD">POSITION</field>
+    </block>
+    <block type="value_light">
+      <field name="DROP">0</field>
+    </block>
+    <block type="create_light">
+      <field name="NAME"></field>
+      <field name="TYPE">AMBIENT</field>
+    </block>
+    <block type="set_light">
+      <field name="FIELD">COLOR</field>
+    </block>
+    <block type="value_material">
+      <field name="DROP">0</field>
+    </block>
+    <block type="create_material">
+      <field name="NAME"></field>
+      <field name="TYPE">NORMAL</field>
+    </block>
+    <block type="set_material">
+      <field name="FIELD">COLOR</field>
+    </block>
+    <block type="value_geometry">
+      <field name="DROP">0</field>
+    </block>
+    <block type="vec2">
+      <field name="X">0</field>
+      <field name="Y">0</field>
+    </block>
+    <block type="vec3">
+      <field name="X">0</field>
+      <field name="Y">0</field>
+      <field name="Z">0</field>
+    </block>
+    <block type="vec4">
+      <field name="X">0</field>
+      <field name="Y">0</field>
+      <field name="Z">0</field>
+      <field name="W">0</field>
+    </block>
+    <block type="create_geometry">
+      <field name="NAME"></field>
+      <field name="TYPE">PLANE</field>
+      <field name="WIDTH">0</field>
+      <field name="HEIGHT">0</field>
+    </block>
+    <block type="set_geometry">
+      <field name="FIELD">DEPTH</field>
+    </block>
+    <block type="value_mesh">
+      <field name="DROP">0</field>
+    </block>
+    <block type="create_mesh">
+      <field name="NAME"></field>
+    </block>
+  </category>
   <sep></sep>
   <category name="Logic" colour="#5C81A6">
     <block type="controls_if"></block>
@@ -28,7 +106,7 @@
       <field name="MODE">WHILE</field>
     </block>
     <block type="controls_for">
-      <field name="VAR" id="^{C,xD}F[AT[e5=*c{J~" variabletype="">i</field>
+      <field name="VAR" id="}`XOMa_dEsQm3%wIVV)D" variabletype="">i</field>
       <value name="FROM">
         <shadow type="math_number">
           <field name="NUM">1</field>
@@ -46,7 +124,7 @@
       </value>
     </block>
     <block type="controls_forEach">
-      <field name="VAR" id="u%1?PVmAv3I6)lIMC014" variabletype="">j</field>
+      <field name="VAR" id="5AMK=v0%ivUn0D(BG2BW" variabletype="">j</field>
     </block>
     <block type="controls_flow_statements">
       <field name="FLOW">BREAK</field>
@@ -160,7 +238,7 @@
       <mutation items="2"></mutation>
     </block>
     <block type="text_append">
-      <field name="VAR" id="imHjJ()rb3*}Le52}{{}" variabletype="">item</field>
+      <field name="VAR" id="9^*|As6tK_AM@/4c~H@[" variabletype="">item</field>
       <value name="TEXT">
         <shadow type="text">
           <field name="TEXT"></field>
@@ -185,7 +263,7 @@
       <field name="END">FIRST</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id=")SeGbnUFB8eRU]u(_^@2" variabletype="">text</field>
         </block>
       </value>
       <value name="FIND">
@@ -199,7 +277,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id=")SeGbnUFB8eRU]u(_^@2" variabletype="">text</field>
         </block>
       </value>
     </block>
@@ -209,7 +287,7 @@
       <field name="WHERE2">FROM_START</field>
       <value name="STRING">
         <block type="variables_get">
-          <field name="VAR" id="!MAGdb(DzUMhvY]:[@6/" variabletype="">text</field>
+          <field name="VAR" id=")SeGbnUFB8eRU]u(_^@2" variabletype="">text</field>
         </block>
       </value>
     </block>
@@ -266,7 +344,7 @@
       <field name="END">FIRST</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="O9$vN-uG!gQZ0n{Di6c9" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -276,7 +354,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="VALUE">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="O9$vN-uG!gQZ0n{Di6c9" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -286,7 +364,7 @@
       <field name="WHERE">FROM_START</field>
       <value name="LIST">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="O9$vN-uG!gQZ0n{Di6c9" variabletype="">list</field>
         </block>
       </value>
     </block>
@@ -296,7 +374,7 @@
       <field name="WHERE2">FROM_START</field>
       <value name="LIST">
         <block type="variables_get">
-          <field name="VAR" id="3f^b(g,#.U#;jY8GN~LF" variabletype="">list</field>
+          <field name="VAR" id="O9$vN-uG!gQZ0n{Di6c9" variabletype="">list</field>
         </block>
       </value>
     </block>
