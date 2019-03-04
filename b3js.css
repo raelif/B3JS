@@ -24,7 +24,7 @@ html, body, canvas {
 
 #menu li {
 	float: left;
-	width: 25%;
+	width: 20%;
 	height: 100%;
 	list-style: none;
 	position: relative;
