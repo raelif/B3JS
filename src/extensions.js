@@ -36,7 +36,7 @@ const value_option = function(type) {
 
 const set_option = function(input, type) {
 	switch (type) {
-		case 'Light':
+		case 'light':
 			if (input) {
 				const name = input.getField('VAL').getText();
 				if (valDex[type].has(name)) {
@@ -62,7 +62,7 @@ const set_option = function(input, type) {
 			return [['color','COLOR'], ['intensity','INTENSITY']];
 		break;
 
-		case 'Geometry':
+		case 'geometry':
 			if (input) {
 				const name = input.getField('VAL').getText();
 				if (valDex[type].has(name)) {
@@ -88,7 +88,7 @@ const set_option = function(input, type) {
 			return [['width','WIDTH'], ['height','HEIGHT']];
 		break;
 
-		case 'Material':
+		case 'material':
 			if (input) {
 				const name = input.getField('VAL').getText();
 				if (valDex[type].has(name)) {
@@ -110,14 +110,14 @@ const set_option = function(input, type) {
 			return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST']];
 		break;
 
-		case 'Mesh':
+		case 'mesh':
 		break;
 	}
 };
 
 const create_validator = function(option) {
 	const source = this.sourceBlock_;
-	const type = source.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+	const type = source.type.split('_')[2];
 	const name = source.getFieldValue('NAME');
 	if (valDex[type].has(name)) {
 		valDex[type].get(name)[1] = option;

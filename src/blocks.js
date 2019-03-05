@@ -80,19 +80,19 @@ Blockly.Blocks['b3js_set_camera'] = {
 		this.setColour(200);
 	this.setTooltip('Set property of a previously created Camera.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['Camera'].size);
+	this.setDisabled(!valDex['camera'].size);
 	}
 };
 
 Blockly.Blocks['b3js_value_camera'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => value_option('Camera')), 'VAL');
+				.appendField(new Blockly.FieldDropdown(() => value_option('camera')), 'VAL');
 		this.setOutput(true, 'Camera');
 		this.setColour(200);
 	this.setTooltip('Retrieve a Camera.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
-	this.setDisabled(!valDex['Camera'].size);
+	this.setDisabled(!valDex['camera'].size);
 	this.mixin(VALUE_MIXIN);
 	}
 };
@@ -126,7 +126,7 @@ Blockly.Blocks['b3js_set_light'] = {
 				.setCheck('Light')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => set_option(this.getInputTargetBlock('INPUT'), 'Light'),
+				.appendField(new Blockly.FieldDropdown(() => set_option(this.getInputTargetBlock('INPUT'), 'light'),
 					set_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String'])
@@ -139,19 +139,19 @@ Blockly.Blocks['b3js_set_light'] = {
 	this.setHelpUrl('');
 	this.mixin(SET_MIXIN);
 	this.mixin(SET_LIGHT_SHAPE);
-	this.setDisabled(!valDex['Light'].size);
+	this.setDisabled(!valDex['light'].size);
 	}
 };
 
 Blockly.Blocks['b3js_value_light'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => value_option('Light')), 'VAL');
+				.appendField(new Blockly.FieldDropdown(() => value_option('light')), 'VAL');
 		this.setOutput(true, 'Light');
 		this.setColour(300);
 	this.setTooltip('Retrieve a Light.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['Light'].size);
+	this.setDisabled(!valDex['light'].size);
 	this.mixin(VALUE_MIXIN);
 	}
 };
@@ -184,12 +184,12 @@ Blockly.Blocks['b3js_create_geometry'] = {
 Blockly.Blocks['b3js_value_geometry'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => value_option('Geometry')), 'VAL');
+				.appendField(new Blockly.FieldDropdown(() => value_option('geometry')), 'VAL');
 		this.setOutput(true, 'Geometry');
 		this.setColour(150);
 	this.setTooltip('Retrieve a Geometry.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['Geometry'].size);
+	this.setDisabled(!valDex['geometry'].size);
 	this.mixin(VALUE_MIXIN);
 	}
 };
@@ -279,7 +279,7 @@ Blockly.Blocks['b3js_set_material'] = {
 				.setCheck('Material')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => set_option(this.getInputTargetBlock('INPUT'), 'Material'),
+				.appendField(new Blockly.FieldDropdown(() => set_option(this.getInputTargetBlock('INPUT'), 'material'),
 					set_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String'])
@@ -292,19 +292,19 @@ Blockly.Blocks['b3js_set_material'] = {
 	this.setHelpUrl('');
 	this.mixin(SET_MIXIN);
 	this.mixin(SET_MATERIAL_SHAPE);
-	this.setDisabled(!valDex['Material'].size);
+	this.setDisabled(!valDex['material'].size);
 	}
 };
 
 Blockly.Blocks['b3js_value_material'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => value_option('Material')), 'VAL');
+				.appendField(new Blockly.FieldDropdown(() => value_option('material')), 'VAL');
 		this.setOutput(true, 'Material');
 		this.setColour(250);
 	this.setTooltip('Retrieve a Material.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['Material'].size);
+	this.setDisabled(!valDex['material'].size);
 	this.mixin(VALUE_MIXIN);
 	}
 };
@@ -332,12 +332,12 @@ Blockly.Blocks['b3js_create_mesh'] = {
 Blockly.Blocks['b3js_value_mesh'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => value_option('Mesh')), 'VAL');
+				.appendField(new Blockly.FieldDropdown(() => value_option('mesh')), 'VAL');
 		this.setOutput(true, 'Mesh');
 		this.setColour(100);
 	this.setTooltip('Retrieve a Mesh.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['Mesh'].size);
+	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(VALUE_MIXIN);
 	}
 };

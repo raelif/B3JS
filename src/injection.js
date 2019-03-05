@@ -10,12 +10,12 @@ const blocklyDiv = document.getElementById('blocklyDiv');
 const checkExp = document.getElementById('checkExp');
 
 const valDex = {
-	'Block': new Map(),
-	'Camera': new Map(),
-	'Geometry': new Map(),
-	'Light': new Map(),
-	'Material': new Map(),
-	'Mesh': new Map()
+	'block': new Map(),
+	'camera': new Map(),
+	'geometry': new Map(),
+	'light': new Map(),
+	'material': new Map(),
+	'mesh': new Map()
 };
 
 var workspace;
@@ -33,7 +33,7 @@ function setVal(block, type) {
 	const name = block.getFieldValue('NAME');
 	if (name && name !== '' && !valDex[type].has(name)) {
 		valDex[type].set(name, [block.id, block.getFieldValue('TYPE')]);
-		valDex['Block'].set(block.id, [name, type]);
+		valDex['block'].set(block.id, [name, type]);
 	}
 	Blockly.Events.enable();
 }
@@ -61,7 +61,7 @@ function chooseName(block, type) {
 	}
 	// non valid name
 	else {
-		block.dispose(); // -> trigger delete
+		block.dispose(true); // -> trigger delete
 	}
 }
 
@@ -74,7 +74,7 @@ function forget(block) {
 
 	// oth forget block
 	Blockly.Events.disable();
-	block.dispose();
+	block.dispose(true);
 	workspace.undoStack_ = workspace.undoStack_.filter((e) => e.blockId !== block.id);
 	workspace.redoStack_ = workspace.redoStack_.filter((e) => e.blockId !== block.id);
 	Blockly.Events.enable();
@@ -88,6 +88,7 @@ function reset(block) {
 	if (!block || !block.getField('FIELD')) return;
 
 	// oth reset block
+	forget(block.getInputTargetBlock('VALUE')); // maybe unwanted ?
 	Blockly.Events.disable();
 	if (typeof block.updateShape_ === 'function')
 		block.updateShape_(block.getField('FIELD').getOptions()[0][1]);
@@ -106,12 +107,12 @@ function flicker(block) {
 	Blockly.Events.disable();
 	const fid = block.type.search('b3js_value') >= 0 ? 'VAL' : block.type.search('b3js_set') >= 0 ? 'FIELD' : null;
 	if (fid) {
-		const type = block.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+		const type = block.type.split('_')[2];
 		// if valDex not empty...
 		if (valDex[type].size > 0) {
 			block.setDisabled(false);
 			// ...but val not present
-			if (fid === 'VAL' && !valDex['Block'].has(block.getFieldValue(fid))) {
+			if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
 				block.setFieldValue(valDex[type].values().next().value[0], fid);
 			}
 			// else if present => flicker
@@ -124,6 +125,11 @@ function flicker(block) {
 				if (field) {
 					block.setFieldValue('', fid);
 					block.setFieldValue(field, fid);
+					// invalid option => reset
+					const text = block.getField(fid).getText();
+					if (text === text.toUpperCase()) {
+						reset(block); // no following instruction after disable
+					}
 				}
 			}
 		}
@@ -178,7 +184,7 @@ function valManagement(event) {
 			// single create_block
 			if (event.ids.length === 1) {
 				if (block.type.search('b3js') >= 0) {
-					const type = block.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+					const type = block.type.split('_')[2];
 					// if create_block
 					if (block.type.search('create') >= 0) {
 						// name != ''
@@ -197,7 +203,7 @@ function valManagement(event) {
 					// else value_block/set_block
 					else if (block.type.search('value') >= 0 || block.type.search('set') >= 0) {
 						// id not present => need flicker
-						if (!valDex['Block'].has(block.getFieldValue('VAL'))) {
+						if (!valDex['block'].has(block.getFieldValue('VAL'))) {
 							flicker(block);
 						}
 					}
@@ -209,7 +215,7 @@ function valManagement(event) {
 				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
 					if (b.type.search('b3js') >= 0) {
-						const type = b.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+						const type = b.type.split('_')[2];
 						if (b.type.search('create') >= 0) {
 							setVal(b, type);
 						}
@@ -228,14 +234,14 @@ function valManagement(event) {
 
 			// clear valDex
 			event.ids.forEach((id) => {
-				if (valDex['Block'].has(id)) {
-					valDex[valDex['Block'].get(id)[1]].clear();
-					valDex['Block'].delete(id);
+				if (valDex['block'].has(id)) {
+					valDex[valDex['block'].get(id)[1]].clear();
+					valDex['block'].delete(id);
 				}
 			});
 
 			if (del_type.search('b3js_create') >= 0) {
-				const type = del_type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+				const type = del_type.split('_')[2];
 				const set_type = del_type.replace('create', 'set');
 				const value_type = del_type.replace('create', 'value');
 
@@ -256,7 +262,7 @@ function valManagement(event) {
 		case Blockly.Events.MOVE: {
 			if (block.type.search('b3js') >= 0) {
 				if (block.type.search('create') >= 0) {
-					const type = block.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+					const type = block.type.split('_')[2];
 					if (block.getFieldValue('NAME') === '') {
 						chooseName(block, type);
 						console.log(valDex);
@@ -387,7 +393,7 @@ function saveProject() {
 
 	var comment = '';
 	Object.keys(valDex).forEach((k) => {
-		if (k !== 'Block') {
+		if (k !== 'block') {
 			comment += '<!--' + k + ':';
 			comment += Array.from(valDex[k]).reduce(((res, e) => res + e[0]+'='+e[1][1] + ' '), '');
 			comment += '-->\n';
@@ -447,9 +453,9 @@ function importProject() {
 			Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(textFromFile), workspace);
 			workspace.getAllBlocks().forEach((b) => {
 				if (b.type.search('b3js_create') >= 0) {
-					const type = b.type.split('_')[2].replace(/\b\w/g, l => l.toUpperCase());
+					const type = b.type.split('_')[2];
 					valDex[type].get(b.getFieldValue('NAME')).unshift(b.id);
-					valDex['Block'].set(b.id, [b.getFieldValue('NAME'), type]);
+					valDex['block'].set(b.id, [b.getFieldValue('NAME'), type]);
 				}
 				else {
 					flicker(b);
