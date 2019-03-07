@@ -193,10 +193,18 @@ const ADD_MIXIN = {
 const BLOCK_MIXIN = {
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
-		// update if empty
-		if (this.getFieldValue('VAL') === '')
-			this.setFieldValue(this.getField('VAL').getOptions()[0][1], 'VAL');
-		container.setAttribute('field_value', this.getFieldValue('VAL'));
+		if (this.type.search(/b3js_create/) >= 0) {
+			container.setAttribute('field_value', this.getFieldValue('TYPE'));
+		}
+		else if (this.type.search(/b3js_value/) >= 0) {
+			// update if empty
+			if (this.getFieldValue('VAL') === '')
+				this.setFieldValue(this.getField('VAL').getOptions()[0][1], 'VAL');
+			container.setAttribute('field_value', this.getFieldValue('VAL'));
+		}
+		else if (this.type.search(/b3js_set/) >= 0) {
+			container.setAttribute('field_value', this.getFieldValue('FIELD'));
+		}
 		return container;
 	},
 
@@ -206,7 +214,7 @@ const BLOCK_MIXIN = {
 			this.updateShape_(typeInput);
 		}
 	}
-}
+};
 
 // /=====================================================================\
 //	CREATE_SHAPE
@@ -527,6 +535,48 @@ const SET_MATERIAL_SHAPE = {
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
 					.appendField('to');
+			break;
+		}
+	}
+};
+
+// /=====================================================================\
+//	UPDATE_SHAPE
+// \=====================================================================/
+const UPDATE_MESH_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'X':
+			case 'Y':
+			case 'Z':
+				this.removeInput('VALUE');
+				if (this.getInput('DIRECTION'))
+					this.removeInput('DIRECTION');
+				this.appendValueInput('VALUE')
+					.setCheck('Number')
+					.appendField('by distance');
+			break;
+
+			case 'XYZ':
+				this.removeInput('VALUE');
+				if (this.getInput('DIRECTION'))
+					this.removeInput('DIRECTION');
+				this.appendValueInput('VALUE')
+					.setCheck('Vec3')
+					.appendField('by');
+			break;
+
+			case 'AXIS':
+				this.removeInput('VALUE');
+				if (this.getInput('DIRECTION'))
+					this.removeInput('DIRECTION');
+				this.appendValueInput('VALUE')
+					.setCheck('Number')
+					.appendField('by distance');
+				this.appendValueInput('DIRECTION')
+					.setCheck('Vec3')
+					.appendField('axis');
+				this.moveInputBefore('DIRECTION', 'VALUE');
 			break;
 		}
 	}

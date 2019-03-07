@@ -89,7 +89,6 @@ function reset(block) {
 	if (!block || !block.getField('FIELD')) return;
 
 	// oth reset block
-	forget(block.getInputTargetBlock('VALUE')); // maybe unwanted ?
 	Blockly.Events.disable();
 	if (typeof block.updateShape_ === 'function')
 		block.updateShape_(block.getField('FIELD').getOptions()[0][1]);
@@ -218,7 +217,7 @@ function valManagement(event) {
 				}
 			}
 			// create_mesh has ids = 3
-			else if (block.type === 'b3js_create_mesh') {
+			else if (block.type === 'b3js_create_mesh' && event.ids.length === 3) {
 				flicker(block.getInputTargetBlock('GEOMETRY'));
 				flicker(block.getInputTargetBlock('MATERIAL'));
 				chooseName(block, 'mesh');
@@ -239,6 +238,7 @@ function valManagement(event) {
 						}
 					}
 				});
+				console.log(valDex);
 			}
 		}
 		break;
@@ -285,9 +285,9 @@ function valManagement(event) {
 				// move value_blocks inside/outside set_blocks
 				else if (block.type.search(/value/)  >= 0) {
 					const id = event.newParentId ? event.newParentId : event.oldParentId ? event.oldParentId : null;
+					// reset set_block
 					if (id) {
-						// reset set_block
-						reset(workspace.getBlockById(id));
+						flicker(workspace.getBlockById(id));
 					}
 				}
 			}
@@ -308,10 +308,10 @@ function valManagement(event) {
 						workspace.getAllBlocks()
 							.filter((b) => b.type === set_type)
 							.forEach((b) => {
-								// reset set_block
+								// flicker set_block
 								const input = b.getInputTargetBlock('INPUT');
 								if (input && input.getField('VAL').getText() === name) {
-									reset(b);
+									flicker(b);
 								}
 						});
 					}
@@ -324,7 +324,7 @@ function valManagement(event) {
 						// adjust set block when changing value block
 						if (parent && parent.type === set_type) {
 							if (parent.getInputWithBlock(block).name === 'INPUT') {
-								reset(parent);
+								flicker(parent);
 							}
 						}
 					}

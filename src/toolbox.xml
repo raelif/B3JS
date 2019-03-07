@@ -120,7 +120,7 @@
     </block>
     <block type="b3js_update_mesh">
       <field name="FIELD">TRANSLATE</field>
-      <field name="DIRECTION">X</field>
+      <field name="COMPONENT">X</field>
     </block>
     <block type="b3js_value_mesh">
       <field name="VAL"></field>

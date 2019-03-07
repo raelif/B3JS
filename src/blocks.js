@@ -71,7 +71,7 @@ Blockly.Blocks['b3js_set_camera'] = {
 				.appendField('set');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['scale','SCALE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ']], block_validator), 'FIELD');
-    this.appendValueInput('VALUE')
+		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
 				.appendField('to');
 		this.setInputsInline(true);
@@ -355,12 +355,13 @@ Blockly.Blocks['b3js_create_mesh'] = {
 
 Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Mesh')
+				.appendField('mesh');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['scale','SCALE'], ['rotate','ROTATE']]), 'FIELD');
-		this.appendValueInput('INPUT')
-				.setCheck('Mesh');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['along axis','AXIS']]), 'DIRECTION');
+				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
 		this.appendValueInput('VALUE')
 				.setCheck('Number')
 				.appendField('by distance');
@@ -371,6 +372,8 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	this.setTooltip('');
 	this.setHelpUrl('');
 	this.setDisabled(!valDex['mesh'].size);
+	this.mixin(BLOCK_MIXIN);
+	this.mixin(UPDATE_MESH_SHAPE);
 	}
 };
 
