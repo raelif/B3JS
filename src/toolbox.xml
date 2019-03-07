@@ -43,6 +43,9 @@
       <field name="HEIGHT">1</field>
       <field name="DETAIL">1</field>
     </block>
+    <block type="b3js_set_geometry">
+      <field name="FIELD">TRANSLATE</field>
+    </block>
     <block type="b3js_value_geometry">
       <field name="VAL"></field>
     </block>
@@ -114,6 +117,10 @@
   <category name="Mesh" colour="#5ba55b">
     <block type="b3js_create_mesh">
       <field name="NAME"></field>
+    </block>
+    <block type="b3js_update_mesh">
+      <field name="FIELD">TRANSLATE</field>
+      <field name="DIRECTION">X</field>
     </block>
     <block type="b3js_value_mesh">
       <field name="VAL"></field>

@@ -19,6 +19,7 @@ const valDex = {
 };
 
 var workspace;
+var dc = 0;
 
 var scene = new THREE.Scene();
 var current_camera;
@@ -105,7 +106,7 @@ function flicker(block) {
 
 	// oth flicker block
 	Blockly.Events.disable();
-	const fid = block.type.search('b3js_value') >= 0 ? 'VAL' : block.type.search('b3js_set') >= 0 ? 'FIELD' : null;
+	const fid = block.type.search(/b3js_value/) >= 0 ? 'VAL' : block.type.search(/b3js_set/) >= 0 ? 'FIELD' : null;
 	if (fid) {
 		const type = block.type.split('_')[2];
 		// if valDex not empty...
@@ -150,6 +151,13 @@ function hex(s) {
 }
 
 // /=====================================================================\
+//	int rad(angle)
+// \=====================================================================/
+function rad(angle) {
+	return ((360 + (angle % 360)) % 360) * Math.PI / 180;
+}
+
+// /=====================================================================\
 //	void onresize()
 // \=====================================================================/
 function onresize() {
@@ -183,10 +191,10 @@ function valManagement(event) {
 		case Blockly.Events.CREATE: {
 			// single create_block
 			if (event.ids.length === 1) {
-				if (block.type.search('b3js') >= 0) {
+				if (block.type.search(/b3js/) >= 0) {
 					const type = block.type.split('_')[2];
 					// if create_block
-					if (block.type.search('create') >= 0) {
+					if (block.type.search(/create/) >= 0) {
 						// name != ''
 						if (block.getFieldValue('NAME') !== '') {
 							// name © valdDex => block copied
@@ -201,7 +209,7 @@ function valManagement(event) {
 						}
 					}
 					// else value_block/set_block
-					else if (block.type.search('value') >= 0 || block.type.search('set') >= 0) {
+					else if (block.type.search(/value|set/) >= 0) {
 						// id not present => need flicker
 						if (!valDex['block'].has(block.getFieldValue('VAL'))) {
 							flicker(block);
@@ -209,14 +217,20 @@ function valManagement(event) {
 					}
 				}
 			}
-
+			// create_mesh has ids = 3
+			else if (block.type === 'b3js_create_mesh') {
+				flicker(block.getInputTargetBlock('GEOMETRY'));
+				flicker(block.getInputTargetBlock('MATERIAL'));
+				chooseName(block, 'mesh');
+				console.log(valDex);
+			}
 			// multiple create_blocks => undo cataclysm
 			else {
 				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
-					if (b.type.search('b3js') >= 0) {
+					if (b.type.search(/b3js/) >= 0) {
 						const type = b.type.split('_')[2];
-						if (b.type.search('create') >= 0) {
+						if (b.type.search(/create/) >= 0) {
 							setVal(b, type);
 						}
 						// ...then correct other blocks
@@ -240,7 +254,7 @@ function valManagement(event) {
 				}
 			});
 
-			if (del_type.search('b3js_create') >= 0) {
+			if (del_type.search(/b3js_create/) >= 0) {
 				const type = del_type.split('_')[2];
 				const set_type = del_type.replace('create', 'set');
 				const value_type = del_type.replace('create', 'value');
@@ -260,8 +274,8 @@ function valManagement(event) {
 		break;
 
 		case Blockly.Events.MOVE: {
-			if (block.type.search('b3js') >= 0) {
-				if (block.type.search('create') >= 0) {
+			if (block.type.search(/b3js/) >= 0) {
+				if (block.type.search(/create/) >= 0) {
 					const type = block.type.split('_')[2];
 					if (block.getFieldValue('NAME') === '') {
 						chooseName(block, type);
@@ -269,7 +283,7 @@ function valManagement(event) {
 					}
 				}
 				// move value_blocks inside/outside set_blocks
-				else if (block.type.search('value')  >= 0) {
+				else if (block.type.search(/value/)  >= 0) {
 					const id = event.newParentId ? event.newParentId : event.oldParentId ? event.oldParentId : null;
 					if (id) {
 						// reset set_block
@@ -281,8 +295,8 @@ function valManagement(event) {
 		break;
 
 		case Blockly.Events.CHANGE: {
-			if (block.type.search('b3js') >= 0) {
-				if (block.type.search('create') >= 0) {
+			if (block.type.search(/b3js/) >= 0) {
+				if (block.type.search(/create/) >= 0) {
 					if (event.name === 'NAME') {
 							workspace.undoStack_.pop(); // -> forget
 					}
@@ -303,7 +317,7 @@ function valManagement(event) {
 					}
 				}
 				// change value_block field
-				else if (block.type.search('value') >= 0) {
+				else if (block.type.search(/value/) >= 0) {
 					if (event.name === 'VAL') {
 						const set_type = block.type.replace('value', 'set');
 						const parent = block.getParent();
@@ -315,6 +329,18 @@ function valManagement(event) {
 						}
 					}
 				}
+			}
+		}
+		break;
+
+		case Blockly.Events.UI: {
+			if (event.element === 'click') {
+				const now = performance.now();
+				if (now - dc < 250) {
+					const check = block.getInputsInline();
+					block.setInputsInline(!check);
+				}
+				dc = now;
 			}
 		}
 		break;
@@ -355,8 +381,8 @@ function loadWorkspace() {
 					controls : false,
 					wheel : true,
 					startScale : 0.75,
-					maxScale : 3,
-					minScale : 0.3,
+					maxScale : 1,
+					minScale : 0.25,
 					scaleSpeed : 1.2
 				}
 			};
@@ -425,6 +451,7 @@ function saveProject() {
 //	void importProject()
 // \=====================================================================/
 function importProject() {
+	stopCode();
 	const importedXml = document.getElementById('importedXml').files[0];
 	if (importedXml !== null && importedXml.type === 'text/xml') {
 		const fileReader = new FileReader();
@@ -452,7 +479,7 @@ function importProject() {
 			// load workspace
 			Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(textFromFile), workspace);
 			workspace.getAllBlocks().forEach((b) => {
-				if (b.type.search('b3js_create') >= 0) {
+				if (b.type.search(/b3js_create/) >= 0) {
 					const type = b.type.split('_')[2];
 					valDex[type].get(b.getFieldValue('NAME')).unshift(b.id);
 					valDex['block'].set(b.id, [b.getFieldValue('NAME'), type]);

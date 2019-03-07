@@ -23,7 +23,7 @@ Blockly.Blocks['scene_with_element'] = {
 };
 
 // /=====================================================================\
-//	UTILITIES
+//	OPTION MODIFIER
 // \=====================================================================/
 const value_option = function(type) {
 	if (valDex[type].size > 0) {
@@ -45,13 +45,13 @@ const set_option = function(input, type) {
 							return [['color','COLOR'], ['intensity','INTENSITY']];
 						break;
 						case 'POINT':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['decay','DECAY'], ['position','POSITION'], ['distance','DISTANCE'], ['visible','VISIBLE']];
+							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE']];
 						break;
 						case 'SPOT':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['decay','DECAY'], ['exponent','EXPONENT'], ['position','POSITION'], ['target','TARGET'], ['angle','ANGLE'], ['castShadow','CASTSHADOW'], ['distance','DISTANCE'], ['visible','VISIBLE']];
+							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 						break;
 						case 'DIRECTIONAL':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['exponent','EXPONENT'], ['position','POSITION'], ['target','TARGET'], ['angle','ANGLE'], ['castShadow','CASTSHADOW'], ['distance','DISTANCE'], ['visible','VISIBLE']];
+							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 						break;
 						case 'HEMISPHERE':
 							return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND']];
@@ -63,29 +63,6 @@ const set_option = function(input, type) {
 		break;
 
 		case 'geometry':
-			if (input) {
-				const name = input.getField('VAL').getText();
-				if (valDex[type].has(name)) {
-					switch (valDex[type].get(name)[1]) {
-						case 'PLANE':
-							return [['width','WIDTH'], ['height','HEIGHT'], ['widthSeg','WSEG'], ['heightSeg','HSEG']];
-						break;
-						case 'BOX':
-							return [['width','WIDTH'], ['height','HEIGHT'], ['depth', 'DEPTH'], ['widthSeg','WSEG'], ['heightSeg','HSEG'], ['depthSeg','DSEG']];
-						break;
-						case 'SPHERE':
-							return [['radius','RADIUS'], ['widthSeg','WSEG'], ['heightSeg','HSEG']];
-						break;
-						case 'CYLINDER':
-							return [['topRadius','RADIUSTOP'], ['bottomRadius','RADIUSBOTTOM'], ['height','HEIGHT'], ['radiusSeg','RSEG'], ['heightSeg','HSEG'], ['open', 'OPEN']];
-						break;
-						case 'TORUS':
-							return [['radius','RADIUS'], ['tube','TUBE'], ['tubeSeg','TSEG'], ['arc','ARC']];
-						break;
-					}
-				}
-			}
-			return [['width','WIDTH'], ['height','HEIGHT']];
 		break;
 
 		case 'material':
@@ -115,6 +92,9 @@ const set_option = function(input, type) {
 	}
 };
 
+// /=====================================================================\
+//	OPTION VALIDATOR
+// \=====================================================================/
 const create_validator = function(option) {
 	const source = this.sourceBlock_;
 	const type = source.type.split('_')[2];
@@ -255,7 +235,7 @@ const SET_MIXIN = {
 };
 
 // /=====================================================================\
-//	SHAPE
+//	CREATE_SHAPE
 // \=====================================================================/
 const CREATE_CAMERA_SHAPE = {
 	updateShape_: function(typeInput) {
@@ -295,7 +275,7 @@ const CREATE_LIGHT_SHAPE = {
 					.appendField('color')
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
 					.appendField('intensity')
-					.appendField(new Blockly.FieldNumber(1, 0, 1), 'INTENSITY');
+					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
 			break;
 
 			case 'POINT':
@@ -305,7 +285,7 @@ const CREATE_LIGHT_SHAPE = {
 					.appendField('color')
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
 					.appendField('intensity')
-					.appendField(new Blockly.FieldNumber(1, 0, 1), 'INTENSITY')
+					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY')
 					.appendField('distance')
 					.appendField(new Blockly.FieldNumber(0, 0), 'DISTANCE')
 					.appendField('decay')
@@ -320,7 +300,7 @@ const CREATE_LIGHT_SHAPE = {
 					.appendField('ground')
 					.appendField(new Blockly.FieldColour('#ffffff'), 'GROUND')
 					.appendField('intensity')
-					.appendField(new Blockly.FieldNumber(1, 0, 1), 'INTENSITY');
+					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
 		}
 	}
 };
@@ -413,6 +393,9 @@ const CREATE_MATERIAL_SHAPE = {
 	}
 };
 
+// /=====================================================================\
+//	SET_SHAPE
+// \=====================================================================/
 const SET_SCENE_SHAPE = {
 	updateShape_: function(typeInput) {
 		switch (typeInput) {
@@ -426,21 +409,46 @@ const SET_SCENE_SHAPE = {
 			case 'FOG':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Fog'])
+					.setCheck('Fog')
 					.appendField('to');
 			break;
 
 			case 'AUPDATE':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Boolean'])
+					.setCheck('Boolean')
 					.appendField('to');
 			break;
 
 			case 'OMATERIAL':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Material'])
+					.setCheck('Material')
+					.appendField('to');
+			break;
+		}
+	}
+};
+
+const SET_CAMERA_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'POSITION':
+			case 'LOOKAT':
+			case 'TRANSLATE':
+			case 'SCALE':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Vec3')
+					.appendField('to');
+			break;
+
+			case 'RX':
+			case 'RY':
+			case 'RZ':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Number')
 					.appendField('to');
 			break;
 		}
@@ -458,28 +466,28 @@ const SET_LIGHT_SHAPE = {
 					.appendField('to');
 			break;
 
-			case 'INTENSITY': // [0,1]
+			case 'INTENSITY': // [0-]
 			case 'DECAY': // [1-]
 			case 'DISTANCE': // [0-]
 			case 'EXPONENT': // [0-]
 			case 'ANGLE': // [0-360]
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Number'])
+					.setCheck('Number')
 					.appendField('to');
 			break;
 
 			case 'POSITION':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Vec3'])
+					.setCheck('Vec3')
 					.appendField('to');
 			break;
 
 			case 'TARGET':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Mesh'])
+					.setCheck('Mesh')
 					.appendField('to');
 			break;
 
@@ -487,7 +495,30 @@ const SET_LIGHT_SHAPE = {
 			case 'CASTSHADOW':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Boolean'])
+					.setCheck('Boolean')
+					.appendField('to');
+			break;
+		}
+	}
+};
+
+const SET_GEOMETRY_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'TRANSLATE':
+			case 'SCALE':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Vec3')
+					.appendField('to');
+			break;
+
+			case 'RX':
+			case 'RY':
+			case 'RZ':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Number')
 					.appendField('to');
 			break;
 		}
@@ -512,7 +543,7 @@ const SET_MATERIAL_SHAPE = {
 			case 'TRANSPARENT':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Boolean'])
+					.setCheck('Boolean')
 					.appendField('to');
 			break;
 
@@ -520,7 +551,7 @@ const SET_MATERIAL_SHAPE = {
 			case 'SHININESS': // [0,100]
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Number'])
+					.setCheck('Number')
 					.appendField('to');
 			break;
 		}
