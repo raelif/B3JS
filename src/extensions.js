@@ -25,91 +25,88 @@ Blockly.Blocks['scene_with_element'] = {
 // /=====================================================================\
 //	OPTION MODIFIER
 // \=====================================================================/
-const value_option = function(type) {
-	if (valDex[type].size > 0) {
-		return Array.from(valDex[type]).map((e) => [e[0], e[1][0]]);
+const block_option = function(type, input) {
+	if (type[0] === 'value') {
+		if (valDex[type[1]].size > 0) {
+			return Array.from(valDex[type[1]]).map((e) => [e[0], e[1][0]]);
+		}
+		else {
+			return [['','']];
+		}
 	}
-	else {
-		return [['','']];
-	}
-};
-
-const set_option = function(input, type) {
-	switch (type) {
-		case 'light':
-			if (input) {
-				const name = input.getField('VAL').getText();
-				if (valDex[type].has(name)) {
-					switch (valDex[type].get(name)[1]) {
-						case 'AMBIENT':
-							return [['color','COLOR'], ['intensity','INTENSITY']];
-						break;
-						case 'POINT':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE']];
-						break;
-						case 'SPOT':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
-						break;
-						case 'DIRECTIONAL':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
-						break;
-						case 'HEMISPHERE':
-							return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND']];
-						break;
+	else if (type[0] === 'set') {
+		switch (type[1]) {
+			case 'light':
+				if (input) {
+					const name = input.getField('VAL').getText();
+					if (valDex[type[1]].has(name)) {
+						switch (valDex[type[1]].get(name)[1]) {
+							case 'AMBIENT':
+								return [['color','COLOR'], ['intensity','INTENSITY']];
+							break;
+							case 'POINT':
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE']];
+							break;
+							case 'SPOT':
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+							break;
+							case 'DIRECTIONAL':
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+							break;
+							case 'HEMISPHERE':
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND']];
+							break;
+						}
 					}
 				}
-			}
-			return [['color','COLOR'], ['intensity','INTENSITY']];
-		break;
+				return [['color','COLOR'], ['intensity','INTENSITY']];
+			break;
 
-		case 'geometry':
-		break;
+			case 'geometry':
+			break;
 
-		case 'material':
-			if (input) {
-				const name = input.getField('VAL').getText();
-				if (valDex[type].has(name)) {
-					switch (valDex[type].get(name)[1]) {
-						case 'BASIC':
-						case 'DEPTH':
-						case 'NORMAL':
-							return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
-						break;
-						case 'LAMBERT':
-							return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE']];
-						break;
-						case 'PHONG':
-							return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
-						break;
+			case 'material':
+				if (input) {
+					const name = input.getField('VAL').getText();
+					if (valDex[type[1]].has(name)) {
+						switch (valDex[type[1]].get(name)[1]) {
+							case 'BASIC':
+							case 'DEPTH':
+							case 'NORMAL':
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+							break;
+							case 'LAMBERT':
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE']];
+							break;
+							case 'PHONG':
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
+							break;
+						}
 					}
 				}
-			}
-			return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST']];
-		break;
+				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST']];
+			break;
 
-		case 'mesh':
-		break;
+			case 'mesh':
+			break;
+		}
 	}
 };
 
 // /=====================================================================\
 //	OPTION VALIDATOR
 // \=====================================================================/
-const create_validator = function(option) {
+const block_validator = function(option) {
 	const source = this.sourceBlock_;
-	const type = source.type.split('_')[2];
-	const name = source.getFieldValue('NAME');
-	if (valDex[type].has(name)) {
-		valDex[type].get(name)[1] = option;
+	if (source.type.search(/b3js_create/) >= 0) {
+		const type = source.type.split('_')[2];
+		const name = source.getFieldValue('NAME');
+		if (valDex[type].has(name)) {
+			valDex[type].get(name)[1] = option;
+		}
 	}
 	if (typeof source.updateShape_ === 'function') {
 		source.updateShape_(option);
-	}
-};
-
-const set_validator = function(option) {
-	if (typeof this.sourceBlock_.updateShape_ === 'function') {
-		this.sourceBlock_.updateShape_(option);
 	}
 };
 
@@ -193,20 +190,7 @@ const ADD_MIXIN = {
 	}
 };
 
-const CREATE_MIXIN = {
-	mutationToDom: function() {
-		var container = document.createElement('mutation');
-		container.setAttribute('field_value', this.getFieldValue('TYPE'));
-		return container;
-	},
-
-	domToMutation: function(xmlElement) {
-		var typeInput = xmlElement.getAttribute('field_value');
-		this.updateShape_(typeInput);
-	}
-};
-
-const VALUE_MIXIN = {
+const BLOCK_MIXIN = {
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
 		// update if empty
@@ -218,21 +202,11 @@ const VALUE_MIXIN = {
 
 	domToMutation: function(xmlElement) {
 		var typeInput = xmlElement.getAttribute('field_value');
+		if (typeof this.updateShape_ === 'function') {
+			this.updateShape_(typeInput);
+		}
 	}
 }
-
-const SET_MIXIN = {
-	mutationToDom: function() {
-		var container = document.createElement('mutation');
-		container.setAttribute('field_value', this.getFieldValue('FIELD'));
-		return container;
-	},
-
-	domToMutation: function(xmlElement) {
-		var typeInput = xmlElement.getAttribute('field_value');
-		this.updateShape_(typeInput);
-	}
-};
 
 // /=====================================================================\
 //	CREATE_SHAPE
