@@ -357,7 +357,7 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['scale','SCALE'], ['rotate','ROTATE']]), 'FIELD');
+				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotate','ROTATE'], ['scale','SCALE']]), 'FIELD');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
 		this.appendValueInput('VALUE')
