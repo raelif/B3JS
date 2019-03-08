@@ -98,7 +98,7 @@ const block_option = function(type, input) {
 // \=====================================================================/
 const block_validator = function(option) {
 	const source = this.sourceBlock_;
-	if (source.type.search(/b3js_create/) >= 0) {
+	if (source.type.indexOf('b3js_create') >= 0) {
 		const type = source.type.split('_')[2];
 		const name = source.getFieldValue('NAME');
 		if (valDex[type].has(name)) {
@@ -193,17 +193,20 @@ const ADD_MIXIN = {
 const BLOCK_MIXIN = {
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
-		if (this.type.search(/b3js_create/) >= 0) {
+		if (this.type.indexOf('b3js_create') >= 0) {
 			container.setAttribute('field_value', this.getFieldValue('TYPE'));
 		}
-		else if (this.type.search(/b3js_value/) >= 0) {
+		else if (this.type.indexOf('b3js_value') >= 0) {
 			// update if empty
 			if (this.getFieldValue('VAL') === '')
 				this.setFieldValue(this.getField('VAL').getOptions()[0][1], 'VAL');
 			container.setAttribute('field_value', this.getFieldValue('VAL'));
 		}
-		else if (this.type.search(/b3js_set/) >= 0) {
+		else if (this.type.indexOf('b3js_set') >= 0) {
 			container.setAttribute('field_value', this.getFieldValue('FIELD'));
+		}
+		else if (this.type.indexOf('b3js_update') >= 0) {
+			container.setAttribute('field_value', this.getFieldValue('COMPONENT'));
 		}
 		return container;
 	},
@@ -554,7 +557,7 @@ const UPDATE_MESH_SHAPE = {
 					this.removeInput('DIRECTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('by distance');
+					.appendField('by');
 			break;
 
 			case 'XYZ':
@@ -572,7 +575,7 @@ const UPDATE_MESH_SHAPE = {
 					this.removeInput('DIRECTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('by distance');
+					.appendField('by');
 				this.appendValueInput('DIRECTION')
 					.setCheck('Vec3')
 					.appendField('axis');

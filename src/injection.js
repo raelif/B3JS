@@ -103,41 +103,55 @@ function flicker(block) {
 	// existence filter
 	if (!block) return;
 
-	// oth flicker block
-	Blockly.Events.disable();
-	const fid = block.type.search(/b3js_value/) >= 0 ? 'VAL' : block.type.search(/b3js_set/) >= 0 ? 'FIELD' : null;
-	if (fid) {
-		const type = block.type.split('_')[2];
-		// if valDex not empty...
-		if (valDex[type].size > 0) {
-			block.setDisabled(false);
-			// ...but val not present
-			if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
-				block.setFieldValue(valDex[type].values().next().value[0], fid);
-			}
-			// else if present => flicker
-			else {
-				// only for set_block
-				flicker(block.getInputTargetBlock('INPUT'));
+	// take field id
+	const type = block.type.split('_');
+	var fid = null;
+	if (type[0] === 'b3js') {
+		switch (type[1]) {
+			case 'value':
+				fid = 'VAL';
+			break;
+			case 'set':
+				fid = 'FIELD';
+			break;
+			case 'update':
+				fid = 'COMPONENT';
+			break;
+		}
+	}
+	if (!fid) return;
 
-				// for all blocks
-				const field = block.getFieldValue(fid);
-				if (field) {
-					block.setFieldValue('', fid);
-					block.setFieldValue(field, fid);
-					// invalid option => reset
-					const text = block.getField(fid).getText();
-					if (text === text.toUpperCase()) {
-						reset(block); // no following instruction after disable
-					}
+	// and flicker block
+	Blockly.Events.disable();
+	// if valDex not empty...
+	if (valDex[type[2]].size > 0) {
+		block.setDisabled(false);
+		// ...but val not present
+		if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
+			block.setFieldValue(valDex[type[2]].values().next().value[0], fid);
+		}
+		// else if present => flicker
+		else {
+			// only for set/update_block
+			flicker(block.getInputTargetBlock('INPUT'));
+
+			// for all blocks
+			const field = block.getFieldValue(fid);
+			if (field) {
+				block.setFieldValue('', fid);
+				block.setFieldValue(field, fid);
+				// invalid option => reset
+				const text = block.getField(fid).getText();
+				if (text === text.toUpperCase()) {
+					reset(block); // no following instruction after disable
 				}
 			}
 		}
-		// if empty => dispose and forget
-		else {
-			forget(block.getInputTargetBlock('VALUE'))
-			forget(block);
-		}
+	}
+	// if empty => dispose and forget
+	else {
+		forget(block.getInputTargetBlock('VALUE'))
+		forget(block);
 	}
 	Blockly.Events.enable();
 }
@@ -190,25 +204,25 @@ function valManagement(event) {
 		case Blockly.Events.CREATE: {
 			// single create_block
 			if (event.ids.length === 1) {
-				if (block.type.search(/b3js/) >= 0) {
-					const type = block.type.split('_')[2];
+				const type = block.type.split('_');
+				if (type[0] === 'b3js') {
 					// if create_block
-					if (block.type.search(/create/) >= 0) {
+					if (type[1] === 'create') {
 						// name != ''
 						if (block.getFieldValue('NAME') !== '') {
 							// name © valdDex => block copied
-							if (valDex[type].has(block.getFieldValue('NAME'))) {
-								chooseName(block, type);
+							if (valDex[type[2]].has(block.getFieldValue('NAME'))) {
+								chooseName(block, type[2]);
 							}
 							// paste deleted block
 							else {
-								setVal(block, type);
+								setVal(block, type[2]);
 							}
 							console.log(valDex);
 						}
 					}
 					// else value_block/set_block
-					else if (block.type.search(/value|set/) >= 0) {
+					else {
 						// id not present => need flicker
 						if (!valDex['block'].has(block.getFieldValue('VAL'))) {
 							flicker(block);
@@ -227,10 +241,10 @@ function valManagement(event) {
 			else {
 				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
-					if (b.type.search(/b3js/) >= 0) {
-						const type = b.type.split('_')[2];
-						if (b.type.search(/create/) >= 0) {
-							setVal(b, type);
+					const type = b.type.split('_');
+					if (type[0] === 'b3js') {
+						if (type[1] === 'create') {
+							setVal(b, type[2]);
 						}
 						// ...then correct other blocks
 						else {
@@ -238,13 +252,11 @@ function valManagement(event) {
 						}
 					}
 				});
-				console.log(valDex);
 			}
 		}
 		break;
 
 		case Blockly.Events.DELETE: {
-			const del_type = event.oldXml.attributes[0].value;
 
 			// clear valDex
 			event.ids.forEach((id) => {
@@ -254,19 +266,22 @@ function valManagement(event) {
 				}
 			});
 
-			if (del_type.search(/b3js_create/) >= 0) {
-				const type = del_type.split('_')[2];
-				const set_type = del_type.replace('create', 'set');
-				const value_type = del_type.replace('create', 'value');
+			const del_type = event.oldXml.attributes[0].value;
+			if (del_type.indexOf('b3js_create') >= 0) {
+				const type = del_type.split('_');
+				const toUp = ['value', 'set', 'update'].map((e) => del_type.replace('create', e));
 
 				// first reload valDex...
-				workspace.getAllBlocks()
-					.filter((b) => b.type === del_type)
-					.forEach((b) => {setVal(b, type);});
+				workspace.getAllBlocks().forEach((b) => {
+					if (b.type === del_type)
+						setVal(b, type[2]);
+				});
 
 				// ...then correct...
-				workspace.getAllBlocks()
-					.forEach((b) => {if (b.type === value_type || b.type === set_type) {flicker(b);}});
+				workspace.getAllBlocks().forEach((b) => {
+					if (toUp.indexOf(b.type) >= 0)
+						flicker(b);
+				});
 
 				console.log(valDex);
 			}
@@ -274,18 +289,18 @@ function valManagement(event) {
 		break;
 
 		case Blockly.Events.MOVE: {
-			if (block.type.search(/b3js/) >= 0) {
-				if (block.type.search(/create/) >= 0) {
-					const type = block.type.split('_')[2];
+			const type = block.type.split('_');
+			if (type[0] === 'b3js') {
+				if (type[1] === 'create') {
 					if (block.getFieldValue('NAME') === '') {
-						chooseName(block, type);
+						chooseName(block, type[2]);
 						console.log(valDex);
 					}
 				}
-				// move value_blocks inside/outside set_blocks
-				else if (block.type.search(/value/)  >= 0) {
+				// move value_blocks inside/outside set/update_blocks
+				else if (type[1] === 'value') {
 					const id = event.newParentId ? event.newParentId : event.oldParentId ? event.oldParentId : null;
-					// reset set_block
+					// reset set/update_block
 					if (id) {
 						flicker(workspace.getBlockById(id));
 					}
@@ -295,34 +310,36 @@ function valManagement(event) {
 		break;
 
 		case Blockly.Events.CHANGE: {
-			if (block.type.search(/b3js/) >= 0) {
-				if (block.type.search(/create/) >= 0) {
+			const type = block.type.split('_');
+			if (type[0] === 'b3js') {
+				if (type[1] === 'create') {
+					// try to change name of create_block
 					if (event.name === 'NAME') {
 							workspace.undoStack_.pop(); // -> forget
 					}
+					// try to change type of create_block
 					else if (event.name === 'TYPE') {
-						const set_type = block.type.replace('create', 'set');
+						const toUp = ['set', 'update'].map((e) => block.type.replace('create', e));
 						const name = block.getFieldValue('NAME');
 
-						// adjust set_blocks when changing create_blocks
-						workspace.getAllBlocks()
-							.filter((b) => b.type === set_type)
-							.forEach((b) => {
-								// flicker set_block
+						// adjust set/update_blocks when changing create_blocks
+						workspace.getAllBlocks().forEach((b) => {
+							if (toUp.indexOf(b.type) >= 0) {
+								// flicker set/update_block
 								const input = b.getInputTargetBlock('INPUT');
-								if (input && input.getField('VAL').getText() === name) {
+								if (input && input.getField('VAL').getText() === name)
 									flicker(b);
-								}
+							}
 						});
 					}
 				}
 				// change value_block field
-				else if (block.type.search(/value/) >= 0) {
+				else if (type[1] === 'value') {
 					if (event.name === 'VAL') {
-						const set_type = block.type.replace('value', 'set');
+						const toUp = ['set', 'update'].map((e) => block.type.replace('value', e));
 						const parent = block.getParent();
-						// adjust set block when changing value block
-						if (parent && parent.type === set_type) {
+						// adjust set/value_block when changing value block
+						if (parent && toUp.indexOf(parent.type) >= 0) {
 							if (parent.getInputWithBlock(block).name === 'INPUT') {
 								flicker(parent);
 							}
@@ -499,14 +516,14 @@ function importProject() {
 //	void openFullScreen()
 // \=====================================================================/
 function openFullscreen() {
-	if (webglCanvas.requestFullscreen) {
-		webglCanvas.requestFullscreen();
-	} else if (webglCanvas.mozRequestFullScreen) { //Firefox
-		webglCanvas.mozRequestFullScreen();
-	} else if (webglCanvas.webkitRequestFullscreen) { //Chrome, Safari & Opera
-		webglCanvas.webkitRequestFullscreen();
-	} else if (webglCanvas.msRequestFullscreen) { //IE/Edge
-		webglCanvas.msRequestFullscreen();
+	if (webglArea.requestFullscreen) {
+		webglArea.requestFullscreen();
+	} else if (webglArea.mozRequestFullScreen) { //Firefox
+		webglArea.mozRequestFullScreen();
+	} else if (webglArea.webkitRequestFullscreen) { //Chrome, Safari & Opera
+		webglArea.webkitRequestFullscreen();
+	} else if (webglArea.msRequestFullscreen) { //IE/Edge
+		webglArea.msRequestFullscreen();
 	}
 }
 

@@ -357,14 +357,12 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField('mesh');
-		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['scale','SCALE'], ['rotate','ROTATE']]), 'FIELD');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
 		this.appendValueInput('VALUE')
 				.setCheck('Number')
-				.appendField('by distance');
+				.appendField('by');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
@@ -480,16 +478,16 @@ Blockly.JavaScript['b3js_create_camera'] = function(block) {
 		case 'PERSPECTIVE':
 			code += 'new THREE.PerspectiveCamera('
 				+ number_fovscale + ','
-				+ webglArea.offsetWidth/webglArea.offsetHeight + ','
+				+ webglCanvas.offsetWidth/webglCanvas.offsetHeight + ','
 				+ number_near + ',' + number_far + ');\n';
 		break;
 
 		case 'ORTHOGRAPHIC':
 			code += 'new THREE.OrthographicCamera('
-				+ webglArea.offsetWidth / -number_fovscale + ','
-				+ webglArea.offsetWidth / number_fovscale + ','
-				+ webglArea.offsetHeight / -number_fovscale + ','
-				+ webglArea.offsetHeight / number_fovscale + ','
+				+ webglCanvas.offsetWidth / -number_fovscale + ','
+				+ webglCanvas.offsetWidth / number_fovscale + ','
+				+ webglCanvas.offsetHeight / -number_fovscale + ','
+				+ webglCanvas.offsetHeight / number_fovscale + ','
 				+ number_near + ',' + number_far + ');\n';
 		break;
 	}
@@ -929,17 +927,117 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	var value_geometry = Blockly.JavaScript.valueToCode(block, 'GEOMETRY', Blockly.JavaScript.ORDER_ATOMIC);
 	var value_material = Blockly.JavaScript.valueToCode(block, 'MATERIAL', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
+	var code = '';
+	if (value_geometry && value_material)
+		code += 'const mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
 	return code;
 };
 
 Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 	var dropdown_field = block.getFieldValue('FIELD');
 	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
-	var dropdown_direction = block.getFieldValue('DIRECTION');
+	var dropdown_component = block.getFieldValue('COMPONENT');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
-	var code = '...;\n';
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		if (block.getInputTargetBlock('VALUE')) {
+			var v = block.getInputTargetBlock('VALUE');
+			var operation = block.getField('FIELD').getText();
+			switch (dropdown_component) {
+				case 'X':
+				case 'Y':
+				case 'Z':
+					if (dropdown_field === 'TRANSLATE') {
+						code += value_input + '.' + operation + dropdown_component + '(' + value_value + ');\n';
+					}
+					else if (dropdown_field === 'ROTATE') {
+						var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
+						if (v.getVars().length) {
+							code += value_input + '.' + operation + dropdown_component + '(rad(' + value + '));\n';
+						}
+						else {
+							if (!isNaN(value))
+								value = rad(value);
+							code += value_input + '.' + operation + dropdown_component + '(' + value + ');\n';
+						}
+					}
+					else {
+						if (dropdown_component === 'X') {
+							code += value_input + '.' + operation + '.copy(' +
+								'new THREE.Vector3(' + value_value + ', ' + '1' + ', ' + '1' + '));\n';
+						}
+						else if (dropdown_component === 'Y') {
+							code += value_input + '.' + operation + '.copy(' +
+								'new THREE.Vector3(' + '1' + ', ' + value_value + ', ' + '1' + '));\n';
+						}
+						else {
+							code += value_input + '.' + operation + '.copy(' +
+								'new THREE.Vector3(' + '1' + ', ' + '1' + ', ' + value_value + '));\n';
+						}
+					}
+				break;
+
+				case 'XYZ':
+					var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_NONE);
+					var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_NONE);
+					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_NONE);
+					if (dropdown_field === 'TRANSLATE') {
+						code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
+						code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
+						code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+					}
+					else if (dropdown_field === 'ROTATE') {
+						if (v.getVars().length) {
+							code += value_input + '.' + operation + 'X' + '(rad(' + value_x + '));\n';
+							code += value_input + '.' + operation + 'Y' + '(rad(' + value_y + '));\n';
+							code += value_input + '.' + operation + 'Z' + '(rad(' + value_z + '));\n';
+						}
+						else {
+							if (!isNaN(value_x)) value_x = rad(value_x);
+							if (!isNaN(value_y)) value_y = rad(value_y);
+							if (!isNaN(value_z)) value_z = rad(value_z);
+							code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
+							code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
+							code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+						}
+					}
+					else {
+						code += value_input + '.' + operation + '.copy(' + value_value + ');\n';
+					}
+				break;
+
+				case 'AXIS':
+					if (block.getInputTargetBlock('DIRECTION')) {
+						var direction = Blockly.JavaScript.valueToCode(block, 'DIRECTION', Blockly.JavaScript.ORDER_ATOMIC);
+						if (dropdown_field === 'TRANSLATE') {
+							code += value_input + '.translateOnAxis(' + direction + ', ' + value_value + ');\n';
+						}
+						else if (dropdown_field === 'ROTATE') {
+							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
+							if (v.getVars().length) {
+								code += value_input + '.rotateOnAxis(' + direction + ', rad(' + value + '));\n';
+							}
+							else {
+								if (!isNaN(value))
+									value = rad(value);
+								code += value_input + '.rotateOnAxis(' + direction + ', ' + value + ');\n';
+							}
+						}
+						else {
+							var dir = block.getInputTargetBlock('DIRECTION');
+							var dir_x = Blockly.JavaScript.valueToCode(dir, 'X', Blockly.JavaScript.ORDER_NONE);
+							var dir_y = Blockly.JavaScript.valueToCode(dir, 'Y', Blockly.JavaScript.ORDER_NONE);
+							var dir_z = Blockly.JavaScript.valueToCode(dir, 'Z', Blockly.JavaScript.ORDER_NONE);
+							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
+							code += value_input + '.' + operation + '.copy(new THREE.Vector3(' +
+								dir_x + '*' + value + ', ' + dir_y + '*' + value + ', ' + dir_z + '*' + value + '));\n';
+						}
+					}
+				break;
+			}
+		}
+	}
 	return code;
 };
 
