@@ -103,8 +103,11 @@ function flicker(block) {
 	// existence filter
 	if (!block) return;
 
-	// take field id
+	// take type
 	const type = block.type.split('_');
+	if (type.length < 3) return;
+
+	// take field id
 	var fid = null;
 	if (type[0] === 'b3js') {
 		switch (type[1]) {
