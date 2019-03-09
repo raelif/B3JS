@@ -103,11 +103,8 @@ function flicker(block) {
 	// existence filter
 	if (!block) return;
 
-	// take type
-	const type = block.type.split('_');
-	if (type.length < 3) return;
-
 	// take field id
+	const type = block.type.split('_');
 	var fid = null;
 	if (type[0] === 'b3js') {
 		switch (type[1]) {
@@ -126,35 +123,37 @@ function flicker(block) {
 
 	// and flicker block
 	Blockly.Events.disable();
-	// if valDex not empty...
-	if (valDex[type[2]].size > 0) {
-		block.setDisabled(false);
-		// ...but val not present
-		if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
-			block.setFieldValue(valDex[type[2]].values().next().value[0], fid);
-		}
-		// else if present => flicker
-		else {
-			// only for set/update_block
-			flicker(block.getInputTargetBlock('INPUT'));
+	if (valDex[type[2]]) {
+		// if valDex not empty...
+		if (valDex[type[2]].size > 0) {
+			block.setDisabled(false);
+			// ...but val not present
+			if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
+				block.setFieldValue(valDex[type[2]].values().next().value[0], fid);
+			}
+			// else if present => flicker
+			else {
+				// only for set/update_block
+				flicker(block.getInputTargetBlock('INPUT'));
 
-			// for all blocks
-			const field = block.getFieldValue(fid);
-			if (field) {
-				block.setFieldValue('', fid);
-				block.setFieldValue(field, fid);
-				// invalid option => reset
-				const text = block.getField(fid).getText();
-				if (text === text.toUpperCase()) {
-					reset(block); // no following instruction after disable
+				// for all blocks
+				const field = block.getFieldValue(fid);
+				if (field) {
+					block.setFieldValue('', fid);
+					block.setFieldValue(field, fid);
+					// invalid option => reset
+					const text = block.getField(fid).getText();
+					if (text === text.toUpperCase()) {
+						reset(block); // no following instruction after disable
+					}
 				}
 			}
 		}
-	}
-	// if empty => dispose and forget
-	else {
-		forget(block.getInputTargetBlock('VALUE'))
-		forget(block);
+		// if empty => dispose and forget
+		else {
+			forget(block.getInputTargetBlock('VALUE'))
+			forget(block);
+		}
 	}
 	Blockly.Events.enable();
 }
