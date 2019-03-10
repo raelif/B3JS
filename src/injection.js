@@ -233,10 +233,18 @@ function valManagement(event) {
 				}
 			}
 			// create_mesh has ids = 3
-			else if (block.type === 'b3js_create_mesh' && event.ids.length === 3) {
+			else if (event.ids.length === 3 && block.type === 'b3js_create_mesh') {
 				flicker(block.getInputTargetBlock('GEOMETRY'));
 				flicker(block.getInputTargetBlock('MATERIAL'));
-				chooseName(block, 'mesh');
+				if (block.getFieldValue('NAME') !== '') {
+					// as above
+					if (valDex['mesh'].has(block.getFieldValue('NAME'))) {
+						chooseName(block, 'mesh');
+					}
+					else {
+						setVal(block, 'mesh');
+					}
+				}
 				console.log(valDex);
 			}
 			// multiple create_blocks => undo cataclysm
