@@ -19,12 +19,17 @@ const valDex = {
 };
 
 var workspace;
-var dc = 0;
+var elapsed_time = 0;
 
 var scene = new THREE.Scene();
 var current_camera;
-var anim_id;
 var renderer;
+var anim_id;
+var shadow_mapping = false;
+
+Blockly.JavaScript.addReservedWords(
+	'webglArea,webglCanvas,blocklyArea,blocklyDiv,checkExp,valDex,workspace,elapsed_time,scene,current_camera,renderer,anim_id,shadow_mapping'
+);
 
 // /=====================================================================\
 //	void setVal(block, type)
@@ -35,6 +40,7 @@ function setVal(block, type) {
 	if (name && name !== '' && !valDex[type].has(name)) {
 		valDex[type].set(name, [block.id, block.getFieldValue('TYPE')]);
 		valDex['block'].set(block.id, [name, type]);
+		Blockly.JavaScript.addReservedWords(type + '_' + name);
 	}
 	Blockly.Events.enable();
 }
@@ -49,7 +55,7 @@ function chooseName(block, type) {
 	if (name) {
 		name = name.replace(/\W/g, '');
 	}
-	while (valDex[type].has(name)) {
+	while (valDex[type].has(name) || workspace.getVariableMap().getVariable(type + '_' + name)) {
 		name = prompt('Name already in use! Choose a different one:');
 		if (name) {
 			name = name.replace(/\W/g, '');
@@ -232,42 +238,43 @@ function valManagement(event) {
 					}
 				}
 			}
-			// create_mesh has ids = 3
-			else if (event.ids.length === 3 && block.type === 'b3js_create_mesh') {
-				flicker(block.getInputTargetBlock('GEOMETRY'));
-				flicker(block.getInputTargetBlock('MATERIAL'));
-				if (block.getFieldValue('NAME') !== '') {
-					// as above
-					if (valDex['mesh'].has(block.getFieldValue('NAME'))) {
-						chooseName(block, 'mesh');
-					}
-					else {
-						setVal(block, 'mesh');
-					}
-				}
-				console.log(valDex);
-			}
 			// multiple create_blocks => undo cataclysm
 			else {
-				// first reload valDex...
-				workspace.getAllBlocks().forEach((b) => {
-					const type = b.type.split('_');
-					if (type[0] === 'b3js') {
-						if (type[1] === 'create') {
-							setVal(b, type[2]);
+				// create_mesh has ids = 3 when full
+				if (event.ids.length === 3 && block.type === 'b3js_create_mesh') {
+					flicker(block.getInputTargetBlock('GEOMETRY'));
+					flicker(block.getInputTargetBlock('MATERIAL'));
+					if (block.getFieldValue('NAME') !== '') {
+						// as above
+						if (valDex['mesh'].has(block.getFieldValue('NAME'))) {
+							chooseName(block, 'mesh');
 						}
-						// ...then correct other blocks
 						else {
-							flicker(b);
+							setVal(block, 'mesh');
 						}
 					}
-				});
+					console.log(valDex);
+				}
+				else {
+				// first reload valDex...
+					workspace.getAllBlocks().forEach((b) => {
+						const type = b.type.split('_');
+						if (type[0] === 'b3js') {
+							if (type[1] === 'create') {
+								setVal(b, type[2]);
+							}
+							// ...then correct other blocks
+							else {
+								flicker(b);
+							}
+						}
+					});
+				}
 			}
 		}
 		break;
 
 		case Blockly.Events.DELETE: {
-
 			// clear valDex
 			event.ids.forEach((id) => {
 				if (valDex['block'].has(id)) {
@@ -363,11 +370,11 @@ function valManagement(event) {
 		case Blockly.Events.UI: {
 			if (event.element === 'click') {
 				const now = performance.now();
-				if (now - dc < 250) {
+				if (now - elapsed_time < 250) {
 					const check = block.getInputsInline();
 					block.setInputsInline(!check);
 				}
-				dc = now;
+				elapsed_time = now;
 			}
 		}
 		break;
@@ -499,6 +506,7 @@ function importProject() {
 					s[1].split(' ').forEach((e) => {
 						const nv = e.split('=');
 						valDex[s[0]].set(nv[0], [nv[1]]);
+						Blockly.JavaScript.addReservedWords(s[0] + '_' + nv[0]);
 					});
 				}
 			});

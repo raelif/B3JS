@@ -45,16 +45,16 @@ const block_option = function(type, input) {
 								return [['color','COLOR'], ['intensity','INTENSITY']];
 							break;
 							case 'POINT':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE']];
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 							break;
 							case 'SPOT':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['penumbra','PENUMBRA'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 							break;
 							case 'DIRECTIONAL':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['exponent','EXPONENT'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 							break;
 							case 'HEMISPHERE':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND']];
+								return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND'], ['position','POSITION']];
 							break;
 						}
 					}
@@ -280,12 +280,13 @@ const CREATE_LIGHT_SHAPE = {
 			case 'HEMISPHERE':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('sky')
+					.appendField('color')
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
 					.appendField('ground')
 					.appendField(new Blockly.FieldColour('#ffffff'), 'GROUND')
 					.appendField('intensity')
 					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
+			break;
 		}
 	}
 };
@@ -321,7 +322,7 @@ const CREATE_GEOMETRY_SHAPE = {
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
 					.appendField('radius')
-					.appendField(new Blockly.FieldNumber(50, 0), 'RADIUS')
+					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUS')
 					.appendField('detail')
 					.appendField(new Blockly.FieldNumber(10, 3, 32), 'DETAIL');
 			break;
@@ -330,11 +331,11 @@ const CREATE_GEOMETRY_SHAPE = {
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
 					.appendField('top')
-					.appendField(new Blockly.FieldNumber(20, 0), 'RADIUSTOP')
+					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUSTOP')
 					.appendField('bottom')
-					.appendField(new Blockly.FieldNumber(20, 0), 'RADIUSBOTTOM')
+					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUSBOTTOM')
 					.appendField('height')
-					.appendField(new Blockly.FieldNumber(100, 0), 'HEIGHT')
+					.appendField(new Blockly.FieldNumber(1, 0), 'HEIGHT')
 					.appendField('detail')
 					.appendField(new Blockly.FieldNumber(10, 3, 64), 'DETAIL');
 			break;
@@ -343,9 +344,9 @@ const CREATE_GEOMETRY_SHAPE = {
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
 					.appendField('radius')
-					.appendField(new Blockly.FieldNumber(100, 0), 'RADIUS')
+					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUS')
 					.appendField('tube')
-					.appendField(new Blockly.FieldNumber(40, 0), 'TUBE')
+					.appendField(new Blockly.FieldNumber(1, 0), 'TUBE')
 					.appendField('detail')
 					.appendField(new Blockly.FieldNumber(10, 3, 30), 'DETAIL')
 					.appendField('arc')
@@ -454,7 +455,7 @@ const SET_LIGHT_SHAPE = {
 			case 'INTENSITY': // [0-]
 			case 'DECAY': // [1-]
 			case 'DISTANCE': // [0-]
-			case 'EXPONENT': // [0-]
+			case 'PENUMBRA': // [0-1]
 			case 'ANGLE': // [0-360]
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
@@ -537,6 +538,28 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
+					.appendField('to');
+			break;
+		}
+	}
+};
+
+const SET_MESH_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'POSITION':
+			case 'LOOKAT':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Vec3')
+					.appendField('to');
+			break;
+
+			case 'CASTSHADOW':
+			case 'RECEIVESHADOW':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Boolean')
 					.appendField('to');
 			break;
 		}

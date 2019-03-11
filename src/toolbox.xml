@@ -118,6 +118,9 @@
     <block type="b3js_create_mesh">
       <field name="NAME"></field>
     </block>
+    <block type="b3js_set_mesh">
+      <field name="FIELD">POSITION</field>
+    </block>
     <block type="b3js_update_mesh">
       <field name="FIELD">TRANSLATE</field>
       <field name="COMPONENT">X</field>
