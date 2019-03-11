@@ -1127,7 +1127,7 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 		if (shadow_mapping) {
 			code +=
 				'renderer.shadowMap.enabled = true;\n'+
-				'renderer.shadowMap.type = THREE.PCFShadowMap;\n';
+				'renderer.shadowMap.type = THREE.PCFSoftShadowMap;\n';
 		}
 
 		code +=
