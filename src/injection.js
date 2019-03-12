@@ -187,7 +187,15 @@ function onresize() {
 	webglCanvas.style.height = webglArea.offsetHeight + 'px';
 
 	if (renderer && current_camera) {
-		current_camera.aspect = webglArea.offsetWidth/webglArea.offsetHeight;
+		if (current_camera.isOrthographicCamera) {
+			current_camera.left = webglArea.offsetWidth / -current_camera.fovscale;
+			current_camera.right = webglArea.offsetWidth / current_camera.fovscale;
+			current_camera.top = webglArea.offsetHeight / current_camera.fovscale;
+			current_camera.bottom = webglArea.offsetHeight / -current_camera.fovscale;
+		}
+		else {
+			current_camera.aspect = webglArea.offsetWidth/webglArea.offsetHeight;
+		}
 		current_camera.updateProjectionMatrix();
 		renderer.setSize(webglArea.offsetWidth, webglArea.offsetHeight);
 	}

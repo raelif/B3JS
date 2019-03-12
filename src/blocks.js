@@ -509,9 +509,11 @@ Blockly.JavaScript['b3js_create_camera'] = function(block) {
 			code += 'new THREE.OrthographicCamera('
 				+ webglCanvas.offsetWidth / -number_fovscale + ','
 				+ webglCanvas.offsetWidth / number_fovscale + ','
-				+ webglCanvas.offsetHeight / -number_fovscale + ','
 				+ webglCanvas.offsetHeight / number_fovscale + ','
+				+ webglCanvas.offsetHeight / -number_fovscale + ','
 				+ number_near + ',' + number_far + ');\n';
+			// artificial info
+			code += 'camera_' + text_name + '.fovscale = ' + number_fovscale + ';\n';
 		break;
 	}
 	return code;
@@ -646,6 +648,7 @@ Blockly.JavaScript['b3js_set_light'] = function(block) {
 					code += value_input + '.castShadow = ' + value_value + ';\n';
 
 					//Set up shadow properties for the light
+					code += value_input + '.shadow.bias = 0.0001;\n';
 					code += value_input + '.shadow.mapSize.width = 1024;\n';
 					code += value_input + '.shadow.mapSize.height = 1024;\n';
 					code += value_input + '.shadow.camera.near = 0.1;\n';
