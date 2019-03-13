@@ -4,7 +4,7 @@
 Blockly.Blocks['b3js_add_scene'] = {
 	init: function() {
 		this.appendValueInput('ELEMENT')
-				.setCheck(['Camera', 'Light', 'Mesh'])
+				.setCheck(['Camera', 'Light', 'Mesh', 'Group'])
 				.appendField('add');
 		this.appendDummyInput('END')
 				.appendField('to scene');
@@ -353,10 +353,30 @@ Blockly.Blocks['b3js_create_mesh'] = {
 	}
 };
 
+Blockly.Blocks['b3js_create_group'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField('group')
+				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
+		this.appendValueInput('VALUE')
+				.setCheck(['Mesh', 'Group'])
+				.appendField('from');
+		this.setInputsInline(true);
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(100);
+	this.setTooltip('Create a new Group from Meshes or Groups.');
+	this.setHelpUrl('');
+	this.mixin(ADD_MIXIN);
+	this.setMutator(new Blockly.Mutator(['group_with_element']));
+	this.setDisabled(!valDex['mesh'].size);
+	}
+};
+
 Blockly.Blocks['b3js_set_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
-				.setCheck('Mesh')
+				.setCheck(['Mesh', 'Group'])
 				.appendField('set');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']], block_validator), 'FIELD');
@@ -371,14 +391,14 @@ Blockly.Blocks['b3js_set_mesh'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_MESH_SHAPE);
-	this.setDisabled(!valDex['material'].size);
+	this.setDisabled(!valDex['mesh'].size);
 	}
 };
 
 Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
-				.setCheck('Mesh')
+				.setCheck(['Mesh', 'Group'])
 				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotate','ROTATE'], ['scale','SCALE']]), 'FIELD');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
@@ -394,6 +414,20 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(UPDATE_MESH_SHAPE);
+	}
+};
+
+Blockly.Blocks['b3js_value_group'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField('group')
+				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'group'])), 'VAL');
+		this.setOutput(true, 'Group');
+		this.setColour(100);
+	this.setTooltip('Retrieve a Group.');
+	this.setHelpUrl('');
+	this.setDisabled(!valDex['group'].size);
+	this.mixin(BLOCK_MIXIN);
 	}
 };
 
@@ -968,6 +1002,26 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	return code;
 };
 
+Blockly.JavaScript['b3js_create_group'] = function(block) {
+	var text_name = block.getFieldValue('NAME');
+	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (value_value) {
+		code += 'const group_' + text_name + ' = new THREE.Group();\n';
+		if (block.getInputTargetBlock('VALUE')) {
+		 code += 'group_' + text_name + '.add(' + value_value + ');\n';
+		}
+		var i = 0;
+		while (block.getInputTargetBlock('ADD' + i)) {
+			value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
+			code += 'group_' + text_name + '.add(' + value_value + ');\n';
+			i++;
+		}
+	}
+	return code;
+};
+
 Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
 	var dropdown_field = block.getFieldValue('FIELD');
@@ -985,12 +1039,26 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 					code += value_input + '.lookAt(' + value_value + ');\n';
 				break;
 
-				case 'CASTSHADOW':
-					code += value_input + '.castShadow = ' + value_value + ';\n';
+				case 'CASTSHADOW': {
+					const input = block.getInputTargetBlock('INPUT');
+					if (input.type === 'b3js_value_group') {
+						code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + '});\n';
+					}
+					else {
+						code += value_input + '.castShadow = ' + value_value + ';\n';
+					}
+				}
 				break;
 
-				case 'RECEIVESHADOW':
-					code += value_input + '.receiveShadow = ' + value_value + ';\n';
+				case 'RECEIVESHADOW': {
+					const input = block.getInputTargetBlock('INPUT');
+					if (input.type === 'b3js_value_group') {
+						code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + '});\n';
+					}
+					else {
+						code += value_input + '.receiveShadow = ' + value_value + ';\n';
+					}
+				}
 				break;
 			}
 		}
@@ -1104,6 +1172,14 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 		}
 	}
 	return code;
+};
+
+Blockly.JavaScript['b3js_value_group'] = function(block) {
+	var dropdown_val = block.getFieldValue('VAL');
+	// TODO: Assemble JavaScript into code variable.
+	var code = 'group_' + block.getField('VAL').getText();
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['b3js_value_mesh'] = function(block) {

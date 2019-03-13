@@ -1,9 +1,8 @@
 // /=====================================================================\
 //  MUTATORS
 // \=====================================================================/
-Blockly.Blocks['scene_with_container'] = {
+Blockly.Blocks['all_container'] = {
 	init: function() {
-		this.setColour(0);
 		this.appendStatementInput('STACK');
 		this.setTooltip('');
 		this.contextMenu = false;
@@ -13,6 +12,18 @@ Blockly.Blocks['scene_with_container'] = {
 Blockly.Blocks['scene_with_element'] = {
 	init: function() {
 		this.setColour(0);
+		this.appendDummyInput()
+				.appendField('element');
+		this.setPreviousStatement(true);
+		this.setNextStatement(true);
+		this.setTooltip('');
+		this.contextMenu = false;
+	}
+};
+
+Blockly.Blocks['group_with_element'] = {
+	init: function() {
+		this.setColour(100);
 		this.appendDummyInput()
 				.appendField('element');
 		this.setPreviousStatement(true);
@@ -126,11 +137,13 @@ const ADD_MIXIN = {
 	},
 
 	decompose: function(workspace) {
-		var containerBlock = workspace.newBlock('scene_with_container');
+		var containerBlock = workspace.newBlock('all_container');
+		containerBlock.setColour(this.getColour());
 		containerBlock.initSvg();
 		var connection = containerBlock.getInput('STACK').connection;
+		var gen = this.type.split('_')[2] + '_with_element';
 		for (var i = 0; i < this.elementCount_; i++) {
-			var elementBlock = workspace.newBlock('scene_with_element');
+			var elementBlock = workspace.newBlock(gen);
 			elementBlock.initSvg();
 			connection.connect(elementBlock.previousConnection);
 			connection = elementBlock.nextConnection;
@@ -143,6 +156,7 @@ const ADD_MIXIN = {
 		// Count number of inputs.
 		var connections = [];
 		while (elementBlock) {
+			elementBlock.setColour(this.getColour());
 			connections.push(elementBlock.valueConnection_);
 			elementBlock = elementBlock.nextConnection &&
 					elementBlock.nextConnection.targetBlock();
@@ -177,7 +191,15 @@ const ADD_MIXIN = {
 		// Add new inputs.
 		for (var i = 0; i < this.elementCount_; i++) {
 			if (!this.getInput('ADD' + i)) {
-				this.appendValueInput('ADD' + i).setCheck(['Camera', 'Light', 'Mesh']);
+				switch (this.type) {
+					case 'b3js_add_scene':
+						this.appendValueInput('ADD' + i).setCheck(['Camera', 'Light', 'Mesh', 'Group']);
+					break
+
+					case 'b3js_create_group':
+						this.appendValueInput('ADD' + i).setCheck(['Mesh', 'Group']);
+					break
+				}
 			}
 		}
 		// Remove deleted inputs.
@@ -185,8 +207,10 @@ const ADD_MIXIN = {
 			this.removeInput('ADD' + i);
 			i++;
 		}
-		this.removeInput('END');
-		this.appendDummyInput('END').appendField('to scene');
+		if (this.type === 'b3js_add_scene') {
+			this.removeInput('END');
+			this.appendDummyInput('END').appendField('to scene');
+		}
 	}
 };
 

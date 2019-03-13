@@ -13,6 +13,7 @@ const valDex = {
 	'block': new Map(),
 	'camera': new Map(),
 	'geometry': new Map(),
+	'group': new Map(),
 	'light': new Map(),
 	'material': new Map(),
 	'mesh': new Map()
@@ -27,9 +28,21 @@ var renderer;
 var anim_id;
 var shadow_mapping = false;
 
-Blockly.JavaScript.addReservedWords(
-	'webglArea,webglCanvas,blocklyArea,blocklyDiv,checkExp,valDex,workspace,elapsed_time,scene,current_camera,renderer,anim_id,shadow_mapping'
-);
+Blockly.JavaScript.addReservedWords('\
+	webglArea,\
+	webglCanvas,\
+	blocklyArea,\
+	blocklyDiv,\
+	checkExp,\
+	valDex,\
+	workspace,\
+	elapsed_time,\
+	scene,\
+	current_camera,\
+	renderer,\
+	anim_id,\
+	shadow_mapping\
+');
 
 // /=====================================================================\
 //	void setVal(block, type)
@@ -108,6 +121,7 @@ function reset(block) {
 function flicker(block) {
 	// existence filter
 	if (!block) return;
+	block.setDisabled(false);
 
 	// take field id
 	const type = block.type.split('_');
@@ -132,7 +146,6 @@ function flicker(block) {
 	if (valDex[type[2]]) {
 		// if valDex not empty...
 		if (valDex[type[2]].size > 0) {
-			block.setDisabled(false);
 			// ...but val not present
 			if (fid === 'VAL' && !valDex['block'].has(block.getFieldValue(fid))) {
 				block.setFieldValue(valDex[type[2]].values().next().value[0], fid);
@@ -162,6 +175,39 @@ function flicker(block) {
 		}
 	}
 	Blockly.Events.enable();
+}
+
+// /=====================================================================\
+//	void recover(block, type)
+// \=====================================================================/
+function recover(block, type) {
+	if (type[0] === 'b3js') {
+		// if create_block
+		if (type[1] === 'create') {
+			if (type[2] === 'group' && valDex['mesh'].size === 0) {
+				forget(block);
+			}
+			// name != ''
+			if (block.getFieldValue('NAME') !== '') {
+				// name © valdDex => block copied
+				if (valDex[type[2]].has(block.getFieldValue('NAME'))) {
+					chooseName(block, type[2]);
+				}
+				// paste deleted block
+				else {
+					setVal(block, type[2]);
+				}
+				console.log(valDex);
+			}
+		}
+		// else value/set/update
+		else {
+			// id not present => need flicker
+			if (!valDex['block'].has(block.getFieldValue('VAL'))) {
+				flicker(block);
+			}
+		}
+	}
 }
 
 // /=====================================================================\
@@ -221,63 +267,32 @@ function valManagement(event) {
 			// single create_block
 			if (event.ids.length === 1) {
 				const type = block.type.split('_');
-				if (type[0] === 'b3js') {
-					// if create_block
-					if (type[1] === 'create') {
-						// name != ''
-						if (block.getFieldValue('NAME') !== '') {
-							// name © valdDex => block copied
-							if (valDex[type[2]].has(block.getFieldValue('NAME'))) {
-								chooseName(block, type[2]);
-							}
-							// paste deleted block
-							else {
-								setVal(block, type[2]);
-							}
-							console.log(valDex);
-						}
-					}
-					// else value_block/set_block
-					else {
-						// id not present => need flicker
-						if (!valDex['block'].has(block.getFieldValue('VAL'))) {
-							flicker(block);
-						}
-					}
-				}
+				recover(block, type)
 			}
 			// multiple create_blocks => undo cataclysm
 			else {
 				// create_mesh has ids = 3 when full
-				if (event.ids.length === 3 && block.type === 'b3js_create_mesh') {
+				// create_group has ids ≥ 2 when full
+				const toUp = ['b3js_create_mesh', 'b3js_create_group'];
+				if (event.ids.length >= 2 && toUp.indexOf(block.type) >= 0) {
 					flicker(block.getInputTargetBlock('GEOMETRY'));
 					flicker(block.getInputTargetBlock('MATERIAL'));
-					if (block.getFieldValue('NAME') !== '') {
-						// as above
-						if (valDex['mesh'].has(block.getFieldValue('NAME'))) {
-							chooseName(block, 'mesh');
+					flicker(block.getInputTargetBlock('VALUE'));
+					recover(block, block.type.split('_'));
+				}
+				// first reload valDex...
+				workspace.getAllBlocks().forEach((b) => {
+					const type = b.type.split('_');
+					if (type[0] === 'b3js') {
+						if (type[1] === 'create') {
+							setVal(b, type[2]);
 						}
+						// ...then correct other blocks
 						else {
-							setVal(block, 'mesh');
+							flicker(b);
 						}
 					}
-					console.log(valDex);
-				}
-				else {
-				// first reload valDex...
-					workspace.getAllBlocks().forEach((b) => {
-						const type = b.type.split('_');
-						if (type[0] === 'b3js') {
-							if (type[1] === 'create') {
-								setVal(b, type[2]);
-							}
-							// ...then correct other blocks
-							else {
-								flicker(b);
-							}
-						}
-					});
-				}
+				});
 			}
 		}
 		break;
@@ -306,6 +321,13 @@ function valManagement(event) {
 				workspace.getAllBlocks().forEach((b) => {
 					if (toUp.indexOf(b.type) >= 0)
 						flicker(b);
+					else if (b.type === 'b3js_create_group') {
+						if (valDex['mesh'].size === 0) {
+							valDex['group'].clear();
+							valDex['block'].delete(b.id);
+							forget(b);
+						}
+					}
 				});
 
 				console.log(valDex);
@@ -493,13 +515,13 @@ function saveProject() {
 //	void importProject()
 // \=====================================================================/
 function importProject() {
-	stopCode();
 	const importedXml = document.getElementById('importedXml').files[0];
 	if (importedXml !== null && importedXml.type === 'text/xml') {
 		const fileReader = new FileReader();
 		fileReader.onload = function(e) {
 			Blockly.Events.disable();
 			const textFromFile = e.target.result;
+			var invalid = false;
 
 			// clear
 			workspace.clear();
@@ -513,16 +535,28 @@ function importProject() {
 				if (s.length === 2) {
 					s[1].split(' ').forEach((e) => {
 						const nv = e.split('=');
-						valDex[s[0]].set(nv[0], [nv[1]]);
-						Blockly.JavaScript.addReservedWords(s[0] + '_' + nv[0]);
+						if (valDex[s[0]]) {
+							valDex[s[0]].set(nv[0], [nv[1]]);
+							Blockly.JavaScript.addReservedWords(s[0] + '_' + nv[0]);
+						}
+						else {
+							invalid = true;
+						}
 					});
 				}
 			});
 
+			// validity check
+			if (invalid) {
+				Blockly.Events.enable();
+				alert('Invalid B3JS project!');
+				return;
+			}
+
 			// load workspace
 			Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(textFromFile), workspace);
 			workspace.getAllBlocks().forEach((b) => {
-				if (b.type.search(/b3js_create/) >= 0) {
+				if (b.type.indexOf('b3js_create') >= 0) {
 					const type = b.type.split('_')[2];
 					valDex[type].get(b.getFieldValue('NAME')).unshift(b.id);
 					valDex['block'].set(b.id, [b.getFieldValue('NAME'), type]);
@@ -536,20 +570,21 @@ function importProject() {
 		};
 		fileReader.readAsText(importedXml, 'UTF-8');
 	}
+	stopCode();
 }
 
 // /=====================================================================\
-//	void openFullScreen()
+//	void openFullScreen(div)
 // \=====================================================================/
-function openFullscreen() {
-	if (webglArea.requestFullscreen) {
-		webglArea.requestFullscreen();
-	} else if (webglArea.mozRequestFullScreen) { //Firefox
-		webglArea.mozRequestFullScreen();
-	} else if (webglArea.webkitRequestFullscreen) { //Chrome, Safari & Opera
-		webglArea.webkitRequestFullscreen();
-	} else if (webglArea.msRequestFullscreen) { //IE/Edge
-		webglArea.msRequestFullscreen();
+function openFullscreen(div) {
+	if (div.requestFullscreen) {
+		div.requestFullscreen();
+	} else if (div.mozRequestFullScreen) { //Firefox
+		div.mozRequestFullScreen();
+	} else if (div.webkitRequestFullscreen) { //Chrome, Safari & Opera
+		div.webkitRequestFullscreen();
+	} else if (div.msRequestFullscreen) { //IE/Edge
+		div.msRequestFullscreen();
 	}
 }
 
