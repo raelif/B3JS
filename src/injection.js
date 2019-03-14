@@ -168,7 +168,7 @@ function flicker(block) {
 				}
 			}
 		}
-		// if empty => dispose and forget
+		// if empty => forget
 		else {
 			forget(block.getInputTargetBlock('VALUE'))
 			forget(block);
@@ -458,6 +458,8 @@ function loadWorkspace() {
 			}
 			workspace = Blockly.inject(blocklyDiv, options);
 			workspace.addChangeListener(valManagement);
+			blocklyArea.appendChild(document.getElementsByClassName('blocklyWidgetDiv')[0]);
+			blocklyArea.appendChild(document.getElementsByClassName('blocklyTooltipDiv')[0]);
 			onresize();
 		}
 	};

@@ -1007,17 +1007,21 @@ Blockly.JavaScript['b3js_create_group'] = function(block) {
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
-	if (value_value) {
-		code += 'const group_' + text_name + ' = new THREE.Group();\n';
-		if (block.getInputTargetBlock('VALUE')) {
-		 code += 'group_' + text_name + '.add(' + value_value + ');\n';
+	if (block.getInputTargetBlock('VALUE')) {
+		if (value_value.indexOf('group_' + text_name) < 0) {
+			code += 'const group_' + text_name + ' = new THREE.Group();\n';
+			if (block.getInputTargetBlock('VALUE')) {
+			 code += 'group_' + text_name + '.add(' + value_value + ');\n';
+			}
 		}
-		var i = 0;
-		while (block.getInputTargetBlock('ADD' + i)) {
-			value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
+	}
+	var i = 0;
+	while (block.getInputTargetBlock('ADD' + i)) {
+		value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
+		if (value_value.indexOf('group_' + text_name) < 0) {
 			code += 'group_' + text_name + '.add(' + value_value + ');\n';
-			i++;
 		}
+		i++;
 	}
 	return code;
 };
