@@ -401,6 +401,10 @@ function valManagement(event) {
 			if (event.element === 'click') {
 				const now = performance.now();
 				if (now - elapsed_time < 250) {
+					const check = block.isCollapsed();
+					block.setCollapsed(!check);
+				}
+				else if (now - elapsed_time < 750) {
 					const check = block.getInputsInline();
 					block.setInputsInline(!check);
 				}
@@ -594,9 +598,9 @@ function openFullscreen(div) {
 //	void expertMode()
 // \=====================================================================/
 function expertMode() {
-	stopCode();
 	checkExp.checked = !checkExp.checked;
 	loadWorkspace();
+	stopCode();
 }
 
 // /=====================================================================\
@@ -628,12 +632,12 @@ function stopCode() {
 // \=====================================================================/
 function runCode() {
 	// Generate JavaScript code and run it.
-	stopCode();
 	window.LoopTrap = 1000;
 	Blockly.JavaScript.INFINITE_LOOP_TRAP =
 			'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
 	const code = Blockly.JavaScript.workspaceToCode(workspace);
 	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+	stopCode();
 	try {
 		eval(code);
 	} catch (e) {

@@ -409,7 +409,7 @@ Blockly.Blocks['b3js_update_mesh'] = {
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
 		this.setColour(100);
-	this.setTooltip('');
+	this.setTooltip('Update property of a previously created Mesh.');
 	this.setHelpUrl('');
 	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(BLOCK_MIXIN);
@@ -1148,27 +1148,23 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 					if (block.getInputTargetBlock('DIRECTION')) {
 						var direction = Blockly.JavaScript.valueToCode(block, 'DIRECTION', Blockly.JavaScript.ORDER_ATOMIC);
 						if (dropdown_field === 'TRANSLATE') {
-							code += value_input + '.translateOnAxis(' + direction + ', ' + value_value + ');\n';
+							code += value_input + '.translateOnAxis(' + direction + '.normalize(), ' + value_value + ');\n';
 						}
 						else if (dropdown_field === 'ROTATE') {
 							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
 							if (v.getVars().length) {
-								code += value_input + '.rotateOnAxis(' + direction + ', rad(' + value + '));\n';
+								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), rad(' + value + '));\n';
 							}
 							else {
 								if (!isNaN(value))
 									value = rad(value);
-								code += value_input + '.rotateOnAxis(' + direction + ', ' + value + ');\n';
+								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), ' + value + ');\n';
 							}
 						}
 						else {
-							var dir = block.getInputTargetBlock('DIRECTION');
-							var dir_x = Blockly.JavaScript.valueToCode(dir, 'X', Blockly.JavaScript.ORDER_NONE);
-							var dir_y = Blockly.JavaScript.valueToCode(dir, 'Y', Blockly.JavaScript.ORDER_NONE);
-							var dir_z = Blockly.JavaScript.valueToCode(dir, 'Z', Blockly.JavaScript.ORDER_NONE);
 							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
-							code += value_input + '.' + operation + '.copy(new THREE.Vector3(' +
-								dir_x + '*' + value + ', ' + dir_y + '*' + value + ', ' + dir_z + '*' + value + '));\n';
+							code += value_input + '.' + operation +
+								'.copy(' + direction + '.multiplyScalar(' + value + '));\n';
 						}
 					}
 				break;
