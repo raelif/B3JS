@@ -49,6 +49,7 @@ Blockly.JavaScript.addReservedWords('\
 // \=====================================================================/
 function setVal(block, type) {
 	Blockly.Events.disable();
+	block.setDisabled(false);
 	const name = block.getFieldValue('NAME');
 	if (name && name !== '' && !valDex[type].has(name)) {
 		valDex[type].set(name, [block.id, block.getFieldValue('TYPE')]);
@@ -121,28 +122,28 @@ function reset(block) {
 function flicker(block) {
 	// existence filter
 	if (!block) return;
-	block.setDisabled(false);
 
 	// take field id
 	const type = block.type.split('_');
 	var fid = null;
 	if (type[0] === 'b3js') {
-		switch (type[1]) {
-			case 'value':
-				fid = 'VAL';
-			break;
-			case 'set':
-				fid = 'FIELD';
-			break;
-			case 'update':
-				fid = 'COMPONENT';
-			break;
-		}
+		if (type[1] === 'value')
+			fid = 'VAL';
+		else if (type[1] === 'set')
+			fid = 'FIELD';
+		else if (type[1] === 'update')
+			fid = 'COMPONENT';
 	}
-	if (!fid) return;
+
+	Blockly.Events.disable();
+	block.setDisabled(false);
+
+	if (!fid) {
+		Blockly.Events.enable();
+		return;
+	}
 
 	// and flicker block
-	Blockly.Events.disable();
 	if (valDex[type[2]]) {
 		// if valDex not empty...
 		if (valDex[type[2]].size > 0) {
@@ -225,6 +226,23 @@ function rad(angle) {
 }
 
 // /=====================================================================\
+//	[] toUpdate(type, num)
+// \=====================================================================/
+function toUpdate(type, num) {
+	const slaves = [];
+	slaves.push(type[0] + '_value_' + type[2]);
+	if (type[2] === 'group') {
+		slaves.push(type[0] + '_set_mesh');
+		slaves.push(type[0] + '_update_mesh');
+	}
+	else {
+		slaves.push(type[0] + '_set_' + type[2]);
+		slaves.push(type[0] + '_update_' + type[2]);
+	}
+	return slaves.slice(-num);
+}
+
+// /=====================================================================\
 //	void onresize()
 // \=====================================================================/
 function onresize() {
@@ -269,30 +287,32 @@ function valManagement(event) {
 				const type = block.type.split('_');
 				recover(block, type)
 			}
+			// ids > 1, no parent and create ? => pasted create_mesh/group
+			else if (block.getParent() === null && block.type.indexOf('create') >= 0) {
+				flicker(block.getInputTargetBlock('GEOMETRY'));
+				flicker(block.getInputTargetBlock('MATERIAL'));
+				flicker(block.getInputTargetBlock('VALUE'));
+				recover(block, block.type.split('_'));
+
+				console.log(valDex);
+			}
 			// multiple create_blocks => undo cataclysm
 			else {
-				// create_mesh has ids = 3 when full
-				// create_group has ids ≥ 2 when full
-				const toUp = ['b3js_create_mesh', 'b3js_create_group'];
-				if (event.ids.length >= 2 && toUp.indexOf(block.type) >= 0) {
-					flicker(block.getInputTargetBlock('GEOMETRY'));
-					flicker(block.getInputTargetBlock('MATERIAL'));
-					flicker(block.getInputTargetBlock('VALUE'));
-					recover(block, block.type.split('_'));
-				}
-				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
 					const type = b.type.split('_');
 					if (type[0] === 'b3js') {
+						// reload valDex...
 						if (type[1] === 'create') {
 							setVal(b, type[2]);
 						}
-						// ...then correct other blocks
+						// ...or correct other blocks
 						else {
 							flicker(b);
 						}
 					}
 				});
+
+				console.log(valDex);
 			}
 		}
 		break;
@@ -309,7 +329,7 @@ function valManagement(event) {
 			const del_type = event.oldXml.attributes[0].value;
 			if (del_type.indexOf('b3js_create') >= 0) {
 				const type = del_type.split('_');
-				const toUp = ['value', 'set', 'update'].map((e) => del_type.replace('create', e));
+				const types = toUpdate(type, 3);
 
 				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
@@ -319,7 +339,7 @@ function valManagement(event) {
 
 				// ...then correct...
 				workspace.getAllBlocks().forEach((b) => {
-					if (toUp.indexOf(b.type) >= 0)
+					if (types.indexOf(b.type) >= 0)
 						flicker(b);
 					else if (b.type === 'b3js_create_group') {
 						if (valDex['mesh'].size === 0) {
@@ -366,12 +386,12 @@ function valManagement(event) {
 					}
 					// try to change type of create_block
 					else if (event.name === 'TYPE') {
-						const toUp = ['set', 'update'].map((e) => block.type.replace('create', e));
+						const types = toUpdate(type, 2);
 						const name = block.getFieldValue('NAME');
 
 						// adjust set/update_blocks when changing create_blocks
 						workspace.getAllBlocks().forEach((b) => {
-							if (toUp.indexOf(b.type) >= 0) {
+							if (types.indexOf(b.type) >= 0) {
 								// flicker set/update_block
 								const input = b.getInputTargetBlock('INPUT');
 								if (input && input.getField('VAL').getText() === name)
@@ -383,10 +403,10 @@ function valManagement(event) {
 				// change value_block field
 				else if (type[1] === 'value') {
 					if (event.name === 'VAL') {
-						const toUp = ['set', 'update'].map((e) => block.type.replace('value', e));
+						const types = toUpdate(type, 2);
 						const parent = block.getParent();
 						// adjust set/value_block when changing value block
-						if (parent && toUp.indexOf(parent.type) >= 0) {
+						if (parent && types.indexOf(parent.type) >= 0) {
 							if (parent.getInputWithBlock(block).name === 'INPUT') {
 								flicker(parent);
 							}
@@ -583,6 +603,7 @@ function importProject() {
 //	void openFullScreen(div)
 // \=====================================================================/
 function openFullscreen(div) {
+	console.log(document.fullscreenElement);
 	if (div.requestFullscreen) {
 		div.requestFullscreen();
 	} else if (div.mozRequestFullScreen) { //Firefox

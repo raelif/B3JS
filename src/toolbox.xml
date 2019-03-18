@@ -113,10 +113,27 @@
     <block type="b3js_value_material">
       <field name="VAL"></field>
     </block>
+    <block type="b3js_image_texture">
+      <field name="WRAP">CLAMP</field>
+      <field name="FILTER">LINEAR</field>
+      <value name="PATH">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
+    </block>
   </category>
   <category name="Mesh" colour="#5ba55b">
     <block type="b3js_create_mesh">
       <field name="NAME"></field>
+    </block>
+    <block type="b3js_create_mesh_from_file">
+      <field name="NAME"></field>
+      <value name="VALUE">
+        <shadow type="text">
+          <field name="TEXT"></field>
+        </shadow>
+      </value>
     </block>
     <block type="b3js_create_group">
       <field name="NAME"></field>
@@ -128,10 +145,10 @@
       <field name="FIELD">TRANSLATE</field>
       <field name="COMPONENT">X</field>
     </block>
-    <block type="b3js_value_group">
+    <block type="b3js_value_mesh">
       <field name="VAL"></field>
     </block>
-    <block type="b3js_value_mesh">
+    <block type="b3js_value_group">
       <field name="VAL"></field>
     </block>
   </category>

@@ -82,20 +82,22 @@ const block_option = function(type, input) {
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
 							case 'BASIC':
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+							break;
 							case 'DEPTH':
 							case 'NORMAL':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+								return [['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
 							break;
 							case 'LAMBERT':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE']];
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'] , ['emissive','EMISSIVE']];
 							break;
 							case 'PHONG':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'] , ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
 							break;
 						}
 					}
 				}
-				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['blending','BLENDING'], ['depthTest','DEPTHTEST']];
+				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
 			break;
 
 			case 'mesh':
@@ -544,6 +546,15 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck(['Colour', 'String'])
+					.appendField('to');
+			break;
+
+			case 'MAP':
+			case 'BUMPMAP':
+			case 'NORMALMAP':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Texture')
 					.appendField('to');
 			break;
 

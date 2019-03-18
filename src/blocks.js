@@ -333,6 +333,25 @@ Blockly.Blocks['b3js_value_material'] = {
 	}
 };
 
+Blockly.Blocks['b3js_image_texture'] = {
+	init: function() {
+		this.appendValueInput('PATH')
+				.setCheck('String')
+				.appendField('path');
+		this.appendDummyInput()
+				.appendField('wrap')
+				.appendField(new Blockly.FieldDropdown([['clamp','CLAMP'], ['repeat','REPEAT'], ['mirror','MIRROR']]), 'WRAP');
+		this.appendDummyInput()
+				.appendField('filter')
+				.appendField(new Blockly.FieldDropdown([['linear','LINEAR'], ['nearest','NEAREST']]), 'FILTER');
+		this.setInputsInline(true);
+		this.setOutput(true, 'Texture');
+		this.setColour(250);
+	this.setTooltip('Return a new Texture.');
+	this.setHelpUrl('');
+	}
+};
+
 Blockly.Blocks['b3js_create_mesh'] = {
 	init: function() {
 		this.appendDummyInput()
@@ -349,6 +368,23 @@ Blockly.Blocks['b3js_create_mesh'] = {
 		this.setNextStatement(true, null);
 		this.setColour(100);
 	this.setTooltip('Create a new Mesh.');
+	this.setHelpUrl('');
+	}
+};
+
+Blockly.Blocks['b3js_create_mesh_from_file'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField('mesh')
+				.appendField(new Blockly.FieldTextInput(''), 'NAME');
+		this.appendValueInput('VALUE')
+				.setCheck('String')
+				.appendField('from file');
+		this.setInputsInline(true);
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(100);
+	this.setTooltip('Create a new Mesh from a glTF, OBJ or Collada file.');
 	this.setHelpUrl('');
 	}
 };
@@ -417,6 +453,19 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	}
 };
 
+Blockly.Blocks['b3js_value_mesh'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'mesh'])), 'VAL');
+		this.setOutput(true, 'Mesh');
+		this.setColour(100);
+	this.setTooltip('Retrieve a Mesh.');
+	this.setHelpUrl('');
+	this.setDisabled(!valDex['mesh'].size);
+	this.mixin(BLOCK_MIXIN);
+	}
+};
+
 Blockly.Blocks['b3js_value_group'] = {
 	init: function() {
 		this.appendDummyInput()
@@ -427,19 +476,6 @@ Blockly.Blocks['b3js_value_group'] = {
 	this.setTooltip('Retrieve a Group.');
 	this.setHelpUrl('');
 	this.setDisabled(!valDex['group'].size);
-	this.mixin(BLOCK_MIXIN);
-	}
-};
-
-Blockly.Blocks['b3js_value_mesh'] = {
-	init: function() {
-		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'mesh'])), 'VAL');
-		this.setOutput(true, 'Mesh');
-		this.setColour(100);
-	this.setTooltip('Retrieve a Mesh.');
-	this.setHelpUrl('');
-	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(BLOCK_MIXIN);
 	}
 };
@@ -931,6 +967,18 @@ Blockly.JavaScript['b3js_set_material'] = function(block) {
 					code += value_input + '.opacity = ' + value_value + ';\n';
 				break;
 
+				case 'MAP':
+					code += value_input + '.map = ' + value_value + ';\n';
+				break;
+
+				case 'BUMPMAP':
+					code += value_input + '.bumpMap = ' + value_value + ';\n';
+				break;
+
+				case 'NORMALMAP':
+					code += value_input + '.normalMap = ' + value_value + ';\n';
+				break;
+
 				case 'SHININESS':
 					code += value_input + '.shininess = ' + value_value + ';\n';
 				break;
@@ -941,10 +989,6 @@ Blockly.JavaScript['b3js_set_material'] = function(block) {
 
 				case 'VISIBLE':
 					code += value_input + '.visible = ' + value_value + ';\n';
-				break;
-
-				case 'BLENDING':
-					code += value_input + '.blending = ' + value_value + ';\n';
 				break;
 
 				case 'DEPTHTEST':
@@ -991,6 +1035,41 @@ Blockly.JavaScript['b3js_value_material'] = function(block) {
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
+Blockly.JavaScript['b3js_image_texture'] = function(block) {
+	var value_path = Blockly.JavaScript.valueToCode(block, 'PATH', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_wrap = block.getFieldValue('WRAP');
+	var dropdown_filter = block.getFieldValue('FILTER');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	// TODO: Change ORDER_NONE to the correct strength.
+	// image, mapping, wrapS, wrapT, magFilter, minFilter);\n';
+	code += 'new THREE.Texture(';
+	code += 'new THREE.TextureLoader().load(' + value_path + '), THREE.UVMapping, ';
+	switch (dropdown_wrap) {
+		case 'CLAMP':
+			code += 'THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, ';
+		break;
+
+		case 'REPEAT':
+			code += 'THREE.RepeatWrapping, THREE.RepeatWrapping, ';
+		break;
+
+		case 'MIRROR':
+			code += 'THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping, ';
+		break;
+	}
+	switch (dropdown_filter) {
+		case 'LINEAR':
+			code += 'THREE.LinearFilter, THREE.LinearFilter)';
+		break;
+
+		case 'NEAREST':
+			code += 'THREE.NearestFilter, THREE.NearestFilter)';
+		break;
+	}
+	return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_geometry = Blockly.JavaScript.valueToCode(block, 'GEOMETRY', Blockly.JavaScript.ORDER_ATOMIC);
@@ -999,6 +1078,14 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	var code = '';
 	if (value_geometry && value_material)
 		code += 'const mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
+	return code;
+};
+
+Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
+	var text_name = block.getFieldValue('NAME');
+	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+	// TODO: Assemble JavaScript into code variable.
+	var code = '...;\n';
 	return code;
 };
 
@@ -1174,19 +1261,19 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 	return code;
 };
 
+Blockly.JavaScript['b3js_value_mesh'] = function(block) {
+	var dropdown_field = block.getFieldValue('VAL');
+	// TODO: Assemble JavaScript into code variable.
+	var code = 'mesh_' + block.getField('VAL').getText();
+	return [code, Blockly.JavaScript.ORDER_ATOMIC];
+};
+
 Blockly.JavaScript['b3js_value_group'] = function(block) {
 	var dropdown_val = block.getFieldValue('VAL');
 	// TODO: Assemble JavaScript into code variable.
 	var code = 'group_' + block.getField('VAL').getText();
 	// TODO: Change ORDER_NONE to the correct strength.
 	return [code, Blockly.JavaScript.ORDER_NONE];
-};
-
-Blockly.JavaScript['b3js_value_mesh'] = function(block) {
-	var dropdown_field = block.getFieldValue('VAL');
-	// TODO: Assemble JavaScript into code variable.
-	var code = 'mesh_' + block.getField('VAL').getText();
-	return [code, Blockly.JavaScript.ORDER_ATOMIC];
 };
 
 Blockly.JavaScript['b3js_render_loop'] = function(block) {
