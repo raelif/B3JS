@@ -1,55 +1,56 @@
 <!DOCTYPE html>
-<html>
-<head>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
- <meta name="Author" content="Made by 'tree'">
- <meta name="GENERATOR" content="$Version: $ tree v1.8.0 (c) 1996 - 2018 by Steve Baker, Thomas Moore, Francesc Rocher, Florian Sesser, Kyosuke Tokoro $">
- <title>Directory Tree</title>
- <style type="text/css">
-  <!-- 
-  BODY { font-family : ariel, monospace, sans-serif; }
-  P { font-weight: normal; font-family : ariel, monospace, sans-serif; color: black; background-color: transparent;}
-  B { font-weight: normal; color: black; background-color: transparent;}
-  A:visited { font-weight : normal; text-decoration : none; background-color : transparent; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
-  A:link    { font-weight : normal; text-decoration : none; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
-  A:hover   { color : #000000; font-weight : normal; text-decoration : underline; background-color : yellow; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
-  A:active  { color : #000000; font-weight: normal; background-color : transparent; margin : 0px 0px 0px 0px; padding : 0px 0px 0px 0px; display: inline; }
-  .VERSION { font-size: small; font-family : arial, sans-serif; }
-  .NORM  { color: black;  background-color: transparent;}
-  .FIFO  { color: purple; background-color: transparent;}
-  .CHAR  { color: yellow; background-color: transparent;}
-  .DIR   { color: blue;   background-color: transparent;}
-  .BLOCK { color: yellow; background-color: transparent;}
-  .LINK  { color: aqua;   background-color: transparent;}
-  .SOCK  { color: fuchsia;background-color: transparent;}
-  .EXEC  { color: green;  background-color: transparent;}
-  -->
- </style>
-</head>
-<body>
-	<h1>Directory Tree</h1><p>
-	<a href=".">.</a><br>
-	├── <a href="./README.md">README.md</a><br>
-	├── <a href="./_config.yml">_config.yml</a><br>
-	├── <a href="./b3js.css">b3js.css</a><br>
-	├── <a href="./b3js.html">b3js.html</a><br>
-	├── <a href="./index.html">index.html</a><br>
-	├── <a href="./lib/">lib</a><br>
-	├── <a href="./prova.html">prova.html</a><br>
-	├── <a href="./resources/">resources</a><br>
-	├── <a href="./src/">src</a><br>
-	└── <a href="./upload.php">upload.php</a><br>
-	<br><br>
-	</p>
-	<p>
-	<br><br>
-	</p>
-	<hr>
-	<p class="VERSION">
-		 tree v1.8.0 © 1996 - 2018 by Steve Baker and Thomas Moore <br>
-		 HTML output hacked and copyleft © 1998 by Francesc Rocher <br>
-		 JSON output hacked and copyleft © 2014 by Florian Sesser <br>
-		 Charsets / OS/2 support © 2001 by Kyosuke Tokoro
-	</p>
-</body>
+<meta charset='utf-8'>
+<html lang='en-US'>
+	<head>
+		<title>B3JS</title>
+		<link rel='stylesheet' type='text/css' href='b3js.css'>
+		<link rel='icon' type='image/x-icon' href='resources/favicon.ico'>
+	</head>
+
+	<body onLoad='loadWorkspace()'>
+		<div id='menu'>
+			<ul>
+				<li><a>File</a>
+					<ul>
+						<li><a id='saveButton' onClick='saveProject()'>Save Project</a></li>
+						<li><a id='importButton'>
+							Import Project <input id='importedXml' type='file' accept='text/xml' title='' onInput='importProject()' onChange='this.value=null;'></a>
+						</li>
+					</ul>
+				</li>
+				<li><a>View</a>
+					<ul>
+						<li><a id='enlargeButton' onClick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
+						<li><a id='enlargeButton' onClick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
+						<li><a id='expertButton' onClick='expertMode()'>
+							Expert Mode <input id='checkExp' type='checkbox' onClick='this.checked = !this.checked;'></a>
+						</li>
+					</ul>
+				</li>
+				<li><a id='showButton' onClick='showCode()'>Show Code</a></li>
+				<li><a id='stopButton' onClick='stopCode()'>Stop</a></li>
+				<li><a id='runButton' onClick='runCode()'>Run</a></li>
+			</ul>
+		</div>
+
+		<div id='webglArea'><canvas id='webglCanvas'/></div>
+		<div id='blocklyArea'><div id='blocklyDiv'/></div>
+
+		<script type='text/javascript' src='lib/blockly_compressed.js'></script>
+		<script type='text/javascript' src='lib/blocks_compressed.js'></script>
+		<script type='text/javascript' src='lib/javascript_compressed.js'></script>
+		<script type='text/javascript' src='lib/msg/js/en.js'></script>
+
+		<script type='text/javascript' src='lib/three.js'></script>
+		<script type='text/javascript' src='lib/loaders/LoaderSupport.js'></script>
+		<script type='text/javascript' src='lib/loaders/OBJLoader.js'></script>
+		<script type='text/javascript' src='lib/loaders/MTLLoader.js'></script>
+		<script type='text/javascript' src='lib/loaders/GLTFLoader.js'></script>
+		<script type='text/javascript' src='lib/loaders/ColladaLoader.js'></script>
+
+		<script type='text/javascript' src='src/injection.js'></script>
+		<script type='text/javascript' src='src/extensions.js'></script>
+		<script type='text/javascript' src='src/blocks.js'></script>
+		<script type='text/javascript' src='src/e_blocks.js'></script>
+	</body>
 </html>
