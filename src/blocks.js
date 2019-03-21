@@ -4,7 +4,7 @@
 Blockly.Blocks['b3js_add_scene'] = {
 	init: function() {
 		this.appendValueInput('ELEMENT')
-				.setCheck(['Camera', 'Light', 'Mesh', 'Group'])
+				.setCheck(['Camera', 'Light', 'Mesh'])
 				.appendField('add');
 		this.appendDummyInput('END')
 				.appendField('to scene');
@@ -376,7 +376,7 @@ Blockly.Blocks['b3js_create_mesh_from_file'] = {
 	init: function() {
 		this.appendDummyInput()
 				.appendField('mesh')
-				.appendField(new Blockly.FieldTextInput(''), 'NAME');
+				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
 		this.appendValueInput('VALUE')
 				.setCheck('String')
 				.appendField('from file');
@@ -389,14 +389,14 @@ Blockly.Blocks['b3js_create_mesh_from_file'] = {
 	}
 };
 
-Blockly.Blocks['b3js_create_group'] = {
+Blockly.Blocks['b3js_create_mesh_group'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('group')
+				.appendField('mesh')
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
 		this.appendValueInput('VALUE')
-				.setCheck(['Mesh', 'Group'])
-				.appendField('from');
+				.setCheck('Mesh')
+				.appendField('groups');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
@@ -412,7 +412,7 @@ Blockly.Blocks['b3js_create_group'] = {
 Blockly.Blocks['b3js_set_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
-				.setCheck(['Mesh', 'Group'])
+				.setCheck('Mesh')
 				.appendField('set');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']], block_validator), 'FIELD');
@@ -434,7 +434,7 @@ Blockly.Blocks['b3js_set_mesh'] = {
 Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
-				.setCheck(['Mesh', 'Group'])
+				.setCheck('Mesh')
 				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotate','ROTATE'], ['scale','SCALE']]), 'FIELD');
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
@@ -462,20 +462,6 @@ Blockly.Blocks['b3js_value_mesh'] = {
 	this.setTooltip('Retrieve a Mesh.');
 	this.setHelpUrl('');
 	this.setDisabled(!valDex['mesh'].size);
-	this.mixin(BLOCK_MIXIN);
-	}
-};
-
-Blockly.Blocks['b3js_value_group'] = {
-	init: function() {
-		this.appendDummyInput()
-				.appendField('group')
-				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'group'])), 'VAL');
-		this.setOutput(true, 'Group');
-		this.setColour(100);
-	this.setTooltip('Retrieve a Group.');
-	this.setHelpUrl('');
-	this.setDisabled(!valDex['group'].size);
 	this.mixin(BLOCK_MIXIN);
 	}
 };
@@ -1084,29 +1070,35 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+	var toDo = Blockly.JavaScript.provideFunction_('uponLoad', [
+			'	function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(object) {',
+			'	mesh_' + text_name + '.add(object);',
+			'}']);
+
 	// TODO: Assemble JavaScript into code variable.
-	var code = '...;\n';
+	var code = 'var mesh_' + text_name + ' = new THREE.Object3D();\n';
+	code += 'new THREE.OBJLoader().load(' + value_value + ', ' + toDo + ');\n';
 	return code;
 };
 
-Blockly.JavaScript['b3js_create_group'] = function(block) {
+Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (block.getInputTargetBlock('VALUE')) {
-		if (value_value.indexOf('group_' + text_name) < 0) {
-			code += 'const group_' + text_name + ' = new THREE.Group();\n';
+		if (value_value.indexOf('mesh_' + text_name) < 0) {
+			code += 'const mesh_' + text_name + ' = new THREE.Group();\n';
 			if (block.getInputTargetBlock('VALUE')) {
-			 code += 'group_' + text_name + '.add(' + value_value + ');\n';
+			 code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
 			}
 		}
 	}
 	var i = 0;
 	while (block.getInputTargetBlock('ADD' + i)) {
 		value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
-		if (value_value.indexOf('group_' + text_name) < 0) {
-			code += 'group_' + text_name + '.add(' + value_value + ');\n';
+		if (value_value.indexOf('mesh_' + text_name) < 0) {
+			code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
 		}
 		i++;
 	}
@@ -1132,23 +1124,13 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 
 				case 'CASTSHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					if (input.type === 'b3js_value_group') {
-						code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + '});\n';
-					}
-					else {
-						code += value_input + '.castShadow = ' + value_value + ';\n';
-					}
+					code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + '});\n';
 				}
 				break;
 
 				case 'RECEIVESHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					if (input.type === 'b3js_value_group') {
-						code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + '});\n';
-					}
-					else {
-						code += value_input + '.receiveShadow = ' + value_value + ';\n';
-					}
+					code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + '});\n';
 				}
 				break;
 			}
@@ -1266,14 +1248,6 @@ Blockly.JavaScript['b3js_value_mesh'] = function(block) {
 	// TODO: Assemble JavaScript into code variable.
 	var code = 'mesh_' + block.getField('VAL').getText();
 	return [code, Blockly.JavaScript.ORDER_ATOMIC];
-};
-
-Blockly.JavaScript['b3js_value_group'] = function(block) {
-	var dropdown_val = block.getFieldValue('VAL');
-	// TODO: Assemble JavaScript into code variable.
-	var code = 'group_' + block.getField('VAL').getText();
-	// TODO: Change ORDER_NONE to the correct strength.
-	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['b3js_render_loop'] = function(block) {

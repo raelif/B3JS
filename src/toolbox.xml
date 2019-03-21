@@ -135,7 +135,7 @@
         </shadow>
       </value>
     </block>
-    <block type="b3js_create_group">
+    <block type="b3js_create_mesh_group">
       <field name="NAME"></field>
     </block>
     <block type="b3js_set_mesh">
@@ -146,9 +146,6 @@
       <field name="COMPONENT">X</field>
     </block>
     <block type="b3js_value_mesh">
-      <field name="VAL"></field>
-    </block>
-    <block type="b3js_value_group">
       <field name="VAL"></field>
     </block>
   </category>

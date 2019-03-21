@@ -195,11 +195,11 @@ const ADD_MIXIN = {
 			if (!this.getInput('ADD' + i)) {
 				switch (this.type) {
 					case 'b3js_add_scene':
-						this.appendValueInput('ADD' + i).setCheck(['Camera', 'Light', 'Mesh', 'Group']);
+						this.appendValueInput('ADD' + i).setCheck(['Camera', 'Light', 'Mesh']);
 					break
 
-					case 'b3js_create_group':
-						this.appendValueInput('ADD' + i).setCheck(['Mesh', 'Group']);
+					case 'b3js_create_mesh_group':
+						this.appendValueInput('ADD' + i).setCheck(['Mesh']);
 					break
 				}
 			}

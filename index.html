@@ -1,50 +1,26 @@
-<!DOCTYPE html>
-<meta charset='utf-8'>
-<html lang='en-US'>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 	<head>
-		<title>B3JS</title>
-		<link rel='stylesheet' type='text/css' href='b3js.css'>
-		<link rel='icon' type='image/x-icon' href='resources/favicon.ico'>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Directory listing for /</title>
 	</head>
 
-	<body onLoad='loadWorkspace()'>
-		<div id='menu'>
-			<ul>
-				<li><a>File</a>
-					<ul>
-						<li><a id='saveButton' onClick='saveProject()'>Save Project</a></li>
-						<li><a id='importButton'>
-							Import Project <input id='importedXml' type='file' accept='text/xml' title='' onInput='importProject()' onChange='this.value=null;'></a>
-						</li>
-					</ul>
-				</li>
-				<li><a>View</a>
-					<ul>
-						<li><a id='enlargeButton' onClick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
-						<li><a id='enlargeButton' onClick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
-						<li><a id='expertButton' onClick='expertMode()'>
-							Expert Mode <input id='checkExp' type='checkbox' onClick='this.checked = !this.checked;'></a>
-						</li>
-					</ul>
-				</li>
-				<li><a id='showButton' onClick='showCode()'>Show Code</a></li>
-				<li><a id='stopButton' onClick='stopCode()'>Stop</a></li>
-				<li><a id='runButton' onClick='runCode()'>Run</a></li>
-			</ul>
-		</div>
-
-		<div id='webglArea'><canvas id='webglCanvas'/></div>
-		<div id='blocklyArea'><div id='blocklyDiv'/></div>
-
-		<script type='text/javascript' src='lib/blockly_compressed.js'></script>
-		<script type='text/javascript' src='lib/blocks_compressed.js'></script>
-		<script type='text/javascript' src='lib/javascript_compressed.js'></script>
-		<script type='text/javascript' src='lib/msg/js/en.js'></script>
-		<script type='text/javascript' src='lib/three.js'></script>
-
-		<script type='text/javascript' src='src/injection.js'></script>
-		<script type='text/javascript' src='src/extensions.js'></script>
-		<script type='text/javascript' src='src/blocks.js'></script>
-		<script type='text/javascript' src='src/e_blocks.js'></script>
+	<body>
+		<h1>Directory listing for /</h1>
+		<hr>
+		<ul>
+		<li><a href=".git/">.git/</a></li>
+		<li><a href=".gitignore">.gitignore</a></li>
+		<li><a href="_config.yml">_config.yml</a></li>
+		<li><a href="b3js.css">b3js.css</a></li>
+		<li><a href="b3js.html">b3js.html</a></li>
+		<li><a href="lib/">lib/</a></li>
+		<li><a href="php.ini">php.ini</a></li>
+		<li><a href="README.md">README.md</a></li>
+		<li><a href="resources/">resources/</a></li>
+		<li><a href="src/">src/</a></li>
+		<li><a href="upload.php">upload.php</a></li>
+		</ul>
+		<hr>
 	</body>
 </html>

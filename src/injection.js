@@ -13,7 +13,6 @@ const valDex = {
 	'block': new Map(),
 	'camera': new Map(),
 	'geometry': new Map(),
-	'group': new Map(),
 	'light': new Map(),
 	'material': new Map(),
 	'mesh': new Map()
@@ -51,10 +50,22 @@ function setVal(block, type) {
 	Blockly.Events.disable();
 	block.setDisabled(false);
 	const name = block.getFieldValue('NAME');
-	if (name && name !== '' && !valDex[type].has(name)) {
-		valDex[type].set(name, [block.id, block.getFieldValue('TYPE')]);
-		valDex['block'].set(block.id, [name, type]);
-		Blockly.JavaScript.addReservedWords(type + '_' + name);
+	if (name && name !== '' && !valDex[type[2]].has(name)) {
+		var subtype = null;
+		if (type[2] === 'mesh') {
+			if (type[3] === 'group') {
+				subtype = 'GROUP';
+			}
+			else {
+				subtype = 'MESH'
+			}
+		}
+		else {
+			subtype = block.getFieldValue('TYPE');
+		}
+		valDex[type[2]].set(name, [block.id, subtype]);
+		valDex['block'].set(block.id, [name, type[2]]);
+		Blockly.JavaScript.addReservedWords(type[2] + '_' + name);
 	}
 	Blockly.Events.enable();
 }
@@ -69,7 +80,7 @@ function chooseName(block, type) {
 	if (name) {
 		name = name.replace(/\W/g, '');
 	}
-	while (valDex[type].has(name) || workspace.getVariableMap().getVariable(type + '_' + name)) {
+	while (valDex[type[2]].has(name) || workspace.getVariableMap().getVariable(type[2] + '_' + name)) {
 		name = prompt('Name already in use! Choose a different one:');
 		if (name) {
 			name = name.replace(/\W/g, '');
@@ -185,18 +196,19 @@ function recover(block, type) {
 	if (type[0] === 'b3js') {
 		// if create_block
 		if (type[1] === 'create') {
-			if (type[2] === 'group' && valDex['mesh'].size === 0) {
+			if (type[3] === 'group' && valDex['mesh'].size === 0) {
 				forget(block);
+				return;
 			}
 			// name != ''
 			if (block.getFieldValue('NAME') !== '') {
 				// name © valdDex => block copied
 				if (valDex[type[2]].has(block.getFieldValue('NAME'))) {
-					chooseName(block, type[2]);
+					chooseName(block, type);
 				}
 				// paste deleted block
 				else {
-					setVal(block, type[2]);
+					setVal(block, type);
 				}
 				console.log(valDex);
 			}
@@ -231,14 +243,8 @@ function rad(angle) {
 function toUpdate(type, num) {
 	const slaves = [];
 	slaves.push(type[0] + '_value_' + type[2]);
-	if (type[2] === 'group') {
-		slaves.push(type[0] + '_set_mesh');
-		slaves.push(type[0] + '_update_mesh');
-	}
-	else {
-		slaves.push(type[0] + '_set_' + type[2]);
-		slaves.push(type[0] + '_update_' + type[2]);
-	}
+	slaves.push(type[0] + '_set_' + type[2]);
+	slaves.push(type[0] + '_update_' + type[2]);
 	return slaves.slice(-num);
 }
 
@@ -287,13 +293,12 @@ function valManagement(event) {
 				const type = block.type.split('_');
 				recover(block, type)
 			}
-			// ids > 1, no parent and create ? => pasted create_mesh/group
+			// ids > 1, no parent and create ? => pasted create_mesh
 			else if (block.getParent() === null && block.type.indexOf('create') >= 0) {
 				flicker(block.getInputTargetBlock('GEOMETRY'));
 				flicker(block.getInputTargetBlock('MATERIAL'));
 				flicker(block.getInputTargetBlock('VALUE'));
 				recover(block, block.type.split('_'));
-
 				console.log(valDex);
 			}
 			// multiple create_blocks => undo cataclysm
@@ -303,7 +308,7 @@ function valManagement(event) {
 					if (type[0] === 'b3js') {
 						// reload valDex...
 						if (type[1] === 'create') {
-							setVal(b, type[2]);
+							setVal(b, type);
 						}
 						// ...or correct other blocks
 						else {
@@ -311,7 +316,6 @@ function valManagement(event) {
 						}
 					}
 				});
-
 				console.log(valDex);
 			}
 		}
@@ -334,22 +338,21 @@ function valManagement(event) {
 				// first reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
 					if (b.type === del_type)
-						setVal(b, type[2]);
+						setVal(b, type);
 				});
 
 				// ...then correct...
 				workspace.getAllBlocks().forEach((b) => {
 					if (types.indexOf(b.type) >= 0)
 						flicker(b);
-					else if (b.type === 'b3js_create_group') {
+					else if (b.type === 'b3js_create_mesh_group') {
 						if (valDex['mesh'].size === 0) {
-							valDex['group'].clear();
+							valDex['mesh'].clear();
 							valDex['block'].delete(b.id);
 							forget(b);
 						}
 					}
 				});
-
 				console.log(valDex);
 			}
 		}
@@ -360,7 +363,7 @@ function valManagement(event) {
 			if (type[0] === 'b3js') {
 				if (type[1] === 'create') {
 					if (block.getFieldValue('NAME') === '') {
-						chooseName(block, type[2]);
+						chooseName(block, type);
 						console.log(valDex);
 					}
 				}
