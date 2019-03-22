@@ -1089,9 +1089,7 @@ Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	if (block.getInputTargetBlock('VALUE')) {
 		if (value_value.indexOf('mesh_' + text_name) < 0) {
 			code += 'const mesh_' + text_name + ' = new THREE.Group();\n';
-			if (block.getInputTargetBlock('VALUE')) {
-			 code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
-			}
+			code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
 		}
 	}
 	var i = 0;

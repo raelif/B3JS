@@ -330,31 +330,16 @@ function valManagement(event) {
 				}
 			});
 
-			const del_type = event.oldXml.attributes[0].value;
-			if (del_type.indexOf('b3js_create') >= 0) {
-				const type = del_type.split('_');
-				const types = toUpdate(type, 3);
+			// reload valDex
+			const type = event.oldXml.attributes[0].value.split('_');
+			workspace.getAllBlocks().forEach((b) => {
+				if (b.type.indexOf('b3js_create_' + type[2]) >= 0)
+					setVal(b, type);
+			});
 
-				// first reload valDex...
-				workspace.getAllBlocks().forEach((b) => {
-					if (b.type === del_type)
-						setVal(b, type);
-				});
-
-				// ...then correct...
-				workspace.getAllBlocks().forEach((b) => {
-					if (types.indexOf(b.type) >= 0)
-						flicker(b);
-					else if (b.type === 'b3js_create_mesh_group') {
-						if (valDex['mesh'].size === 0) {
-							valDex['mesh'].clear();
-							valDex['block'].delete(b.id);
-							forget(b);
-						}
-					}
-				});
-				console.log(valDex);
-			}
+			// and correct blocks
+			workspace.getAllBlocks().forEach((b) => { flicker(b); });
+			console.log(valDex);
 		}
 		break;
 
