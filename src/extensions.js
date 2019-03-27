@@ -199,7 +199,7 @@ const ADD_MIXIN = {
 					break
 
 					case 'b3js_create_mesh_group':
-						this.appendValueInput('ADD' + i).setCheck(['Mesh']);
+						this.appendValueInput('ADD' + i).setCheck('Mesh');
 					break
 				}
 			}

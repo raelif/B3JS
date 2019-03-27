@@ -405,7 +405,6 @@ Blockly.Blocks['b3js_create_mesh_group'] = {
 	this.setHelpUrl('');
 	this.mixin(ADD_MIXIN);
 	this.setMutator(new Blockly.Mutator(['group_with_element']));
-	this.setDisabled(!valDex['mesh'].size);
 	}
 };
 
@@ -1064,20 +1063,35 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	var code = '';
 	if (value_geometry && value_material)
 		code += 'const mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
+	else
+		code += 'const mesh_' + text_name + ' = new THREE.Mesh();\n';
 	return code;
 };
 
 Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
-	var toDo = Blockly.JavaScript.provideFunction_('uponLoad', [
-			'	function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(object) {',
-			'	mesh_' + text_name + '.add(object);',
-			'}']);
-
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'var mesh_' + text_name + ' = new THREE.Object3D();\n';
-	code += 'new THREE.OBJLoader().load(' + value_value + ', ' + toDo + ');\n';
+	var code = '';
+	if (value_value.indexOf('.obj') >= 0) {
+		if (user_resources[value_value]) {
+			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"];\n';
+		}
+	}
+	else if (value_value.indexOf('.dae') >= 0) {
+		if (user_resources[value_value]) {
+			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"].scene;\n';
+			if (user_resources[value_value].animations.length) {
+				code += 'global_mixer = new THREE.AnimationMixer(mesh_' + text_name + ');\n';
+				code += 'global_mixer.clipAction(user_resources["' + value_value + '"].animations[0]).play();\n';
+			}
+		}
+	}
+	else if (value_value.indexOf('.gltf') >= 0) {
+		if (user_resources[value_value]) {
+			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"].scene;\n';
+		}
+	}
 	return code;
 };
 
@@ -1122,13 +1136,13 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 
 				case 'CASTSHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + '});\n';
+					code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + ';});\n';
 				}
 				break;
 
 				case 'RECEIVESHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + '});\n';
+					code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + ';});\n';
 				}
 				break;
 			}
@@ -1257,7 +1271,7 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 		code +=
 			'const context = webglCanvas.getContext( \'webgl2\' );\n'+
 
-			'current_camera = ' + value_camera + ';\n' +
+			'current_camera = ' + value_camera + ';\n'+
 
 			'renderer = new THREE.WebGLRenderer( { canvas: webglCanvas, context: context } );\n'+
 			'renderer.setSize( webglCanvas.offsetWidth, webglCanvas.offsetHeight );\n';
@@ -1277,6 +1291,11 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 				code += '	' + line + '\n';
 			}
 		});
+
+		code +=
+			'	if (global_mixer !== undefined) {\n'+
+			'		global_mixer.update(global_clock.getDelta());\n'+
+			'	}\n';
 
 		code +=
 			'	renderer.render( scene, current_camera );\n'+
