@@ -37,7 +37,6 @@ html, body, canvas {
 	align-items: center;
 	justify-content: center;
 	border: 0;
-	cursor: default;
 	user-select: none;
 	font-family: Arial;
 	font-size: 2vmin;
@@ -53,6 +52,7 @@ html, body, canvas {
 	padding-top: 0.5vh;
 	visibility: hidden;
 	position: absolute;
+	z-index: 2147483647;
 }
 
 #menu ul li:hover ul {
@@ -61,10 +61,10 @@ html, body, canvas {
 
 #menu ul ul li {
 	width: 100%;
+	cursor: pointer;
 }
 
 #menu ul ul li a {
-	cursor: default;
 	background-color: #4D4D4D;
 }
 
@@ -72,14 +72,18 @@ html, body, canvas {
 	background-color: #646464;
 }
 
-#importedXml, #loadedRes {
-	width: 100%;
-	height: 100%;
+#showButton, #stopButton {
+	cursor: pointer;
+}
+
+#menu form, #importedXml {
 	opacity: 0;
 	margin: 0;
 	border: 0;
 	overflow: hidden;
 	position: absolute;
+	display: none;
+	z-index: -21;
 }
 
 #webglArea {

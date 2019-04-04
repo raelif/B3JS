@@ -13,11 +13,13 @@
 				<li><a>File</a>
 					<ul>
 						<li><a id='saveButton' onClick='saveProject()'>Save Project</a></li>
-						<li><a id='importButton'>
-							Import Project <input id='importedXml' type='file' accept='text/xml' title='' onInput='importProject()' onChange='this.value=null;'></a>
+						<li><a id='importButton' onClick='document.getElementById("importedXml").click();'>Import Project</a>
+							<input id='importedXml' type='file' accept='text/xml' onInput='importProject()' onChange='this.value=null;'>
 						</li>
-						<li><a id='loadButton'>
-							Load Resource <input id='loadedRes' type='file' accept='.obj,.dae,.gltf' title='' onInput='loadResource()' onChange='this.value=null;' multiple></a>
+						<li><a id='uploadButton' onClick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
+							<form action='upload.php' method='post' target='_blank' enctype='multipart/form-data'>
+								<input id='uploadRes[]' name='uploadRes[]'  type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*' onInput='this.parentElement.submit();' onChange='this.value=null;' multiple>
+							</form>
 						</li>
 					</ul>
 				</li>
@@ -32,7 +34,12 @@
 				</li>
 				<li><a id='showButton' onClick='showCode()'>Show Code</a></li>
 				<li><a id='stopButton' onClick='stopCode()'>Stop</a></li>
-				<li><a id='runButton' onClick='runCode()'>Run</a></li>
+				<li><a>Execute</a>
+					<ul>
+						<li><a id='preload' onClick='preload()'>PreLoad</a></li>
+						<li><a id='runButton' onClick='runCode()'>Run</a></li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 

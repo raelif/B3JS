@@ -19,14 +19,13 @@ const valDex = {
 
 var workspace;
 var elapsed_time = 0;
-var user_resources = {};
+var usr_res = {};
 
 var scene = new THREE.Scene();
 var current_camera;
 var renderer;
 var anim_id;
 var shadow_mapping = false;
-var global_mixer;
 var global_clock = new THREE.Clock();
 
 Blockly.JavaScript.addReservedWords('\
@@ -38,13 +37,15 @@ Blockly.JavaScript.addReservedWords('\
 	valDex,\
 	workspace,\
 	elapsed_time,\
+	usr_res,\
 	scene,\
 	current_camera,\
 	renderer,\
 	anim_id,\
 	shadow_mapping,\
-	global_mixer,\
-	global_clock\
+	global_clock,\
+	key,\
+	target\
 ');
 
 // /=====================================================================\
@@ -55,18 +56,10 @@ function setVal(block, type) {
 	block.setDisabled(false);
 	const name = block.getFieldValue('NAME');
 	if (name && name !== '' && !valDex[type[2]].has(name)) {
-		var subtype = null;
-		if (type[2] === 'mesh') {
-			if (type[3] === 'group') {
-				subtype = 'GROUP';
-			}
-			else {
-				subtype = 'MESH'
-			}
-		}
-		else {
-			subtype = block.getFieldValue('TYPE');
-		}
+		const subtype = type[2]==='mesh'?
+		(type[3]==='group'?'GROUP':
+		(type[3]==='from'?'IMPORT':'MESH')):block.getFieldValue('TYPE');
+
 		valDex[type[2]].set(name, [block.id, subtype]);
 		Blockly.JavaScript.addReservedWords(type[2] + '_' + name);
 	}
@@ -77,7 +70,7 @@ function setVal(block, type) {
 //	void chooseName(block, type)
 // \=====================================================================/
 function chooseName(block, type) {
-	// fetch name
+	// Fetch name
 	// .replace(/\W/g, ''); || .replace(/[^a-z0-9 ]/gi, '');
 	let name = prompt('Type name of element:');
 	if (name) {
@@ -89,12 +82,12 @@ function chooseName(block, type) {
 			name = name.replace(/\W/g, '');
 		}
 	}
-	// valid name => add to valDex
+	// Valid name => add to valDex
 	if (name !== null && name !== '') {
 		block.setFieldValue(name, 'NAME'); // -> trigger change
 		setVal(block, type);
 	}
-	// non valid name
+	// Non valid name
 	else {
 		block.dispose(true); // -> trigger delete
 	}
@@ -104,10 +97,10 @@ function chooseName(block, type) {
 //	void forget(block)
 // \=====================================================================/
 function forget(block) {
-	// existence filter
+	// Existence filter
 	if (!block) return;
 
-	// oth forget block
+	// Otherwise forget block
 	Blockly.Events.disable();
 	block.dispose(true);
 	workspace.undoStack_ = workspace.undoStack_.filter((e) => e.blockId !== block.id);
@@ -119,10 +112,10 @@ function forget(block) {
 //	void reset(block)
 // \=====================================================================/
 function reset(block) {
-	// existence filter
+	// Existence filter
 	if (!block || !block.getField('FIELD')) return;
 
-	// oth reset block
+	// Otherwise reset block
 	Blockly.Events.disable();
 	if (typeof block.updateShape_ === 'function')
 		block.updateShape_(block.getField('FIELD').getOptions()[0][1]);
@@ -134,20 +127,23 @@ function reset(block) {
 //	void flicker(block)
 // \=====================================================================/
 function flicker(block) {
-	// existence filter
+	// Existence filter
 	if (!block) return;
 
-	// take field id...
-	const type = block.type.split('_');
-	var fid = null;
-	if (type[0] === 'b3js') {
-		if (type[1] === 'value')
-			fid = 'VAL';
-		else if (type[1] === 'set')
-			fid = 'FIELD';
-		else if (type[1] === 'update')
-			fid = 'COMPONENT';
+	// Adjust render_block
+	if (block.type === 'b3js_render_loop') {
+		if (workspace.getBlocksByType('b3js_render_loop').length > 1) {
+			forget(block);
+			return;
+		}
 	}
+
+	// Take field id
+	const type = block.type.split('_');
+	const fid = type[0]==='b3js'?
+		(type[1]==='value'?'VAL':
+		(type[1]==='set'||type[1]==='getfrom'?'FIELD':
+		(type[1]==='update'?'COMPONENT':null))):null;
 
 	Blockly.Events.disable();
 	block.setDisabled(false);
@@ -157,35 +153,34 @@ function flicker(block) {
 		return;
 	}
 
-	// ...and flicker block
+	// Adjust value/set/update_block
 	if (valDex[type[2]]) {
-		// if valDex not empty...
+		// If valDex not empty...
 		if (valDex[type[2]].size > 0) {
 			// ...but val not present
-			if (fid === 'VAL' && !workspace.getBlockById(block.getFieldValue(fid))) {
+			if (type[1] === 'value' && !workspace.getBlockById(block.getFieldValue(fid))) {
 				forget(block);
 			}
-			// else if present => flicker
+			// Else if present => flicker
 			else {
-				// only for set/update_block
+				// Only for set/update/get_block
 				flicker(block.getInputTargetBlock('INPUT'));
 
-				// for all blocks
+				// For all blocks
 				const field = block.getFieldValue(fid);
 				if (field) {
 					block.setFieldValue('', fid);
 					block.setFieldValue(field, fid);
-					// invalid option => reset
-					const text = block.getField(fid).getText();
+					// Invalid option => reset
+					const text = block.getField(fid).getText(); // SAFE fid != null
 					if (text === text.toUpperCase()) {
 						reset(block); // no following instruction after disable
 					}
 				}
 			}
 		}
-		// if empty => forget
-		else {
-			forget(block.getInputTargetBlock('VALUE'))
+		// If empty => forget
+		else if (type[1] === 'value') {
 			forget(block);
 		}
 	}
@@ -197,24 +192,24 @@ function flicker(block) {
 // \=====================================================================/
 function recover(block, type) {
 	if (type[0] === 'b3js') {
-		// if create_block
+		// If create_block
 		if (type[1] === 'create') {
-			// name != ''
+			// Name != ''
 			if (block.getFieldValue('NAME') !== '') {
-				// name © valdDex => block copied
+				// Name © valdDex => block copied
 				if (valDex[type[2]].has(block.getFieldValue('NAME'))) {
 					chooseName(block, type);
 				}
-				// paste deleted block
+				// Paste deleted block
 				else {
 					setVal(block, type);
 				}
 				console.log(valDex);
 			}
 		}
-		// else value/set/update
+		// Else value/set/update_block
 		else {
-			// id not present => need flicker
+			// val not present => need flicker
 			if (!workspace.getBlockById(block.getFieldValue('VAL'))) {
 				flicker(block);
 			}
@@ -226,7 +221,9 @@ function recover(block, type) {
 //	int hex(s)
 // \=====================================================================/
 function hex(s) {
-	return parseInt(s.replace('#', '0x').replace(/'/g, ''), 16);
+	if (typeof s === 'string')
+		return parseInt(s.replace('#', '0x').replace(/'/g, ''), 16);
+	else return s;
 }
 
 // /=====================================================================\
@@ -244,6 +241,7 @@ function toUpdate(type, num) {
 	slaves.push(type[0] + '_value_' + type[2]);
 	slaves.push(type[0] + '_set_' + type[2]);
 	slaves.push(type[0] + '_update_' + type[2]);
+	slaves.push(type[0] + '_getfrom_' + type[2]);
 	return slaves.slice(-num);
 }
 
@@ -287,9 +285,9 @@ function valManagement(event) {
 
 	switch (event.type) {
 		case Blockly.Events.CREATE: {
-			// single create_block
+			// Single create_block
 			if (event.ids.length === 1) {
-				recover(block, block.type.split('_'))
+				recover(block, block.type.split('_'));
 			}
 			// ids > 1, no parent and create ? => pasted create_mesh
 			else if (block.getParent() === null && block.type.indexOf('create_mesh') >= 0) {
@@ -299,18 +297,18 @@ function valManagement(event) {
 				recover(block, block.type.split('_'));
 				console.log(valDex);
 			}
-			// multiple create_blocks => undo cataclysm
+			// Multiple create_blocks => undo cataclysm
 			else {
-				// clear valDex
+				// Clear valDex
 				Object.keys(valDex).forEach((k) => valDex[k].clear());
 
-				// reload valDex
+				// Reload valDex...
 				workspace.getAllBlocks().forEach((b) => {
 					if (b.type.indexOf('b3js_create') >= 0)
 						setVal(b, b.type.split('_'));
 				});
 
-				// and correct blocks
+				// ...and correct blocks
 				workspace.getAllBlocks().forEach((b) => { flicker(b); });
 				console.log(valDex);
 			}
@@ -318,16 +316,16 @@ function valManagement(event) {
 		break;
 
 		case Blockly.Events.DELETE: {
-			// clear valDex
+			// Clear valDex
 			Object.keys(valDex).forEach((k) => valDex[k].clear());
 
-			// reload valDex
+			// Reload valDex...
 			workspace.getAllBlocks().forEach((b) => {
 				if (b.type.indexOf('b3js_create') >= 0)
 					setVal(b, b.type.split('_'));
 			});
 
-			// and correct blocks
+			// ...and correct blocks
 			workspace.getAllBlocks().forEach((b) => { flicker(b); });
 			console.log(valDex);
 		}
@@ -336,17 +334,17 @@ function valManagement(event) {
 		case Blockly.Events.MOVE: {
 			const type = block.type.split('_');
 			if (type[0] === 'b3js') {
-				// move unnamed block
+				// Move unnamed block
 				if (type[1] === 'create') {
 					if (block.getFieldValue('NAME') === '') {
 						chooseName(block, type);
 						console.log(valDex);
 					}
 				}
-				// move value_blocks inside/outside set/update_blocks
+				// Move value_blocks inside/outside set/update/get_blocks
 				else if (type[1] === 'value') {
 					const id = event.newParentId ? event.newParentId : event.oldParentId ? event.oldParentId : null;
-					// reset set/update_block
+					// Reset set/update_block
 					if (id) {
 						flicker(workspace.getBlockById(id));
 					}
@@ -359,32 +357,32 @@ function valManagement(event) {
 			const type = block.type.split('_');
 			if (type[0] === 'b3js') {
 				if (type[1] === 'create') {
-					// try to change name of create_block
+					// Try to change name of create_block
 					if (event.name === 'NAME') {
 							workspace.undoStack_.pop(); // -> forget
 					}
-					// try to change type of create_block
+					// Try to change type of create_block
 					else if (event.name === 'TYPE') {
-						const types = toUpdate(type, 2);
+						const types = toUpdate(type, 3);
 						const name = block.getFieldValue('NAME');
 
-						// adjust set/update_blocks when changing create_blocks
+						// Adjust set/update/get_blocks when changing create_blocks
 						workspace.getAllBlocks().forEach((b) => {
 							if (types.indexOf(b.type) >= 0) {
-								// flicker set/update_block
+								// INPUT cannot be different from value_block
 								const input = b.getInputTargetBlock('INPUT');
-								if (input && input.getField('VAL').getText() === name)
+								if (input && input.getField('VAL') && input.getField('VAL').getText() === name)
 									flicker(b);
 							}
 						});
 					}
 				}
-				// change value_block field
+				// Change value_block field
 				else if (type[1] === 'value') {
 					if (event.name === 'VAL') {
-						const types = toUpdate(type, 2);
+						const types = toUpdate(type, 3);
 						const parent = block.getParent();
-						// adjust set/value_block when changing value block
+						// Adjust set/value/get_block when changing value_block
 						if (parent && types.indexOf(parent.type) >= 0) {
 							if (parent.getInputWithBlock(block).name === 'INPUT') {
 								flicker(parent);
@@ -579,50 +577,48 @@ function importProject() {
 }
 
 // /=====================================================================\
-//	void loadResource()
+//	void preload()
 // \=====================================================================/
-function loadResource() {
-	const loadedRes = document.getElementById('loadedRes').files;
-	const files = [];
+function preload() {
+	workspace.getBlocksByType('b3js_create_mesh_from_file').forEach((b) => {
+		const key = 'mesh_' + b.getFieldValue('NAME');
+		const file_name = b.getInputTargetBlock('VALUE').getFieldValue('TEXT');
 
-	if (loadedRes !== null) {
-		for (let i = 0, n = loadedRes.length; i < n; i++) {
-			(function(file) {
-				const fileReader = new FileReader();
-
-				fileReader.onload = function(e) {
-					// load model in user_resources
-					if (file.name.indexOf('.obj') >= 0) {
-						const mtl = file.name.replace('.obj', '.mtl');
-						new THREE.MTLLoader().setResourcePath('./resources/uploads/')
-							.load('./resources/uploads/' + mtl, (m) => {
-								user_resources['\'' + file.name + '\''] =
-									new THREE.OBJLoader().setMaterials(m).parse(e.target.result);
-							});
-					}
-					else if (file.name.indexOf('.dae') >= 0) {
-						user_resources['\'' + file.name + '\''] =
-							new THREE.ColladaLoader()
-								.parse(e.target.result, './resources/uploads/');
-					}
-					else if (file.name.indexOf('.gltf') >= 0) {
-						new THREE.GLTFLoader()
-							.parse(e.target.result, './resources/uploads/',
-								(gl) => {user_resources['\'' + file.name + '\''] = gl;});
-					}
-
-					// alert user_resources
-					files.push(file.name);
-					if (files.length === n) {
-						console.log(user_resources);
-						alert(files + '\nLOADED!');
-					}
-				};
-
-				fileReader.readAsText(file);
-			})(loadedRes[i]);
+		if (file_name.indexOf('.obj') >= 0) {
+			const mtl = file_name.replace('.obj', '.mtl');
+			new THREE.MTLLoader().setResourcePath('./resources/uploads/')
+				.load('./resources/uploads/' + mtl, (m) => {
+					new THREE.OBJLoader().setMaterials(m)
+						.load('./resources/uploads/' + file_name, (obj) => {
+							usr_res[key] = obj;
+					});
+			});
 		}
-	}
+		else if (file_name.indexOf('.dae') >= 0) {
+			new THREE.ColladaLoader()
+				.load('./resources/uploads/' + file_name, (dae) => {
+					usr_res[key] = dae;
+			});
+		}
+		else if (file_name.indexOf('.gltf') >= 0) {
+			new THREE.GLTFLoader()
+				.load('./resources/uploads/' + file_name, (gltf) => {
+					usr_res[key] = gltf;
+			});
+		}
+	});
+
+	workspace.getBlocksByType('b3js_image_texture').forEach((b) => {
+		const key = Blockly.JavaScript.valueToCode(b, 'TEXTURE', Blockly.JavaScript.ORDER_ATOMIC);
+		const file_name = b.getInputTargetBlock('TEXTURE').getFieldValue('TEXT');
+		new THREE.TextureLoader()
+			.load('./resources/uploads/' + file_name, (tex) => {
+				usr_res[key] = tex;
+		});
+	});
+
+	alert('PreLoad completed!');
+	console.log(usr_res);
 }
 
 // /=====================================================================\
@@ -664,6 +660,10 @@ function showCode() {
 //	void stopCode()
 // \=====================================================================/
 function stopCode() {
+	// Remove listeners
+	webglCanvas.onclick = null;
+	window.onkeypress = null;
+
 	// Stop rendering and clear canvas.
 	if (anim_id && renderer) {
 		cancelAnimationFrame(anim_id);
@@ -689,5 +689,6 @@ function runCode() {
 		eval(code);
 	} catch (e) {
 		alert(e);
+		stopCode();
 	}
 }

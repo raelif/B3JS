@@ -45,10 +45,10 @@ const block_option = function(type, input) {
 			return [['','']];
 		}
 	}
-	else if (type[0] === 'set') {
+	else if (type[0] === 'set' || type[0] === 'getfrom') {
 		switch (type[1]) {
 			case 'light':
-				if (input) {
+				if (input && input.getField('VAL')) {
 					const name = input.getField('VAL').getText();
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
@@ -70,14 +70,14 @@ const block_option = function(type, input) {
 						}
 					}
 				}
-				return [['color','COLOR'], ['intensity','INTENSITY']];
+				return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['penumbra','PENUMBRA'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
 			break;
 
 			case 'geometry':
 			break;
 
 			case 'material':
-				if (input) {
+				if (input && input.getField('VAL')) {
 					const name = input.getField('VAL').getText();
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
@@ -89,18 +89,41 @@ const block_option = function(type, input) {
 								return [['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
 							break;
 							case 'LAMBERT':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'] , ['emissive','EMISSIVE']];
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE']];
 							break;
 							case 'PHONG':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'] , ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
+								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
 							break;
 						}
 					}
 				}
-				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
 			break;
 
 			case 'mesh':
+				if (input && input.getField('VAL')) {
+					const name = input.getField('VAL').getText();
+					if (valDex[type[1]].has(name)) {
+						switch (valDex[type[1]].get(name)[1]) {
+							case 'MESH':
+								return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+							break;
+
+							case 'GROUP':
+								if (type[0] === 'set')
+									return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']]
+								else
+									return [['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'],
+									['receiveShadow','RECEIVESHADOW']];
+							break;
+
+							case 'IMPORT':
+								return [['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+							break;
+						}
+					}
+				}
+				return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']]
 			break;
 		}
 	}
@@ -219,20 +242,27 @@ const ADD_MIXIN = {
 const BLOCK_MIXIN = {
 	mutationToDom: function() {
 		var container = document.createElement('mutation');
-		if (this.type.indexOf('b3js_create') >= 0) {
-			container.setAttribute('field_value', this.getFieldValue('TYPE'));
-		}
-		else if (this.type.indexOf('b3js_value') >= 0) {
-			// update if empty
-			if (this.getFieldValue('VAL') === '')
-				this.setFieldValue(this.getField('VAL').getOptions()[0][1], 'VAL');
-			container.setAttribute('field_value', this.getFieldValue('VAL'));
-		}
-		else if (this.type.indexOf('b3js_set') >= 0) {
-			container.setAttribute('field_value', this.getFieldValue('FIELD'));
-		}
-		else if (this.type.indexOf('b3js_update') >= 0) {
-			container.setAttribute('field_value', this.getFieldValue('COMPONENT'));
+		const type = this.type.split('_');
+		switch (type[0] + '_' + type[1]) {
+			case 'b3js_create':
+				container.setAttribute('field_value', this.getFieldValue('TYPE'));
+			break;
+			case 'b3js_value':
+				// update if empty
+				if (this.getFieldValue('VAL') === '')
+					this.setFieldValue(this.getField('VAL').getOptions()[0][1], 'VAL');
+				container.setAttribute('field_value', this.getFieldValue('VAL'));
+			break;
+			case 'b3js_set':
+			case 'b3js_getfrom':
+				container.setAttribute('field_value', this.getFieldValue('FIELD'));
+			break;
+			case 'b3js_update':
+				container.setAttribute('field_value', this.getFieldValue('COMPONENT'));
+			break;
+			case 'b3js_upon':
+				container.setAttribute('field_value', this.getFieldValue('EVENT'));
+			break;
 		}
 		return container;
 	},
@@ -474,7 +504,7 @@ const SET_LIGHT_SHAPE = {
 			case 'GROUND':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
-					.setCheck(['Colour', 'String', 'Texture'])
+					.setCheck(['Colour', 'String'])
 					.appendField('to');
 			break;
 
@@ -581,7 +611,30 @@ const SET_MATERIAL_SHAPE = {
 
 const SET_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
+		this.setFieldValue('set', 'ACTION');
 		switch (typeInput) {
+			case 'GEOMETRY':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Geometry')
+					.appendField('to');
+			break;
+
+			case 'MATERIAL':
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Material')
+					.appendField('to');
+			break;
+
+			case 'MESH':
+				this.setFieldValue('add to', 'ACTION');
+				this.removeInput('VALUE');
+				this.appendValueInput('VALUE')
+					.setCheck('Mesh')
+					.appendField(' ');
+			break;
+
 			case 'POSITION':
 			case 'LOOKAT':
 				this.removeInput('VALUE');
@@ -606,13 +659,13 @@ const SET_MESH_SHAPE = {
 // \=====================================================================/
 const UPDATE_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
+		if (this.getInput('DIRECTION'))
+			this.removeInput('DIRECTION');
 		switch (typeInput) {
 			case 'X':
 			case 'Y':
 			case 'Z':
 				this.removeInput('VALUE');
-				if (this.getInput('DIRECTION'))
-					this.removeInput('DIRECTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
 					.appendField('by');
@@ -620,8 +673,6 @@ const UPDATE_MESH_SHAPE = {
 
 			case 'XYZ':
 				this.removeInput('VALUE');
-				if (this.getInput('DIRECTION'))
-					this.removeInput('DIRECTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
 					.appendField('by');
@@ -629,8 +680,6 @@ const UPDATE_MESH_SHAPE = {
 
 			case 'AXIS':
 				this.removeInput('VALUE');
-				if (this.getInput('DIRECTION'))
-					this.removeInput('DIRECTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
 					.appendField('by');
@@ -638,6 +687,127 @@ const UPDATE_MESH_SHAPE = {
 					.setCheck('Vec3')
 					.appendField('axis');
 				this.moveInputBefore('DIRECTION', 'VALUE');
+			break;
+		}
+	}
+};
+
+// /=====================================================================\
+//	GETFROM_SHAPE
+// \=====================================================================/
+const GETFROM_LIGHT_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'COLOR':
+			case 'GROUND':
+				this.setOutput(true, ['Colour', 'String']);
+			break;
+
+			case 'INTENSITY': // [0-]
+			case 'DECAY': // [1-]
+			case 'DISTANCE': // [0-]
+			case 'PENUMBRA': // [0-1]
+			case 'ANGLE': // [0-360]
+				this.setOutput(true, 'Number');
+			break;
+
+			case 'POSITION':
+				this.setOutput(true, 'Vec3');
+			break;
+
+			case 'TARGET':
+				this.setOutput(true, 'Mesh');
+			break;
+
+			case 'VISIBLE':
+			case 'CASTSHADOW':
+				this.setOutput(true, 'Boolean');
+			break;
+		}
+	}
+};
+
+const GETFROM_MATERIAL_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'COLOR':
+			case 'EMISSIVE':
+			case 'SPECULAR':
+				this.setOutput(true, ['Colour', 'String']);
+			break;
+
+			case 'MAP':
+			case 'BUMPMAP':
+			case 'NORMALMAP':
+				this.setOutput(true, 'Texture');
+			break;
+
+			case 'VISIBLE':
+			case 'DEPTHTEST':
+			case 'WIREFRAME':
+			case 'TRANSPARENT':
+				this.setOutput(true, 'Boolean');
+			break;
+
+			case 'OPACITY': // [0,1]
+			case 'SHININESS': // [0,100]
+				this.setOutput(true, 'Number');
+			break;
+		}
+	}
+};
+
+const GETFROM_MESH_SHAPE = {
+	updateShape_: function(typeInput) {
+		if (this.getInput('NUM'))
+			this.removeInput('NUM');
+		switch (typeInput) {
+			case 'GEOMETRY':
+				this.setOutput(true, 'Geometry');
+			break;
+
+			case 'MATERIAL':
+				this.setOutput(true, 'Material');
+			break;
+
+			case 'MESH':
+				this.setOutput(true, 'Mesh');
+				this.appendValueInput('NUM')
+					.setCheck('Number')
+					.appendField('#');
+			break;
+
+			case 'POSITION':
+			case 'LOOKAT':
+				this.setOutput(true, 'Vec3');
+			break;
+
+			case 'CASTSHADOW':
+			case 'RECEIVESHADOW':
+				this.setOutput(true, 'Boolean');
+			break;
+		}
+	}
+};
+
+// /=====================================================================\
+//	UPON_SHAPE
+// \=====================================================================/
+const UPON_EVENT_SHAPE = {
+	updateShape_: function(typeInput) {
+		switch (typeInput) {
+			case 'CLICK':
+				this.removeInput('VARIABLE');
+				this.appendDummyInput('VARIABLE')
+					.appendField('on')
+					.appendField(new Blockly.FieldVariable('targetMesh'), 'ARGUMENT');
+			break;
+
+			case 'KEYDOWN':
+				this.removeInput('VARIABLE');
+				this.appendDummyInput('VARIABLE')
+					.appendField('on')
+					.appendField(new Blockly.FieldVariable('keyCode'), 'ARGUMENT');
 			break;
 		}
 	}

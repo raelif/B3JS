@@ -70,7 +70,7 @@ Blockly.Blocks['b3js_set_camera'] = {
 				.setCheck('Camera')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['scale','SCALE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ']], block_validator), 'FIELD');
+				.appendField(new Blockly.FieldDropdown([["position","POSITION"], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']]), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
 				.appendField('to');
@@ -82,7 +82,20 @@ Blockly.Blocks['b3js_set_camera'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_CAMERA_SHAPE);
-	this.setDisabled(!valDex['camera'].size);
+	}
+};
+
+Blockly.Blocks['b3js_getfrom_camera'] = {
+	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Camera')
+				.appendField('get');
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
+		this.setOutput(true, 'Vec3');
+		this.setColour(200);
+	this.setTooltip('Get property of a previously created Camera.');
+	this.setHelpUrl('');
 	}
 };
 
@@ -94,8 +107,8 @@ Blockly.Blocks['b3js_value_camera'] = {
 		this.setColour(200);
 	this.setTooltip('Retrieve a Camera.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
-	this.setDisabled(!valDex['camera'].size);
 	this.mixin(BLOCK_MIXIN);
+	this.setDisabled(!valDex['camera'].size);
 	}
 };
 
@@ -141,7 +154,22 @@ Blockly.Blocks['b3js_set_light'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_LIGHT_SHAPE);
-	this.setDisabled(!valDex['light'].size);
+	}
+};
+
+Blockly.Blocks['b3js_getfrom_light'] = {
+	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Light')
+				.appendField('get');
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'light'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
+		this.setOutput(true, null);
+		this.setColour(300);
+	this.setTooltip('Get property of a previously created Light.');
+	this.setHelpUrl('');
+	this.mixin(BLOCK_MIXIN);
+	this.mixin(GETFROM_LIGHT_SHAPE);
 	}
 };
 
@@ -153,8 +181,8 @@ Blockly.Blocks['b3js_value_light'] = {
 		this.setColour(300);
 	this.setTooltip('Retrieve a Light.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['light'].size);
 	this.mixin(BLOCK_MIXIN);
+	this.setDisabled(!valDex['light'].size);
 	}
 };
 
@@ -189,7 +217,7 @@ Blockly.Blocks['b3js_set_geometry'] = {
 				.setCheck('Geometry')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['scale','SCALE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ']], block_validator), 'FIELD');
+				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']], block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
 				.appendField('to');
@@ -201,7 +229,20 @@ Blockly.Blocks['b3js_set_geometry'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_GEOMETRY_SHAPE);
-	this.setDisabled(!valDex['geometry'].size);
+	}
+};
+
+Blockly.Blocks['b3js_getfrom_geometry'] = {
+	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Geometry')
+				.appendField('get');
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
+		this.setOutput(true, 'Vec3');
+		this.setColour(150);
+	this.setTooltip('Get property of a previously created Geometry.');
+	this.setHelpUrl('');
 	}
 };
 
@@ -213,8 +254,8 @@ Blockly.Blocks['b3js_value_geometry'] = {
 		this.setColour(150);
 	this.setTooltip('Retrieve a Geometry.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['geometry'].size);
 	this.mixin(BLOCK_MIXIN);
+	this.setDisabled(!valDex['geometry'].size);
 	}
 };
 
@@ -303,8 +344,7 @@ Blockly.Blocks['b3js_set_material'] = {
 				.setCheck('Material')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'material'], this.getInputTargetBlock('INPUT')),
-					block_validator), 'FIELD');
+				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'material'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String'])
 				.appendField('to');
@@ -316,7 +356,22 @@ Blockly.Blocks['b3js_set_material'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_MATERIAL_SHAPE);
-	this.setDisabled(!valDex['material'].size);
+	}
+};
+
+Blockly.Blocks['b3js_getfrom_material'] = {
+	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Material')
+				.appendField('get');
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'material'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
+		this.setOutput(true, null);
+		this.setColour(250);
+	this.setTooltip('Get property of a previously created Material.');
+	this.setHelpUrl('');
+	this.mixin(BLOCK_MIXIN);
+	this.mixin(GETFROM_MATERIAL_SHAPE);
 	}
 };
 
@@ -328,16 +383,16 @@ Blockly.Blocks['b3js_value_material'] = {
 		this.setColour(250);
 	this.setTooltip('Retrieve a Material.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['material'].size);
 	this.mixin(BLOCK_MIXIN);
+	this.setDisabled(!valDex['material'].size);
 	}
 };
 
 Blockly.Blocks['b3js_image_texture'] = {
 	init: function() {
-		this.appendValueInput('PATH')
+		this.appendValueInput('TEXTURE')
 				.setCheck('String')
-				.appendField('path');
+				.appendField('texture');
 		this.appendDummyInput()
 				.appendField('wrap')
 				.appendField(new Blockly.FieldDropdown([['clamp','CLAMP'], ['repeat','REPEAT'], ['mirror','MIRROR']]), 'WRAP');
@@ -348,6 +403,24 @@ Blockly.Blocks['b3js_image_texture'] = {
 		this.setOutput(true, 'Texture');
 		this.setColour(250);
 	this.setTooltip('Return a new Texture.');
+	this.setHelpUrl('');
+	}
+};
+
+Blockly.Blocks['b3js_linear_fog'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField('fog')
+				.appendField('color')
+				.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
+				.appendField('near')
+				.appendField(new Blockly.FieldNumber(1), 'NEAR')
+				.appendField('far')
+				.appendField(new Blockly.FieldNumber(100), 'FAR');
+		this.setInputsInline(true);
+		this.setOutput(true, 'Fog');
+		this.setColour(250);
+	this.setTooltip('Return a new Fog element.');
 	this.setHelpUrl('');
 	}
 };
@@ -412,11 +485,11 @@ Blockly.Blocks['b3js_set_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField('set');
+				.appendField('set', 'ACTION');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']], block_validator), 'FIELD');
+				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'mesh'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
-				.setCheck('Vec3')
+				.setCheck('Geometry')
 				.appendField('to');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
@@ -426,7 +499,6 @@ Blockly.Blocks['b3js_set_mesh'] = {
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_MESH_SHAPE);
-	this.setDisabled(!valDex['mesh'].size);
 	}
 };
 
@@ -446,9 +518,24 @@ Blockly.Blocks['b3js_update_mesh'] = {
 		this.setColour(100);
 	this.setTooltip('Update property of a previously created Mesh.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(UPDATE_MESH_SHAPE);
+	}
+};
+
+Blockly.Blocks['b3js_getfrom_mesh'] = {
+	init: function() {
+		this.appendValueInput('INPUT')
+				.setCheck('Mesh')
+				.appendField('get');
+		this.appendDummyInput()
+				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'mesh'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
+		this.setOutput(true, null);
+		this.setColour(100);
+	this.setTooltip('Get property of a previously created Mesh.');
+	this.setHelpUrl('');
+	this.mixin(BLOCK_MIXIN);
+	this.mixin(GETFROM_MESH_SHAPE);
 	}
 };
 
@@ -460,8 +547,8 @@ Blockly.Blocks['b3js_value_mesh'] = {
 		this.setColour(100);
 	this.setTooltip('Retrieve a Mesh.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['mesh'].size);
 	this.mixin(BLOCK_MIXIN);
+	this.setDisabled(!valDex['mesh'].size);
 	}
 };
 
@@ -478,7 +565,44 @@ Blockly.Blocks['b3js_render_loop'] = {
 		this.setColour(50);
 	this.setTooltip('Render a Scene with a previously created Camera.');
 	this.setHelpUrl('');
-	this.setDisabled(!valDex['camera'].size);
+	this.setDisabled(!valDex['camera'].size != workspace.getBlocksByType('b3js_render_loop').length > 0);
+	}
+};
+
+Blockly.Blocks['b3js_upon_event'] = {
+	init: function() {
+		this.appendDummyInput()
+				.appendField('upon event')
+				.appendField(new Blockly.FieldDropdown([['click','CLICK'], ['keyDown','KEYDOWN']], block_validator), 'EVENT');
+		this.appendStatementInput('STEPS')
+				.setCheck(null)
+				.appendField('do');
+		this.appendDummyInput('VARIABLE')
+				.appendField('on')
+				.appendField(new Blockly.FieldVariable('targetMesh'), 'ARGUMENT');
+		this.setInputsInline(true);
+		this.setColour(50);
+	this.setTooltip('Append an Event Listener to the document.');
+	this.setHelpUrl('');
+	this.mixin(BLOCK_MIXIN);
+	this.mixin(UPON_EVENT_SHAPE);
+	}
+};
+
+Blockly.Blocks['b3js_play_animation'] = {
+	init: function() {
+		this.appendValueInput('MESH')
+				.setCheck('Mesh')
+				.appendField('play');
+		this.appendValueInput('NUM')
+				.setCheck('Number')
+				.appendField('animation #');
+		this.setInputsInline(true);
+		this.setPreviousStatement(true, null);
+		this.setNextStatement(true, null);
+		this.setColour(50);
+	this.setTooltip('Play the nth Mesh animation.');
+	this.setHelpUrl('');
 	}
 };
 
@@ -593,16 +717,19 @@ Blockly.JavaScript['b3js_set_camera'] = function(block) {
 
 				case 'TRANSLATE':
 					var v = block.getInputTargetBlock('VALUE');
-					var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
-					code += value_input + '.translateX(' + value_x + ');\n';
-					code += value_input + '.translateY(' + value_y + ');\n';
-					code += value_input + '.translateZ(' + value_z + ');\n';
-				break;
-
-				case 'SCALE':
-					code += value_input + '.scale.copy(' + value_value + ');\n';
+					if (v.type === 'b3js_vector_vec3') {
+						var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
+						code += value_input + '.translateX(' + value_x + ');\n';
+						code += value_input + '.translateY(' + value_y + ');\n';
+						code += value_input + '.translateZ(' + value_z + ');\n';
+					}
+					else {
+						code += value_input + '.translateX(' + value_value + '.x);\n';
+						code += value_input + '.translateY(' + value_value + '.y);\n';
+						code += value_input + '.translateZ(' + value_value + '.z);\n';
+					}
 				break;
 
 				case 'RX':
@@ -620,10 +747,42 @@ Blockly.JavaScript['b3js_set_camera'] = function(block) {
 						code += value_input + '.rotate' + coord + '(' + value + ');\n';
 					}
 				break;
+
+				case 'SCALE':
+					code += value_input + '.scale.copy(' + value_value + ');\n';
+				break;
 			}
 		}
 	}
 	return code;
+};
+
+Blockly.JavaScript['b3js_getfrom_camera'] = function(block) {
+	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_field = block.getFieldValue('FIELD');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		switch (dropdown_field) {
+			case 'POSITION':
+				code += value_input + '.position';
+			break;
+
+			case 'LOOKAT':
+				code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
+			break;
+
+			case 'SCALE':
+				code += value_input + '.scale';
+			break;
+
+			case 'ROTATION':
+				code += value_input + '.rotation';
+			break;
+		}
+	}
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['b3js_value_camera'] = function(block) {
@@ -764,6 +923,62 @@ Blockly.JavaScript['b3js_set_light'] = function(block) {
 	return code;
 };
 
+Blockly.JavaScript['b3js_getfrom_light'] = function(block) {
+	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_field = block.getFieldValue('FIELD');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		switch (dropdown_field) {
+			case 'COLOR':
+				code += value_input + '.color';
+			break;
+
+			case 'TARGET':
+				code += value_input + '.target';
+			break;
+
+			case 'CASTSHADOW':
+				code += value_input + '.castShadow';
+			break;
+
+			case 'POSITION':
+				code += value_input + '.position';
+			break;
+
+			case 'VISIBLE':
+				code += value_input + '.visible';
+			break;
+
+			case 'GROUND':
+				code += value_input + '.groundColor';
+			break;
+
+			case 'INTENSITY':
+				code += value_input + '.intensity';
+			break;
+
+			case 'DECAY':
+				code += value_input + '.decay';
+			break;
+
+			case 'PENUMBRA':
+				code += value_input + '.penumbra';
+			break;
+
+			case 'ANGLE':
+				code += value_input + '.angle';
+			break;
+
+			case 'DISTANCE':
+				code += value_input + '.distance';
+			break;
+		}
+	}
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript['b3js_value_light'] = function(block) {
 	var dropdown_field = block.getFieldValue('VAL');
 	// TODO: Assemble JavaScript into code variable.
@@ -825,18 +1040,28 @@ Blockly.JavaScript['b3js_set_geometry'] = function(block) {
 			switch (dropdown_field) {
 				case 'TRANSLATE':
 					var v = block.getInputTargetBlock('VALUE');
-					var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
-					code += value_input + '.translate(' + value_x + ',' + value_y + ',' + value_z + ');\n';
+					if (v.type === 'b3js_vector_vec3') {
+						var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
+						code += value_input + '.translate(' + value_x + ',' + value_y + ',' + value_z + ');\n';
+					}
+					else {
+						code += value_input + '.translate(' + value_value + '.x,' + value_value + '.y,' + value_value + '.z);\n';
+					}
 				break;
 
 				case 'SCALE':
 					var v = block.getInputTargetBlock('VALUE');
-					var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
-					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
-					code += value_input + '.scale(' + value_x + ',' + value_y + ',' + value_z + ');\n';
+					if (v.type === 'b3js_vector_vec3') {
+						var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_ATOMIC);
+						var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_ATOMIC);
+						code += value_input + '.scale(' + value_x + ',' + value_y + ',' + value_z + ');\n';
+					}
+					else {
+						code += value_input + '.scale(' + value_value + '.x,' + value_value + '.y,' + value_value + '.z);\n';
+					}
 				break;
 
 				case 'RX':
@@ -858,6 +1083,30 @@ Blockly.JavaScript['b3js_set_geometry'] = function(block) {
 		}
 	}
 	return code;
+};
+
+Blockly.JavaScript['b3js_getfrom_geometry'] = function(block) {
+	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_field = block.getFieldValue('FIELD');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		switch (dropdown_field) {
+			case 'POSITION':
+				code += value_input + '.position';
+			break;
+
+			case 'ROTATION':
+				code += value_input + '.rotation';
+			break;
+
+			case 'SCALE':
+				code += value_input + '.scale';
+			break;
+		}
+	}
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['b3js_value_geometry'] = function(block) {
@@ -1013,6 +1262,66 @@ Blockly.JavaScript['b3js_set_material'] = function(block) {
 	return code;
 };
 
+Blockly.JavaScript['b3js_getfrom_material'] = function(block) {
+	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_field = block.getFieldValue('FIELD');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		switch (dropdown_field) {
+			case 'COLOR':
+				code += value_input + '.color';
+			break;
+
+			case 'OPACITY':
+				code += value_input + '.opacity';
+			break;
+
+			case 'MAP':
+				code += value_input + '.map';
+			break;
+
+			case 'BUMPMAP':
+				code += value_input + '.bumpMap';
+			break;
+
+			case 'NORMALMAP':
+				code += value_input + '.normalMap';
+			break;
+
+			case 'SHININESS':
+				code += value_input + '.shininess';
+			break;
+
+			case 'TRANSPARENT':
+				code += value_input + '.transparent';
+			break;
+
+			case 'VISIBLE':
+				code += value_input + '.visible';
+			break;
+
+			case 'DEPTHTEST':
+				code += value_input + '.depthTest';
+			break;
+
+			case 'EMISSIVE':
+				code += value_input + '.emissive';
+			break;
+
+			case 'WIREFRAME':
+				code += value_input + '.wireframe';
+			break;
+
+			case 'SPECULAR':
+				code += value_input + '.specular';
+			break;
+		}
+	}
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript['b3js_value_material'] = function(block) {
 	var dropdown_field = block.getFieldValue('VAL');
 	// TODO: Assemble JavaScript into code variable.
@@ -1021,7 +1330,7 @@ Blockly.JavaScript['b3js_value_material'] = function(block) {
 };
 
 Blockly.JavaScript['b3js_image_texture'] = function(block) {
-	var value_path = Blockly.JavaScript.valueToCode(block, 'PATH', Blockly.JavaScript.ORDER_ATOMIC);
+	var value_texture = Blockly.JavaScript.valueToCode(block, 'TEXTURE', Blockly.JavaScript.ORDER_ATOMIC);
 	var dropdown_wrap = block.getFieldValue('WRAP');
 	var dropdown_filter = block.getFieldValue('FILTER');
 	// TODO: Assemble JavaScript into code variable.
@@ -1029,7 +1338,7 @@ Blockly.JavaScript['b3js_image_texture'] = function(block) {
 	// TODO: Change ORDER_NONE to the correct strength.
 	// image, mapping, wrapS, wrapT, magFilter, minFilter);\n';
 	code += 'new THREE.Texture(';
-	code += 'new THREE.TextureLoader().load(' + value_path + '), THREE.UVMapping, ';
+	code += 'usr_res[' + value_texture + '], THREE.UVMapping, ';
 	switch (dropdown_wrap) {
 		case 'CLAMP':
 			code += 'THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, ';
@@ -1055,6 +1364,16 @@ Blockly.JavaScript['b3js_image_texture'] = function(block) {
 	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
+Blockly.JavaScript['b3js_linear_fog'] = function(block) {
+	var colour_colour = block.getFieldValue('COLOUR');
+	var number_near = block.getFieldValue('NEAR');
+	var number_far = block.getFieldValue('FAR');
+	// TODO: Assemble JavaScript into code variable.
+	var code = 'new THREE.Fog(' + hex(colour_colour) +', ' + number_near + ', ' + number_far + ')';
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
 Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_geometry = Blockly.JavaScript.valueToCode(block, 'GEOMETRY', Blockly.JavaScript.ORDER_ATOMIC);
@@ -1069,27 +1388,21 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 };
 
 Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
-	var text_name = block.getFieldValue('NAME');
+	var key = 'mesh_' + block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (value_value.indexOf('.obj') >= 0) {
-		if (user_resources[value_value]) {
-			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"];\n';
+		if (usr_res[key]) {
+			code += 'const ' + key + ' = usr_res["' + key + '"];\n';
 		}
 	}
-	else if (value_value.indexOf('.dae') >= 0) {
-		if (user_resources[value_value]) {
-			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"].scene;\n';
-			if (user_resources[value_value].animations.length) {
-				code += 'global_mixer = new THREE.AnimationMixer(mesh_' + text_name + ');\n';
-				code += 'global_mixer.clipAction(user_resources["' + value_value + '"].animations[0]).play();\n';
+	else if (value_value.indexOf('.dae') >= 0 || value_value.indexOf('.gltf') >= 0) {
+		if (usr_res[key]) {
+			code += 'const ' + key + ' = usr_res["' + key + '"].scene;\n';
+			if (usr_res[key].animations.length) {
+				usr_res[key].mixer = new THREE.AnimationMixer(usr_res[key].scene);
 			}
-		}
-	}
-	else if (value_value.indexOf('.gltf') >= 0) {
-		if (user_resources[value_value]) {
-			code += 'const mesh_' + text_name + ' = user_resources["' + value_value + '"].scene;\n';
 		}
 	}
 	return code;
@@ -1126,6 +1439,18 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 	if (block.getInputTargetBlock('INPUT')) {
 		if (block.getInputTargetBlock('VALUE')) {
 			switch (dropdown_field) {
+				case 'GEOMETRY':
+					code += value_input + '.traverse((o3d) => {if (o3d.isMesh) o3d.geometry.copy(' + value_value + ');});\n';
+				break;
+
+				case 'MATERIAL':
+					code += value_input + '.traverse((o3d) => {if (o3d.isMesh) o3d.material.copy(' + value_value + ');});\n';
+				break;
+
+				case 'MESH':
+					code += value_input + '.add(' + value_value + ');\n';
+				break;
+
 				case 'POSITION':
 					code += value_input + '.position.copy(' + value_value + ');\n';
 				break;
@@ -1136,13 +1461,13 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 
 				case 'CASTSHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					code += value_input + '.traverse((obj) => {obj.castShadow = ' + value_value + ';});\n';
+					code += value_input + '.traverse((o3d) => {o3d.castShadow = ' + value_value + ';});\n';
 				}
 				break;
 
 				case 'RECEIVESHADOW': {
 					const input = block.getInputTargetBlock('INPUT');
-					code += value_input + '.traverse((obj) => {obj.receiveShadow = ' + value_value + ';});\n';
+					code += value_input + '.traverse((o3d) => {o3d.receiveShadow = ' + value_value + ';});\n';
 				}
 				break;
 			}
@@ -1161,7 +1486,7 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 	if (block.getInputTargetBlock('INPUT')) {
 		if (block.getInputTargetBlock('VALUE')) {
 			var v = block.getInputTargetBlock('VALUE');
-			var operation = block.getField('FIELD').getText();
+			var operation = block.getField('FIELD').getText(); // SAFE acting on this
 			switch (dropdown_component) {
 				case 'X':
 				case 'Y':
@@ -1171,13 +1496,11 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 					}
 					else if (dropdown_field === 'ROTATE') {
 						var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
-						if (v.getVars().length) {
-							code += value_input + '.' + operation + dropdown_component + '(rad(' + value + '));\n';
+						if (!isNaN(value)) {
+							code += value_input + '.' + operation + dropdown_component + '(' + rad(value) + ');\n';
 						}
 						else {
-							if (!isNaN(value))
-								value = rad(value);
-							code += value_input + '.' + operation + dropdown_component + '(' + value + ');\n';
+							code += value_input + '.' + operation + dropdown_component + '(rad(' + value + '));\n';
 						}
 					}
 					else {
@@ -1201,23 +1524,47 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 					var value_y = Blockly.JavaScript.valueToCode(v, 'Y', Blockly.JavaScript.ORDER_NONE);
 					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_NONE);
 					if (dropdown_field === 'TRANSLATE') {
-						code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
-						code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
-						code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
-					}
-					else if (dropdown_field === 'ROTATE') {
-						if (v.getVars().length) {
-							code += value_input + '.' + operation + 'X' + '(rad(' + value_x + '));\n';
-							code += value_input + '.' + operation + 'Y' + '(rad(' + value_y + '));\n';
-							code += value_input + '.' + operation + 'Z' + '(rad(' + value_z + '));\n';
-						}
-						else {
-							if (!isNaN(value_x)) value_x = rad(value_x);
-							if (!isNaN(value_y)) value_y = rad(value_y);
-							if (!isNaN(value_z)) value_z = rad(value_z);
+						if (v.type === 'b3js_vector_vec3') {
 							code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
 							code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
 							code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+						}
+						else {
+							code += value_input + '.' + operation + 'X' + '(' + value_value + '.x);\n';
+							code += value_input + '.' + operation + 'Y' + '(' + value_value + '.y);\n';
+							code += value_input + '.' + operation + 'Z' + '(' + value_value + '.z);\n';
+						}
+					}
+					else if (dropdown_field === 'ROTATE') {
+						if (v.type === 'b3js_vector_vec3') {
+							if (!isNaN(value_x)) {
+								value_x = rad(value_x);
+								code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
+							}
+							else {
+								code += value_input + '.' + operation + 'X' + '(rad(' + value_x + '));\n';
+							}
+
+							if (!isNaN(value_y)) {
+								value_y = rad(value_y);
+								code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
+							}
+							else {
+								code += value_input + '.' + operation + 'Y' + '(rad(' + value_y + '));\n';
+							}
+
+							if (!isNaN(value_z)) {
+								value_z = rad(value_z);
+								code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+							}
+							else {
+								code += value_input + '.' + operation + 'Z' + '(rad(' + value_z + '));\n';
+							}
+						}
+						else {
+							code += value_input + '.' + operation + 'X' + '(' + value_value + '.x);\n';
+							code += value_input + '.' + operation + 'Y' + '(' + value_value + '.y);\n';
+							code += value_input + '.' + operation + 'Z' + '(' + value_value + '.z);\n';
 						}
 					}
 					else {
@@ -1233,19 +1580,16 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 						}
 						else if (dropdown_field === 'ROTATE') {
 							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
-							if (v.getVars().length) {
-								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), rad(' + value + '));\n';
+							if (!isNaN(value)) {
+								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), ' + rad(value) + ');\n';
 							}
 							else {
-								if (!isNaN(value))
-									value = rad(value);
-								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), ' + value + ');\n';
+								code += value_input + '.rotateOnAxis(' + direction + '.normalize(), rad(' + value + '));\n';
 							}
 						}
 						else {
 							var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
-							code += value_input + '.' + operation +
-								'.copy(' + direction + '.multiplyScalar(' + value + '));\n';
+							code += value_input + '.scale.copy(' + direction + '.multiplyScalar(' + value + '));\n';
 						}
 					}
 				break;
@@ -1253,6 +1597,48 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 		}
 	}
 	return code;
+};
+
+Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
+	var value_input = Blockly.JavaScript.valueToCode(block, 'INPUT', Blockly.JavaScript.ORDER_ATOMIC);
+	var dropdown_field = block.getFieldValue('FIELD');
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (block.getInputTargetBlock('INPUT')) {
+		switch (dropdown_field) {
+			case 'GEOMETRY':
+				code += value_input + '.geometry';
+			break;
+
+			case 'MATERIAL':
+				code += value_input + '.material';
+			break;
+
+			case 'MESH':
+				//code += value_input + '.traverse();';
+			break;
+
+			case 'POSITION':
+				code += value_input + '.position';
+			break;
+
+			case 'LOOKAT':
+				code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
+			break;
+
+			case 'CASTSHADOW': {
+				code += value_input + '.castShadow';
+			}
+			break;
+
+			case 'RECEIVESHADOW': {
+				code += value_input + '.receiveShadow';
+			}
+			break;
+		}
+	}
+	// TODO: Change ORDER_NONE to the correct strength.
+	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['b3js_value_mesh'] = function(block) {
@@ -1293,14 +1679,67 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 		});
 
 		code +=
-			'	if (global_mixer !== undefined) {\n'+
-			'		global_mixer.update(global_clock.getDelta());\n'+
-			'	}\n';
-
-		code +=
 			'	renderer.render( scene, current_camera );\n'+
 			'};\n'+
 			'animate();\n';
+	}
+	return code;
+};
+
+Blockly.JavaScript['b3js_upon_event'] = function(block) {
+	var dropdown_event = block.getFieldValue('EVENT');
+	var statements_steps = Blockly.JavaScript.statementToCode(block, 'STEPS');
+	var variable_argument = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('ARGUMENT'), Blockly.Variables.NAME_TYPE);
+
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (dropdown_event === 'CLICK') {
+		statements_steps.split('\n').forEach((line) => {
+			if (line !== '') {
+				line = line.replace('target', 'target[0].object');
+				code += '		' + line + '\n';
+			}
+		});
+		const toDo = Blockly.JavaScript.provideFunction_('uponClick', [
+			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
+			'	var vector = new THREE.Vector3((event.clientX / webglCanvas.offsetWidth) * 2 - 1,',
+			'		-(event.clientY / webglCanvas.offsetHeight) * 2 + 1, 0.5);',
+			'	vector = vector.unproject(current_camera);',
+			'	var raycaster = new THREE.Raycaster(current_camera.position, vector.sub(current_camera.position).normalize());',
+			'	' + variable_argument +' = raycaster.intersectObjects(scene.children, true);',
+			'	if (' + variable_argument +'.length > 0) {',
+				'' + code + '',
+			'	}',
+			'}',
+			'webglCanvas.onclick = uponClick;']);
+	}
+	else if (dropdown_event === 'KEYDOWN') {
+		statements_steps.split('\n').forEach((line) => {
+			if (line !== '') {
+				code += '	' + line + '\n';
+			}
+		});
+		const toDo = Blockly.JavaScript.provideFunction_('uponDown', [
+			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
+			'	' + variable_argument + ' = event.keyCode;',
+			'' + code + '',
+			'}',
+			'window.onkeydown = uponDown;']);
+	}
+	return '';
+};
+
+Blockly.JavaScript['b3js_play_animation'] = function(block) {
+	var value_mesh = Blockly.JavaScript.valueToCode(block, 'MESH', Blockly.JavaScript.ORDER_ATOMIC);
+	var value_num = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ATOMIC);
+	// TODO: Assemble JavaScript into code variable.
+	var code = '';
+	if (usr_res[value_mesh] && usr_res[value_mesh].animations) {
+		if (usr_res[value_mesh].animations.length > value_num) {
+			code +=
+			'	usr_res["' + value_mesh + '"].mixer.clipAction(usr_res["' + value_mesh + '"].animations[' + value_num + ']).play();\n'+
+			'	usr_res["' + value_mesh + '"].mixer.update(global_clock.getDelta());\n';
+		}
 	}
 	return code;
 };
