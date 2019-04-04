@@ -1696,7 +1696,7 @@ Blockly.JavaScript['b3js_upon_event'] = function(block) {
 	if (dropdown_event === 'CLICK') {
 		statements_steps.split('\n').forEach((line) => {
 			if (line !== '') {
-				line = line.replace('target', 'target[0].object');
+				line = line.replace('targetMesh', 'targetMesh[0].object');
 				code += '		' + line + '\n';
 			}
 		});
