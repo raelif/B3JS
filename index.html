@@ -17,8 +17,9 @@
 							<input id='importedXml' type='file' accept='text/xml' onInput='importProject()' onChange='this.value=null;'>
 						</li>
 						<li><a id='uploadButton' onClick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
-							<form action='upload.php' method='post' target='_blank' enctype='multipart/form-data'>
-								<input id='uploadRes[]' name='uploadRes[]'  type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*' onInput='this.parentElement.submit();' onChange='this.value=null;' multiple>
+							<form action='upload.php' method='post' target='dummyframe' enctype='multipart/form-data'>
+								<input id='uploadRes[]' name='uploadRes[]'  type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*'
+								onInput='this.parentElement.submit();' multiple>
 							</form>
 						</li>
 					</ul>
@@ -34,17 +35,15 @@
 				</li>
 				<li><a id='showButton' onClick='showCode()'>Show Code</a></li>
 				<li><a id='stopButton' onClick='stopCode()'>Stop</a></li>
-				<li><a>Execute</a>
-					<ul>
-						<li><a id='preload' onClick='preload()'>PreLoad</a></li>
-						<li><a id='runButton' onClick='runCode()'>Run</a></li>
-					</ul>
-				</li>
+				<li><a id='runButton' onClick='runCode()'>Run</a></li>
 			</ul>
 		</div>
 
 		<div id='webglArea'><canvas id='webglCanvas'/></div>
 		<div id='blocklyArea'><div id='blocklyDiv'/></div>
+
+		<iframe name='dummyframe' onLoad='if(this.contentWindow.document.body.innerHTML)
+			alert(this.contentWindow.document.body.innerHTML);'></iframe>
 
 		<script type='text/javascript' src='lib/blockly_compressed.js'></script>
 		<script type='text/javascript' src='lib/blocks_compressed.js'></script>

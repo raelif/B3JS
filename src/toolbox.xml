@@ -169,7 +169,7 @@
       <field name="VAL"></field>
     </block>
   </category>
-  <category name="Utility" colour="#a5a55b">
+  <category name="Animation" colour="#a5a55b">
     <block type="b3js_render_loop"></block>
     <block type="b3js_upon_event">
       <field name="EVENT">CLICK</field>

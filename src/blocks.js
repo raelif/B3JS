@@ -70,7 +70,7 @@ Blockly.Blocks['b3js_set_camera'] = {
 				.setCheck('Camera')
 				.appendField('set');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([["position","POSITION"], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']]), 'FIELD');
+				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']]), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
 				.appendField('to');
@@ -1337,30 +1337,36 @@ Blockly.JavaScript['b3js_image_texture'] = function(block) {
 	var code = '';
 	// TODO: Change ORDER_NONE to the correct strength.
 	// image, mapping, wrapS, wrapT, magFilter, minFilter);\n';
-	code += 'new THREE.Texture(';
-	code += 'usr_res[' + value_texture + '], THREE.UVMapping, ';
+	code += 'new THREE.TextureLoader().setPath("./resources/uploads/").load(' + value_texture + ', ';
+	code += '(texture) => {\n';
 	switch (dropdown_wrap) {
 		case 'CLAMP':
-			code += 'THREE.ClampToEdgeWrapping, THREE.ClampToEdgeWrapping, ';
+			code += '	texture.wrapS = THREE.ClampToEdgeWrapping;\n';
+			code += '	texture.wrapT = THREE.ClampToEdgeWrapping;\n';
 		break;
 
 		case 'REPEAT':
-			code += 'THREE.RepeatWrapping, THREE.RepeatWrapping, ';
+			code += '	texture.wrapS = THREE.RepeatWrapping;\n';
+			code += '	texture.wrapT = THREE.RepeatWrapping;\n';
 		break;
 
 		case 'MIRROR':
-			code += 'THREE.MirroredRepeatWrapping, THREE.MirroredRepeatWrapping, ';
+			code += '	texture.wrapS = THREE.MirroredRepeatWrapping;\n';
+			code += '	texture.wrapT = THREE.MirroredRepeatWrapping;\n';
 		break;
 	}
 	switch (dropdown_filter) {
 		case 'LINEAR':
-			code += 'THREE.LinearFilter, THREE.LinearFilter)';
+			code += '	texture.magFilter = THREE.LinearFilter;\n';
+			code += '	texture.minFilter = THREE.LinearFilter;\n';
 		break;
 
 		case 'NEAREST':
-			code += 'THREE.NearestFilter, THREE.NearestFilter)';
+			code += '	texture.magFilter = THREE.NearestFilter;\n';
+			code += '	texture.minFilter = THREE.NearestFilter;\n';
 		break;
 	}
+	code += '})'
 	return [code, Blockly.JavaScript.ORDER_NONE];
 };
 

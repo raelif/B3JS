@@ -6,6 +6,10 @@ html, body, canvas {
 	overflow: hidden;
 }
 
+iframe {
+	display: none;
+}
+
 #menu {
 	float: left;
 	width: 99vw;
@@ -72,7 +76,7 @@ html, body, canvas {
 	background-color: #646464;
 }
 
-#showButton, #stopButton {
+#showButton, #stopButton, #runButton {
 	cursor: pointer;
 }
 

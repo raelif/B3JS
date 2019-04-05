@@ -44,8 +44,8 @@ Blockly.JavaScript.addReservedWords('\
 	anim_id,\
 	shadow_mapping,\
 	global_clock,\
-	key,\
-	target\
+	keyCode,\
+	targetMesh\
 ');
 
 // /=====================================================================\
@@ -577,51 +577,6 @@ function importProject() {
 }
 
 // /=====================================================================\
-//	void preload()
-// \=====================================================================/
-function preload() {
-	workspace.getBlocksByType('b3js_create_mesh_from_file').forEach((b) => {
-		const key = 'mesh_' + b.getFieldValue('NAME');
-		const file_name = b.getInputTargetBlock('VALUE').getFieldValue('TEXT');
-
-		if (file_name.indexOf('.obj') >= 0) {
-			const mtl = file_name.replace('.obj', '.mtl');
-			new THREE.MTLLoader().setResourcePath('./resources/uploads/')
-				.load('./resources/uploads/' + mtl, (m) => {
-					new THREE.OBJLoader().setMaterials(m)
-						.load('./resources/uploads/' + file_name, (obj) => {
-							usr_res[key] = obj;
-					});
-			});
-		}
-		else if (file_name.indexOf('.dae') >= 0) {
-			new THREE.ColladaLoader()
-				.load('./resources/uploads/' + file_name, (dae) => {
-					usr_res[key] = dae;
-			});
-		}
-		else if (file_name.indexOf('.gltf') >= 0) {
-			new THREE.GLTFLoader()
-				.load('./resources/uploads/' + file_name, (gltf) => {
-					usr_res[key] = gltf;
-			});
-		}
-	});
-
-	workspace.getBlocksByType('b3js_image_texture').forEach((b) => {
-		const key = Blockly.JavaScript.valueToCode(b, 'TEXTURE', Blockly.JavaScript.ORDER_ATOMIC);
-		const file_name = b.getInputTargetBlock('TEXTURE').getFieldValue('TEXT');
-		new THREE.TextureLoader()
-			.load('./resources/uploads/' + file_name, (tex) => {
-				usr_res[key] = tex;
-		});
-	});
-
-	alert('PreLoad completed!');
-	console.log(usr_res);
-}
-
-// /=====================================================================\
 //	void openFullScreen(div)
 // \=====================================================================/
 function openFullscreen(div) {
@@ -647,13 +602,57 @@ function expertMode() {
 }
 
 // /=====================================================================\
+//	void preLoad()
+// \=====================================================================/
+function preLoad() {
+	const promises = [];
+	workspace.getBlocksByType('b3js_create_mesh_from_file').forEach((b) => {
+		const key = 'mesh_' + b.getFieldValue('NAME');
+		const file_name = b.getInputTargetBlock('VALUE').getFieldValue('TEXT');
+
+		if (file_name.indexOf('.obj') >= 0) {
+			const mtl = file_name.replace('.obj', '.mtl');
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.MTLLoader().setResourcePath('./resources/uploads/')
+					.load('./resources/uploads/' + mtl, (m) => {
+						new THREE.OBJLoader().setMaterials(m)
+							.load('./resources/uploads/' + file_name, (obj) => resolve([key, obj]), undefined, reject);
+					});
+			}));
+		}
+		else if (file_name.indexOf('.dae') >= 0) {
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.ColladaLoader()
+					.load('./resources/uploads/' + file_name, (dae) => resolve([key, dae]), undefined, reject);
+			}));
+		}
+		else if (file_name.indexOf('.gltf') >= 0) {
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.GLTFLoader()
+					.load('./resources/uploads/' + file_name, (gltf) => resolve([key, gltf]), undefined, reject);
+			}));
+		}
+	});
+
+	return promises;
+}
+
+// /=====================================================================\
 //	void showCode()
 // \=====================================================================/
 function showCode() {
-	// Generate JavaScript code and display it.
-	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-	const code = Blockly.JavaScript.workspaceToCode(workspace);
-	alert(code);
+	Promise.all(preLoad()).then((neverland) => {
+		if (neverland)
+			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
+		console.log(usr_res);
+
+		// Generate JavaScript code and display it.
+		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+		const code = Blockly.JavaScript.workspaceToCode(workspace);
+		alert(code);
+	}).catch((err) => {
+		console.log(err);
+	});
 }
 
 // /=====================================================================\
@@ -678,17 +677,26 @@ function stopCode() {
 //	void runCode()
 // \=====================================================================/
 function runCode() {
-	// Generate JavaScript code and run it.
-	window.LoopTrap = 1000;
-	Blockly.JavaScript.INFINITE_LOOP_TRAP =
-			'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
-	const code = Blockly.JavaScript.workspaceToCode(workspace);
-	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-	stopCode();
-	try {
-		eval(code);
-	} catch (e) {
-		alert(e);
+	Promise.all(preLoad()).then((neverland) => {
+		if (neverland)
+			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
+		console.log(usr_res);
+
+		// Generate JavaScript code and run it.
+		window.LoopTrap = 1000;
+		Blockly.JavaScript.INFINITE_LOOP_TRAP =
+				'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
+		const code = Blockly.JavaScript.workspaceToCode(workspace);
+		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
 		stopCode();
-	}
+		try {
+			eval(code);
+		}
+		catch (e) {
+			stopCode();
+			alert(e);
+		}
+	}).catch((err) => {
+		console.log(err);
+	});
 }
