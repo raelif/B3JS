@@ -21,7 +21,7 @@ Blockly.Blocks['scene_with_element'] = {
 	}
 };
 
-Blockly.Blocks['group_with_element'] = {
+Blockly.Blocks['mesh_with_element'] = {
 	init: function() {
 		this.setColour(100);
 		this.appendDummyInput()
@@ -118,7 +118,11 @@ const block_option = function(type, input) {
 							break;
 
 							case 'IMPORT':
-								return [['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+								if (type[0] === 'set')
+									return [['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+								else
+									return [['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'],
+									['receiveShadow','RECEIVESHADOW']];
 							break;
 						}
 					}

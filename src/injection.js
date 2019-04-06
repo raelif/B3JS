@@ -234,6 +234,23 @@ function rad(angle) {
 }
 
 // /=====================================================================\
+//	Mesh findMesh(o3d, index)
+// \=====================================================================/
+function findMesh(o3d, index) {
+	var ithMesh = undefined;
+	var count = 0;
+	o3d.traverse((child) => {
+		if (child.isMesh) {
+			if(count === index) {
+				ithMesh = child;
+			}
+			count++;
+		}
+	});
+	return ithMesh;
+}
+
+// /=====================================================================\
 //	[] toUpdate(type, num)
 // \=====================================================================/
 function toUpdate(type, num) {
@@ -680,7 +697,6 @@ function runCode() {
 	Promise.all(preLoad()).then((neverland) => {
 		if (neverland)
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
-		console.log(usr_res);
 
 		// Generate JavaScript code and run it.
 		window.LoopTrap = 1000;

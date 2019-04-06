@@ -477,7 +477,7 @@ Blockly.Blocks['b3js_create_mesh_group'] = {
 	this.setTooltip('Create a new Group from Meshes or Groups.');
 	this.setHelpUrl('');
 	this.mixin(ADD_MIXIN);
-	this.setMutator(new Blockly.Mutator(['group_with_element']));
+	this.setMutator(new Blockly.Mutator(['mesh_with_element']));
 	}
 };
 
@@ -1621,7 +1621,8 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 			break;
 
 			case 'MESH':
-				//code += value_input + '.traverse();';
+				var value_num = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ATOMIC);
+				code += 'findMesh(' + value_input + ', ' + value_num + ')';
 			break;
 
 			case 'POSITION':
