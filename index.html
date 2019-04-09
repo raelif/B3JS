@@ -39,11 +39,11 @@
 			</ul>
 		</div>
 
+		<iframe name='dummyframe' onLoad='if(this.contentWindow.document.body.innerHTML)
+		alert(this.contentWindow.document.body.innerHTML);'></iframe>
+
 		<div id='webglArea'><canvas id='webglCanvas'/></div>
 		<div id='blocklyArea'><div id='blocklyDiv'/></div>
-
-		<iframe name='dummyframe' onLoad='if(this.contentWindow.document.body.innerHTML)
-			alert(this.contentWindow.document.body.innerHTML);'></iframe>
 
 		<script type='text/javascript' src='lib/blockly_compressed.js'></script>
 		<script type='text/javascript' src='lib/blocks_compressed.js'></script>

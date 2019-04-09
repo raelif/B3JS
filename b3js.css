@@ -44,8 +44,8 @@ iframe {
 	user-select: none;
 	font-family: Arial;
 	font-size: 2vmin;
-	background-color: #4D4D4D;
 	color: white;
+	background-color: #4D4D4D;
 }
 
 #menu li a:hover {

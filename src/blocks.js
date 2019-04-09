@@ -93,6 +93,7 @@ Blockly.Blocks['b3js_getfrom_camera'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
 		this.setOutput(true, 'Vec3');
+		this.setInputsInline(true);
 		this.setColour(200);
 	this.setTooltip('Get property of a previously created Camera.');
 	this.setHelpUrl('');
@@ -165,6 +166,7 @@ Blockly.Blocks['b3js_getfrom_light'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'light'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
+		this.setInputsInline(true);
 		this.setColour(300);
 	this.setTooltip('Get property of a previously created Light.');
 	this.setHelpUrl('');
@@ -240,6 +242,7 @@ Blockly.Blocks['b3js_getfrom_geometry'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
 		this.setOutput(true, 'Vec3');
+		this.setInputsInline(true);
 		this.setColour(150);
 	this.setTooltip('Get property of a previously created Geometry.');
 	this.setHelpUrl('');
@@ -367,6 +370,7 @@ Blockly.Blocks['b3js_getfrom_material'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'material'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
+		this.setInputsInline(true);
 		this.setColour(250);
 	this.setTooltip('Get property of a previously created Material.');
 	this.setHelpUrl('');
@@ -531,6 +535,7 @@ Blockly.Blocks['b3js_getfrom_mesh'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'mesh'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
+		this.setInputsInline(true);
 		this.setColour(100);
 	this.setTooltip('Get property of a previously created Mesh.');
 	this.setHelpUrl('');
@@ -1417,19 +1422,27 @@ Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+	var check = [];
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (block.getInputTargetBlock('VALUE')) {
 		if (value_value.indexOf('mesh_' + text_name) < 0) {
 			code += 'const mesh_' + text_name + ' = new THREE.Group();\n';
 			code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
+			check.push(value_value);
 		}
 	}
 	var i = 0;
 	while (block.getInputTargetBlock('ADD' + i)) {
 		value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
 		if (value_value.indexOf('mesh_' + text_name) < 0) {
-			code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
+			if (check.indexOf(value_value) >= 0) {
+				code += 'mesh_' + text_name + '.add(' + value_value + '.clone());\n';
+			}
+			else {
+				code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
+				check.push(value_value);
+			}
 		}
 		i++;
 	}
@@ -1454,7 +1467,12 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 				break;
 
 				case 'MESH':
-					code += value_input + '.add(' + value_value + ');\n';
+					if (value_input !== value_value) {
+						code += 'if (' + value_input + '.getObjectById(' + value_value + '.id))\n';
+						code += '		' + value_input + '.add(' + value_value + '.clone());\n';
+						code += 'else\n';
+						code += '		' + value_input + '.add(' + value_value + ');\n';
+					}
 				break;
 
 				case 'POSITION':
@@ -1626,11 +1644,43 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 			break;
 
 			case 'POSITION':
-				code += value_input + '.position';
+				switch (block.getFieldValue('COMP')) {
+					case 'XYZ':
+						code += value_input + '.position';
+					break;
+
+					case 'X':
+						code += value_input + '.position.x';
+					break;
+
+					case 'Y':
+						code += value_input + '.position.y';
+					break;
+
+					case 'Z':
+						code += value_input + '.position.z';
+					break;
+				}
 			break;
 
 			case 'LOOKAT':
-				code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
+				switch (block.getFieldValue('COMP')) {
+					case 'XYZ':
+						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
+					break;
+
+					case 'X':
+						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).x';
+					break;
+
+					case 'Y':
+						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).y';
+					break;
+
+					case 'Z':
+						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).z';
+					break;
+				}
 			break;
 
 			case 'CASTSHADOW': {

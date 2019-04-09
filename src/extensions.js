@@ -616,16 +616,19 @@ const SET_MATERIAL_SHAPE = {
 const SET_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
 		this.setFieldValue('set', 'ACTION');
+		this.removeInput('VALUE');
+		if (['XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
+			if (this.getInput('COMPONENT'))
+				this.removeInput('COMPONENT');
+		}
 		switch (typeInput) {
 			case 'GEOMETRY':
-				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Geometry')
 					.appendField('to');
 			break;
 
 			case 'MATERIAL':
-				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Material')
 					.appendField('to');
@@ -633,7 +636,6 @@ const SET_MESH_SHAPE = {
 
 			case 'MESH':
 				this.setFieldValue('add to', 'ACTION');
-				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Mesh')
 					.appendField(' ');
@@ -641,15 +643,29 @@ const SET_MESH_SHAPE = {
 
 			case 'POSITION':
 			case 'LOOKAT':
-				this.removeInput('VALUE');
+				this.appendDummyInput('COMPONENT')
+					.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']], block_validator), 'COMP');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
 					.appendField('to');
 			break;
 
+			case 'XYZ':
+				this.appendValueInput('VALUE')
+					.setCheck('Vec3')
+					.appendField('to');
+			break;
+
+			case 'X':
+			case 'Y':
+			case 'Z':
+				this.appendValueInput('VALUE')
+					.setCheck('Number')
+					.appendField('to');
+			break;
+
 			case 'CASTSHADOW':
 			case 'RECEIVESHADOW':
-				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
 					.appendField('to');
@@ -763,8 +779,13 @@ const GETFROM_MATERIAL_SHAPE = {
 
 const GETFROM_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
+		console.log(typeInput);
 		if (this.getInput('NUM'))
 			this.removeInput('NUM');
+		if (['XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
+			if (this.getInput('COMPONENT'))
+				this.removeInput('COMPONENT');
+		}
 		switch (typeInput) {
 			case 'GEOMETRY':
 				this.setOutput(true, 'Geometry');
@@ -783,7 +804,19 @@ const GETFROM_MESH_SHAPE = {
 
 			case 'POSITION':
 			case 'LOOKAT':
+				this.appendDummyInput('COMPONENT')
+					.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']], block_validator), 'COMP');
 				this.setOutput(true, 'Vec3');
+			break;
+
+			case 'XYZ':
+				this.setOutput(true, 'Vec3');
+			break;
+
+			case 'X':
+			case 'Y':
+			case 'Z':
+				this.setOutput(true, 'Number');
 			break;
 
 			case 'CASTSHADOW':
