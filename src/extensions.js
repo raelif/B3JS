@@ -11,9 +11,9 @@ Blockly.Blocks['all_container'] = {
 
 Blockly.Blocks['scene_with_element'] = {
 	init: function() {
-		this.setColour(0);
+		this.setColour(Blockly.Msg['SCENE_HUE']);
 		this.appendDummyInput()
-				.appendField('element');
+				.appendField(Blockly.Msg['B3JS_ELEMENT']);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setTooltip('');
@@ -23,9 +23,9 @@ Blockly.Blocks['scene_with_element'] = {
 
 Blockly.Blocks['mesh_with_element'] = {
 	init: function() {
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 		this.appendDummyInput()
-				.appendField('element');
+				.appendField(Blockly.Msg['B3JS_ELEMENT']);
 		this.setPreviousStatement(true);
 		this.setNextStatement(true);
 		this.setTooltip('');
@@ -53,24 +53,24 @@ const block_option = function(type, input) {
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
 							case 'AMBIENT':
-								return [['color','COLOR'], ['intensity','INTENSITY']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY']];
 							break;
 							case 'POINT':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY'], [Blockly.Msg['B3JS_DISTANCE'],'DISTANCE'], [Blockly.Msg['B3JS_DECAY'],'DECAY'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW']];
 							break;
 							case 'SPOT':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['penumbra','PENUMBRA'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY'], [Blockly.Msg['B3JS_DISTANCE'],'DISTANCE'], [Blockly.Msg['B3JS_DECAY'],'DECAY'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_TARGET'],'TARGET'], [Blockly.Msg['B3JS_PENUMBRA'],'PENUMBRA'], [Blockly.Msg['B3JS_ANGLE'],'ANGLE'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW']];
 							break;
 							case 'DIRECTIONAL':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['distance','DISTANCE'], ['position','POSITION'], ['target','TARGET'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY'], [Blockly.Msg['B3JS_DISTANCE'],'DISTANCE'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_TARGET'],'TARGET'], [Blockly.Msg['B3JS_ANGLE'],'ANGLE'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW']];
 							break;
 							case 'HEMISPHERE':
-								return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND'], ['position','POSITION']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY'], [Blockly.Msg['B3JS_GROUND_COLOR'],'GROUND'], [Blockly.Msg['B3JS_POSITION'],'POSITION']];
 							break;
 						}
 					}
 				}
-				return [['color','COLOR'], ['intensity','INTENSITY'], ['groundColor','GROUND'], ['distance','DISTANCE'], ['decay','DECAY'], ['position','POSITION'], ['target','TARGET'], ['penumbra','PENUMBRA'], ['angle','ANGLE'], ['visible','VISIBLE'], ['castShadow','CASTSHADOW']];
+				return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_INTENSITY'],'INTENSITY'], [Blockly.Msg['B3JS_GROUND_COLOR'],'GROUND'], [Blockly.Msg['B3JS_DISTANCE'],'DISTANCE'], [Blockly.Msg['B3JS_DECAY'],'DECAY'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_TARGET'],'TARGET'], [Blockly.Msg['B3JS_PENUMBRA'],'PENUMBRA'], [Blockly.Msg['B3JS_ANGLE'],'ANGLE'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW']];
 			break;
 
 			case 'geometry':
@@ -82,22 +82,22 @@ const block_option = function(type, input) {
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
 							case 'BASIC':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_OPACITY'],'OPACITY'], [Blockly.Msg['B3JS_TRANSPARENT'],'TRANSPARENT'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_MAP'],'MAP'], [Blockly.Msg['B3JS_DEPTHTEST'],'DEPTHTEST'], [Blockly.Msg['B3JS_WIREFRAME'],'WIREFRAME']];
 							break;
 							case 'DEPTH':
 							case 'NORMAL':
-								return [['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME']];
+								return [[Blockly.Msg['B3JS_OPACITY'],'OPACITY'], [Blockly.Msg['B3JS_TRANSPARENT'],'TRANSPARENT'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_DEPTHTEST'],'DEPTHTEST'], [Blockly.Msg['B3JS_WIREFRAME'],'WIREFRAME']];
 							break;
 							case 'LAMBERT':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_OPACITY'],'OPACITY'], [Blockly.Msg['B3JS_TRANSPARENT'],'TRANSPARENT'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_MAP'],'MAP'], [Blockly.Msg['B3JS_DEPTHTEST'],'DEPTHTEST'], [Blockly.Msg['B3JS_WIREFRAME'],'WIREFRAME'], [Blockly.Msg['B3JS_EMISSIVE'],'EMISSIVE']];
 							break;
 							case 'PHONG':
-								return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
+								return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_OPACITY'],'OPACITY'], [Blockly.Msg['B3JS_TRANSPARENT'],'TRANSPARENT'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_MAP'],'MAP'], [Blockly.Msg['B3JS_BUMPMAP'],'BUMPMAP'], [Blockly.Msg['B3JS_NORMALMAP'], 'NORMALMAP'], [Blockly.Msg['B3JS_DEPTHTEST'],'DEPTHTEST'], [Blockly.Msg['B3JS_WIREFRAME'],'WIREFRAME'], [Blockly.Msg['B3JS_EMISSIVE'],'EMISSIVE'], [Blockly.Msg['B3JS_SPECULAR'],'SPECULAR'], [Blockly.Msg['B3JS_SHININESS'],'SHININESS']];
 							break;
 						}
 					}
 				}
-				return [['color','COLOR'], ['opacity','OPACITY'], ['transparent','TRANSPARENT'], ['visible','VISIBLE'], ['map','MAP'], ['bumpMap','BUMPMAP'], ['normalMap', 'NORMALMAP'], ['depthTest','DEPTHTEST'], ['wireframe','WIREFRAME'], ['emissive','EMISSIVE'], ['specular','SPECULAR'], ['shininess','SHININESS']];
+				return [[Blockly.Msg['B3JS_COLOR'],'COLOR'], [Blockly.Msg['B3JS_OPACITY'],'OPACITY'], [Blockly.Msg['B3JS_TRANSPARENT'],'TRANSPARENT'], [Blockly.Msg['B3JS_VISIBLE'],'VISIBLE'], [Blockly.Msg['B3JS_MAP'],'MAP'], [Blockly.Msg['B3JS_BUMPMAP'],'BUMPMAP'], [Blockly.Msg['B3JS_NORMALMAP'], 'NORMALMAP'], [Blockly.Msg['B3JS_DEPTHTEST'],'DEPTHTEST'], [Blockly.Msg['B3JS_WIREFRAME'],'WIREFRAME'], [Blockly.Msg['B3JS_EMISSIVE'],'EMISSIVE'], [Blockly.Msg['B3JS_SPECULAR'],'SPECULAR'], [Blockly.Msg['B3JS_SHININESS'],'SHININESS']];
 			break;
 
 			case 'mesh':
@@ -106,28 +106,28 @@ const block_option = function(type, input) {
 					if (valDex[type[1]].has(name)) {
 						switch (valDex[type[1]].get(name)[1]) {
 							case 'MESH':
-								return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+								return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']];
 							break;
 
 							case 'GROUP':
 								if (type[0] === 'set')
-									return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']]
+									return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
 								else
-									return [['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'],
-									['receiveShadow','RECEIVESHADOW']];
+									return [[Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'],
+									[Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']];
 							break;
 
 							case 'IMPORT':
 								if (type[0] === 'set')
-									return [['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']];
+									return [[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']];
 								else
-									return [['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'],
-									['receiveShadow','RECEIVESHADOW']];
+									return [[Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'],
+									[Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']];
 							break;
 						}
 					}
 				}
-				return [['geometry','GEOMETRY'], ['material','MATERIAL'], ['mesh','MESH'], ['position','POSITION'], ['lookAt','LOOKAT'], ['castShadow','CASTSHADOW'], ['receiveShadow','RECEIVESHADOW']]
+				return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
 			break;
 		}
 	}
@@ -238,7 +238,7 @@ const ADD_MIXIN = {
 		}
 		if (this.type === 'b3js_add_scene') {
 			this.removeInput('END');
-			this.appendDummyInput('END').appendField('to scene');
+			this.appendDummyInput('END').appendField(Blockly.Msg['B3JS_TO_SCENE']);
 		}
 	}
 };
@@ -288,22 +288,22 @@ const CREATE_CAMERA_SHAPE = {
 			case 'PERSPECTIVE':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('fov')
+					.appendField(Blockly.Msg['B3JS_FOV'])
 					.appendField(new Blockly.FieldNumber(50), 'FOVSCALE')
-					.appendField('near')
+					.appendField(Blockly.Msg['B3JS_NEAR'])
 					.appendField(new Blockly.FieldNumber(0.1), 'NEAR')
-					.appendField('far')
+					.appendField(Blockly.Msg['B3JS_FAR'])
 					.appendField(new Blockly.FieldNumber(1000), 'FAR');
 			break;
 
 			case 'ORTHOGRAPHIC':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('scale')
+					.appendField(Blockly.Msg['B3JS_SCALE'])
 					.appendField(new Blockly.FieldNumber(16), 'FOVSCALE')
-					.appendField('near')
+					.appendField(Blockly.Msg['B3JS_NEAR'])
 					.appendField(new Blockly.FieldNumber(-200), 'NEAR')
-					.appendField('far')
+					.appendField(Blockly.Msg['B3JS_FAR'])
 					.appendField(new Blockly.FieldNumber(500), 'FAR');
 			break;
 		}
@@ -317,9 +317,9 @@ const CREATE_LIGHT_SHAPE = {
 			case 'DIRECTIONAL':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('color')
+					.appendField(Blockly.Msg['B3JS_COLOR'])
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
-					.appendField('intensity')
+					.appendField(Blockly.Msg['B3JS_INTENSITY'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
 			break;
 
@@ -327,24 +327,24 @@ const CREATE_LIGHT_SHAPE = {
 			case 'SPOT':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('color')
+					.appendField(Blockly.Msg['B3JS_COLOR'])
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
-					.appendField('intensity')
+					.appendField(Blockly.Msg['B3JS_INTENSITY'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY')
-					.appendField('distance')
+					.appendField(Blockly.Msg['B3JS_DISTANCE'])
 					.appendField(new Blockly.FieldNumber(0, 0), 'DISTANCE')
-					.appendField('decay')
+					.appendField(Blockly.Msg['B3JS_DECAY'])
 					.appendField(new Blockly.FieldNumber(1, 1), 'DECAY');
 			break;
 
 			case 'HEMISPHERE':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('color')
+					.appendField(Blockly.Msg['B3JS_COLOR'])
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
-					.appendField('ground')
+					.appendField(Blockly.Msg['B3JS_GROUND_COLOR'])
 					.appendField(new Blockly.FieldColour('#ffffff'), 'GROUND')
-					.appendField('intensity')
+					.appendField(Blockly.Msg['B3JS_INTENSITY'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
 			break;
 		}
@@ -357,59 +357,59 @@ const CREATE_GEOMETRY_SHAPE = {
 			case 'PLANE':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('width')
+					.appendField(Blockly.Msg['B3JS_WIDTH'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'WIDTH')
-					.appendField('height')
+					.appendField(Blockly.Msg['B3JS_HEIGHT'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'HEIGHT')
-					.appendField('detail')
+					.appendField(Blockly.Msg['B3JS_DETAIL'])
 					.appendField(new Blockly.FieldNumber(1, 1, 10), 'DETAIL');
 			break;
 
 			case 'BOX':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('width')
+					.appendField(Blockly.Msg['B3JS_WIDTH'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'WIDTH')
-					.appendField('height')
+					.appendField(Blockly.Msg['B3JS_HEIGHT'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'HEIGHT')
-					.appendField('depth')
+					.appendField(Blockly.Msg['B3JS_DEPTH'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'DEPTH')
-					.appendField('detail')
+					.appendField(Blockly.Msg['B3JS_DETAIL'])
 					.appendField(new Blockly.FieldNumber(1, 1, 10), 'DETAIL');
 			break;
 
 			case 'SPHERE':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('radius')
+					.appendField(Blockly.Msg['B3JS_RADIUS'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUS')
-					.appendField('detail')
+					.appendField(Blockly.Msg['B3JS_DETAIL'])
 					.appendField(new Blockly.FieldNumber(10, 3, 32), 'DETAIL');
 			break;
 
 			case 'CYLINDER':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('top')
+					.appendField(Blockly.Msg['B3JS_TOP'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUSTOP')
-					.appendField('bottom')
+					.appendField(Blockly.Msg['B3JS_BOTTOM'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUSBOTTOM')
-					.appendField('height')
+					.appendField(Blockly.Msg['B3JS_HEIGHT'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'HEIGHT')
-					.appendField('detail')
+					.appendField(Blockly.Msg['B3JS_DETAIL'])
 					.appendField(new Blockly.FieldNumber(10, 3, 64), 'DETAIL');
 			break;
 
 			case 'TORUS':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('radius')
+					.appendField(Blockly.Msg['B3JS_RADIUS'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'RADIUS')
-					.appendField('tube')
+					.appendField(Blockly.Msg['B3JS_TUBE'])
 					.appendField(new Blockly.FieldNumber(1, 0), 'TUBE')
-					.appendField('detail')
+					.appendField(Blockly.Msg['B3JS_DETAIL'])
 					.appendField(new Blockly.FieldNumber(10, 3, 30), 'DETAIL')
-					.appendField('arc')
+					.appendField(Blockly.Msg['B3JS_ARC'])
 					.appendField(new Blockly.FieldAngle(0), 'ARC');
 			break;
 		}
@@ -424,7 +424,7 @@ const CREATE_MATERIAL_SHAPE = {
 			case 'PHONG':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('color')
+					.appendField(Blockly.Msg['B3JS_COLOR'])
 					.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR');
 			break;
 
@@ -432,7 +432,7 @@ const CREATE_MATERIAL_SHAPE = {
 			case 'NORMAL':
 				this.removeInput('CHANGE');
 				this.appendDummyInput('CHANGE')
-					.appendField('wireframe')
+					.appendField(Blockly.Msg['B3JS_WIREFRAME'])
 					.appendField(new Blockly.FieldCheckbox('FALSE'), 'WIREFRAME');
 			break;
 		}
@@ -449,28 +449,28 @@ const SET_SCENE_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck(['Colour', 'String', 'Texture'])
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'FOG':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Fog')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'AUPDATE':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'OMATERIAL':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Material')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -481,12 +481,12 @@ const SET_CAMERA_SHAPE = {
 		switch (typeInput) {
 			case 'POSITION':
 			case 'LOOKAT':
-			case 'TRANSLATE':
+			case 'TRANSLATION':
 			case 'SCALE':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'RX':
@@ -495,7 +495,7 @@ const SET_CAMERA_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -509,7 +509,7 @@ const SET_LIGHT_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck(['Colour', 'String'])
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'INTENSITY': // [0-]
@@ -520,21 +520,21 @@ const SET_LIGHT_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'POSITION':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'TARGET':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Mesh')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'VISIBLE':
@@ -542,7 +542,7 @@ const SET_LIGHT_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -551,12 +551,12 @@ const SET_LIGHT_SHAPE = {
 const SET_GEOMETRY_SHAPE = {
 	updateShape_: function(typeInput) {
 		switch (typeInput) {
-			case 'TRANSLATE':
+			case 'TRANSLATION':
 			case 'SCALE':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'RX':
@@ -565,7 +565,7 @@ const SET_GEOMETRY_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -580,7 +580,7 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck(['Colour', 'String'])
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'MAP':
@@ -589,7 +589,7 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Texture')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'VISIBLE':
@@ -599,7 +599,7 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'OPACITY': // [0,1]
@@ -607,7 +607,7 @@ const SET_MATERIAL_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -615,7 +615,7 @@ const SET_MATERIAL_SHAPE = {
 
 const SET_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
-		this.setFieldValue('set', 'ACTION');
+		this.setFieldValue(Blockly.Msg['B3JS_SET'], 'ACTION');
 		this.removeInput('VALUE');
 		if (['XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
 			if (this.getInput('COMPONENT'))
@@ -625,35 +625,35 @@ const SET_MESH_SHAPE = {
 			case 'GEOMETRY':
 				this.appendValueInput('VALUE')
 					.setCheck('Geometry')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'MATERIAL':
 				this.appendValueInput('VALUE')
 					.setCheck('Material')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'MESH':
-				this.setFieldValue('add to', 'ACTION');
+				this.setFieldValue(Blockly.Msg['B3JS_ADD'], 'ACTION');
 				this.appendValueInput('VALUE')
 					.setCheck('Mesh')
 					.appendField(' ');
 			break;
 
 			case 'POSITION':
-			case 'LOOKAT':
 				this.appendDummyInput('COMPONENT')
 					.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']], block_validator), 'COMP');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'XYZ':
+			case 'LOOKAT':
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'X':
@@ -661,14 +661,14 @@ const SET_MESH_SHAPE = {
 			case 'Z':
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'CASTSHADOW':
 			case 'RECEIVESHADOW':
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
-					.appendField('to');
+					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 		}
 	}
@@ -688,24 +688,24 @@ const UPDATE_MESH_SHAPE = {
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('by');
+					.appendField(Blockly.Msg['B3JS_BY']);
 			break;
 
 			case 'XYZ':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
-					.appendField('by');
+					.appendField(Blockly.Msg['B3JS_BY']);
 			break;
 
 			case 'AXIS':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
-					.appendField('by');
+					.appendField(Blockly.Msg['B3JS_BY']);
 				this.appendValueInput('DIRECTION')
 					.setCheck('Vec3')
-					.appendField('axis');
+					.appendField(Blockly.Msg['B3JS_ALONG']);
 				this.moveInputBefore('DIRECTION', 'VALUE');
 			break;
 		}
@@ -836,14 +836,14 @@ const UPON_EVENT_SHAPE = {
 			case 'CLICK':
 				this.removeInput('VARIABLE');
 				this.appendDummyInput('VARIABLE')
-					.appendField('on')
+					.appendField(Blockly.Msg['B3JS_ON'])
 					.appendField(new Blockly.FieldVariable('targetMesh'), 'ARGUMENT');
 			break;
 
 			case 'KEYDOWN':
 				this.removeInput('VARIABLE');
 				this.appendDummyInput('VARIABLE')
-					.appendField('on')
+					.appendField(Blockly.Msg['B3JS_ON'])
 					.appendField(new Blockly.FieldVariable('keyCode'), 'ARGUMENT');
 			break;
 		}

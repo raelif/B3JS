@@ -5,12 +5,12 @@ Blockly.Blocks['b3js_add_scene'] = {
 	init: function() {
 		this.appendValueInput('ELEMENT')
 				.setCheck(['Camera', 'Light', 'Mesh'])
-				.appendField('add');
+				.appendField(Blockly.Msg['B3JS_ADD']);
 		this.appendDummyInput('END')
-				.appendField('to scene');
+				.appendField(Blockly.Msg['B3JS_TO_SCENE']);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(0);
+		this.setColour(Blockly.Msg['SCENE_HUE']);
 		this.setInputsInline(true);
 	this.setTooltip('Add Mesh, Light or Camera to the Scene.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/scenes/Scene');
@@ -22,15 +22,16 @@ Blockly.Blocks['b3js_add_scene'] = {
 Blockly.Blocks['b3js_set_scene'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('set scene')
-				.appendField(new Blockly.FieldDropdown([['background','BACKGROUND'], ['fog','FOG'], ['autoUpdate','AUPDATE'], ['overrideMaterial','OMATERIAL']], block_validator), 'FIELD');
+				.appendField(Blockly.Msg['B3JS_IN_SCENE'])
+				.appendField(Blockly.Msg['B3JS_SET'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_BACKGROUND'],'BACKGROUND'], [Blockly.Msg['B3JS_FOG'],'FOG'], [Blockly.Msg['B3JS_AUTOUPDATE'],'AUPDATE'], [Blockly.Msg['B3JS_OVERRIDEMAT'],'OMATERIAL']], block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String', 'Texture'])
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(0);
+		this.setColour(Blockly.Msg['SCENE_HUE']);
 	this.setTooltip('Set property of the Scene.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/scenes/Scene');
 	this.mixin(BLOCK_MIXIN);
@@ -41,22 +42,23 @@ Blockly.Blocks['b3js_set_scene'] = {
 Blockly.Blocks['b3js_create_camera'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('camera')
+				.appendField(Blockly.Msg['B3JS_CAMERA_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME')
-				.appendField('as')
-				.appendField(new Blockly.FieldDropdown([['perspective','PERSPECTIVE'], ['orthographic','ORTHOGRAPHIC']],
-					block_validator), 'TYPE');
+				.appendField(Blockly.Msg['B3JS_AS'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_PERSPECTIVE'],'PERSPECTIVE'], [Blockly.Msg['B3JS_ORTHOGRAPHIC'],'ORTHOGRAPHIC']],
+					block_validator), 'TYPE')
+				.appendField(Blockly.Msg['B3JS_WITH']);
 		this.appendDummyInput('CHANGE')
-				.appendField('fov')
+				.appendField(Blockly.Msg['B3JS_FOV'])
 				.appendField(new Blockly.FieldNumber(50), 'FOVSCALE')
-				.appendField('near')
+				.appendField(Blockly.Msg['B3JS_NEAR'])
 				.appendField(new Blockly.FieldNumber(0.1), 'NEAR')
-				.appendField('far')
+				.appendField(Blockly.Msg['B3JS_FAR'])
 				.appendField(new Blockly.FieldNumber(1000), 'FAR');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(200);
+		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Create a new Camera.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
 	this.mixin(BLOCK_MIXIN);
@@ -68,16 +70,18 @@ Blockly.Blocks['b3js_set_camera'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Camera')
-				.appendField('set');
+				.appendField(Blockly.Msg['B3JS_IN_CAMERA']);
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']]), 'FIELD');
+				.appendField(Blockly.Msg['B3JS_SET'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_TRANSLATION'],'TRANSLATION'], [Blockly.Msg['B3JS_ROTATIONX'],'RX'], [Blockly.Msg['B3JS_ROTATIONY'],'RY'], [Blockly.Msg['B3JS_ROTATIONZ'],'RZ'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]),
+					'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(200);
+		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Set property of a previously created Camera.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -89,12 +93,13 @@ Blockly.Blocks['b3js_getfrom_camera'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Camera')
-				.appendField('get');
+				.appendField(Blockly.Msg['B3JS_FROM_CAMERA']);
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['lookAt','LOOKAT'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
+				.appendField(Blockly.Msg['B3JS_GET'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], ['rotation','ROTATION'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]), 'FIELD');
 		this.setOutput(true, 'Vec3');
 		this.setInputsInline(true);
-		this.setColour(200);
+		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Get property of a previously created Camera.');
 	this.setHelpUrl('');
 	}
@@ -105,7 +110,7 @@ Blockly.Blocks['b3js_value_camera'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'camera'])), 'VAL');
 		this.setOutput(true, 'Camera');
-		this.setColour(200);
+		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Retrieve a Camera.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
 	this.mixin(BLOCK_MIXIN);
@@ -116,19 +121,20 @@ Blockly.Blocks['b3js_value_camera'] = {
 Blockly.Blocks['b3js_create_light'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('light')
+				.appendField(Blockly.Msg['B3JS_LIGHT_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME')
-				.appendField('as')
-				.appendField(new Blockly.FieldDropdown([['ambient','AMBIENT'], ['point','POINT'], ['spot','SPOT'], ['directional','DIRECTIONAL'], ['hemisphere','HEMISPHERE']], block_validator), 'TYPE');
+				.appendField(Blockly.Msg['B3JS_AS'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_AMBIENT'],'AMBIENT'], [Blockly.Msg['B3JS_POINT'],'POINT'], [Blockly.Msg['B3JS_SPOT'],'SPOT'], [Blockly.Msg['B3JS_DIRECTIONAL'],'DIRECTIONAL'], [Blockly.Msg['B3JS_HEMISPHERE'],'HEMISPHERE']], block_validator), 'TYPE')
+				.appendField(Blockly.Msg['B3JS_WITH']);
 		this.appendDummyInput('CHANGE')
-				.appendField('color')
+				.appendField(Blockly.Msg['B3JS_COLOR'])
 				.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
-				.appendField('intensity')
+				.appendField(Blockly.Msg['B3JS_INTENSITY'])
 				.appendField(new Blockly.FieldNumber(1, 0), 'INTENSITY');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(300);
+		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Create a new Light.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -140,17 +146,18 @@ Blockly.Blocks['b3js_set_light'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Light')
-				.appendField('set');
+				.appendField(Blockly.Msg['B3JS_IN_LIGHT']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_SET'])
 				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'light'], this.getInputTargetBlock('INPUT')),
 					block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String'])
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(300);
+		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Set property of a previously created Light.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -162,12 +169,13 @@ Blockly.Blocks['b3js_getfrom_light'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Light')
-				.appendField('get');
+				.appendField(Blockly.Msg['B3JS_FROM_LIGHT']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_GET'])
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'light'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
 		this.setInputsInline(true);
-		this.setColour(300);
+		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Get property of a previously created Light.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -180,7 +188,7 @@ Blockly.Blocks['b3js_value_light'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'light'])), 'VAL');
 		this.setOutput(true, 'Light');
-		this.setColour(300);
+		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Retrieve a Light.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -191,21 +199,22 @@ Blockly.Blocks['b3js_value_light'] = {
 Blockly.Blocks['b3js_create_geometry'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('geometry')
+				.appendField(Blockly.Msg['B3JS_GEOMETRY_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME')
-				.appendField('as')
-				.appendField(new Blockly.FieldDropdown([['plane','PLANE'], ['box','BOX'], ['sphere','SPHERE'], ['cylinder','CYLINDER'], ['torus','TORUS']], block_validator), 'TYPE');
+				.appendField(Blockly.Msg['B3JS_AS'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_PLANE'],'PLANE'], [Blockly.Msg['B3JS_BOX'],'BOX'], [Blockly.Msg['B3JS_SPHERE'],'SPHERE'], [Blockly.Msg['B3JS_CYLINDER'],'CYLINDER'], [Blockly.Msg['B3JS_TORUS'],'TORUS']], block_validator), 'TYPE')
+				.appendField(Blockly.Msg['B3JS_WITH']);
 		this.appendDummyInput('CHANGE')
-				.appendField('width')
+				.appendField(Blockly.Msg['B3JS_WIDTH'])
 				.appendField(new Blockly.FieldNumber(1, 0), 'WIDTH')
-				.appendField('height')
+				.appendField(Blockly.Msg['B3JS_HEIGHT'])
 				.appendField(new Blockly.FieldNumber(1, 0), 'HEIGHT')
-				.appendField('detail')
+				.appendField(Blockly.Msg['B3JS_DETAIL'])
 				.appendField(new Blockly.FieldNumber(1, 1, 10), 'DETAIL');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Create a new Geometry.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -217,16 +226,17 @@ Blockly.Blocks['b3js_set_geometry'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Geometry')
-				.appendField('set');
+				.appendField(Blockly.Msg['B3JS_IN_GEOMETRY']);
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotateX','RX'], ['rotateY','RY'], ['rotateZ','RZ'], ['scale','SCALE']], block_validator), 'FIELD');
+				.appendField(Blockly.Msg['B3JS_SET'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_TRANSLATION'],'TRANSLATION'], [Blockly.Msg['B3JS_ROTATIONX'],'RX'], [Blockly.Msg['B3JS_ROTATIONY'],'RY'], [Blockly.Msg['B3JS_ROTATIONZ'],'RZ'], [Blockly.Msg['B3JS_SCALE'],'SCALE']], block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Set property of a previously created Geometry.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -238,12 +248,13 @@ Blockly.Blocks['b3js_getfrom_geometry'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Geometry')
-				.appendField('get');
+				.appendField(Blockly.Msg['B3JS_FROM_GEOMETRY']);
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['position','POSITION'], ['rotation','ROTATION'], ['scale','SCALE']]), 'FIELD');
+				.appendField(Blockly.Msg['B3JS_GET'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_ROTATION'],'ROTATION'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]), 'FIELD');
 		this.setOutput(true, 'Vec3');
 		this.setInputsInline(true);
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Get property of a previously created Geometry.');
 	this.setHelpUrl('');
 	}
@@ -254,7 +265,7 @@ Blockly.Blocks['b3js_value_geometry'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'geometry'])), 'VAL');
 		this.setOutput(true, 'Geometry');
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Retrieve a Geometry.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -266,13 +277,13 @@ Blockly.Blocks['b3js_vector_vec2'] = {
 	init: function() {
 		this.appendValueInput('X')
 				.setCheck('Number')
-				.appendField('x');
+				.appendField(Blockly.Msg['B3JS_X']);
 		this.appendValueInput('Y')
 				.setCheck('Number')
-				.appendField('y');
+				.appendField(Blockly.Msg['B3JS_Y']);
 		this.setInputsInline(true);
 		this.setOutput(true, 'Vec2');
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 2 dimensions.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector2');
 	}
@@ -282,16 +293,16 @@ Blockly.Blocks['b3js_vector_vec3'] = {
 	init: function() {
 		this.appendValueInput('X')
 				.setCheck('Number')
-				.appendField('x');
+				.appendField(Blockly.Msg['B3JS_X']);
 		this.appendValueInput('Y')
 				.setCheck('Number')
-				.appendField('y');
+				.appendField(Blockly.Msg['B3JS_Y']);
 		this.appendValueInput('Z')
 				.setCheck('Number')
-				.appendField('z');
+				.appendField(Blockly.Msg['B3JS_Z']);
 		this.setInputsInline(true);
 		this.setOutput(true, 'Vec3');
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 3 dimensions.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector3');
 	}
@@ -301,19 +312,19 @@ Blockly.Blocks['b3js_vector_vec4'] = {
 	init: function() {
 		this.appendValueInput('X')
 				.setCheck('Number')
-				.appendField('x');
+				.appendField(Blockly.Msg['B3JS_X']);
 		this.appendValueInput('Y')
 				.setCheck('Number')
-				.appendField('y');
+				.appendField(Blockly.Msg['B3JS_Y']);
 		this.appendValueInput('Z')
 				.setCheck('Number')
-				.appendField('z');
+				.appendField(Blockly.Msg['B3JS_Z']);
 		this.appendValueInput('W')
 				.setCheck('Number')
-				.appendField('w');
+				.appendField(Blockly.Msg['B3JS_W']);
 		this.setInputsInline(true);
 		this.setOutput(true, 'Vec4');
-		this.setColour(150);
+		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 4 dimensions.');
 	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector4');
 	}
@@ -322,18 +333,19 @@ Blockly.Blocks['b3js_vector_vec4'] = {
 Blockly.Blocks['b3js_create_material'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('material')
+				.appendField(Blockly.Msg['B3JS_MATERIAL_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME')
-				.appendField('as')
-				.appendField(new Blockly.FieldDropdown([['basicMat','BASIC'], ['depthMat','DEPTH'], ['normalMat','NORMAL'], ['lambertMat','LAMBERT'], ['phongMat','PHONG']],
-					block_validator), 'TYPE');
+				.appendField(Blockly.Msg['B3JS_AS'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_BASICMATERIAL'],'BASIC'], [Blockly.Msg['B3JS_DEPTHMATERIAL'],'DEPTH'], [Blockly.Msg['B3JS_NORMALMATERIAL'],'NORMAL'], [Blockly.Msg['B3JS_LAMBERTMATERIAL'],'LAMBERT'], [Blockly.Msg['B3JS_PHONGMATERIAL'],'PHONG']],
+					block_validator), 'TYPE')
+				.appendField(Blockly.Msg['B3JS_WITH']);
 		this.appendDummyInput('CHANGE')
-				.appendField('color')
+				.appendField(Blockly.Msg['B3JS_COLOR'])
 				.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR');
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Create a new Material.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -345,16 +357,17 @@ Blockly.Blocks['b3js_set_material'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Material')
-				.appendField('set');
+				.appendField(Blockly.Msg['B3JS_IN_MATERIAL']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_SET'])
 				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'material'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck(['Colour', 'String'])
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Set property of a previously created Material.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -366,12 +379,13 @@ Blockly.Blocks['b3js_getfrom_material'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Material')
-				.appendField('get');
+				.appendField(Blockly.Msg['B3JS_FROM_MATERIAL']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_GET'])
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'material'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
 		this.setInputsInline(true);
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Get property of a previously created Material.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -384,7 +398,7 @@ Blockly.Blocks['b3js_value_material'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'material'])), 'VAL');
 		this.setOutput(true, 'Material');
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Retrieve a Material.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -396,16 +410,17 @@ Blockly.Blocks['b3js_image_texture'] = {
 	init: function() {
 		this.appendValueInput('TEXTURE')
 				.setCheck('String')
-				.appendField('texture');
+				.appendField(Blockly.Msg['B3JS_TEXTURE']);
 		this.appendDummyInput()
-				.appendField('wrap')
-				.appendField(new Blockly.FieldDropdown([['clamp','CLAMP'], ['repeat','REPEAT'], ['mirror','MIRROR']]), 'WRAP');
+				.appendField(Blockly.Msg['B3JS_WITH'])
+				.appendField(Blockly.Msg['B3JS_WRAP'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_CLAMP'],'CLAMP'], [Blockly.Msg['B3JS_REPEAT'],'REPEAT'], [Blockly.Msg['B3JS_MIRROR'],'MIRROR']]), 'WRAP');
 		this.appendDummyInput()
-				.appendField('filter')
-				.appendField(new Blockly.FieldDropdown([['linear','LINEAR'], ['nearest','NEAREST']]), 'FILTER');
+				.appendField(Blockly.Msg['B3JS_FILTER'])
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_LINEAR'],'LINEAR'], [Blockly.Msg['B3JS_NEAREST'],'NEAREST']]), 'FILTER');
 		this.setInputsInline(true);
 		this.setOutput(true, 'Texture');
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Return a new Texture.');
 	this.setHelpUrl('');
 	}
@@ -414,16 +429,17 @@ Blockly.Blocks['b3js_image_texture'] = {
 Blockly.Blocks['b3js_linear_fog'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('fog')
-				.appendField('color')
+				.appendField(Blockly.Msg['B3JS_FOG'])
+				.appendField(Blockly.Msg['B3JS_WITH'])
+				.appendField(Blockly.Msg['B3JS_COLOR'])
 				.appendField(new Blockly.FieldColour('#ffffff'), 'COLOUR')
-				.appendField('near')
+				.appendField(Blockly.Msg['B3JS_NEAR'])
 				.appendField(new Blockly.FieldNumber(1), 'NEAR')
-				.appendField('far')
+				.appendField(Blockly.Msg['B3JS_FAR'])
 				.appendField(new Blockly.FieldNumber(100), 'FAR');
 		this.setInputsInline(true);
 		this.setOutput(true, 'Fog');
-		this.setColour(250);
+		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Return a new Fog element.');
 	this.setHelpUrl('');
 	}
@@ -432,18 +448,19 @@ Blockly.Blocks['b3js_linear_fog'] = {
 Blockly.Blocks['b3js_create_mesh'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('mesh')
-				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
+				.appendField(Blockly.Msg['B3JS_MESH_CREATE'])
+				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME')
+				.appendField(Blockly.Msg['B3JS_WITH']);
 		this.appendValueInput('GEOMETRY')
 				.setCheck('Geometry')
-				.appendField('geometry');
+				.appendField(Blockly.Msg['B3JS_GEOMETRY']);
 		this.appendValueInput('MATERIAL')
 				.setCheck('Material')
-				.appendField('material');
+				.appendField(Blockly.Msg['B3JS_MATERIAL']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Mesh.');
 	this.setHelpUrl('');
 	}
@@ -452,15 +469,15 @@ Blockly.Blocks['b3js_create_mesh'] = {
 Blockly.Blocks['b3js_create_mesh_from_file'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('mesh')
+				.appendField(Blockly.Msg['B3JS_MESH_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
 		this.appendValueInput('VALUE')
 				.setCheck('String')
-				.appendField('from file');
+				.appendField(Blockly.Msg['B3JS_FROM_FILE']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Mesh from a glTF, OBJ or Collada file.');
 	this.setHelpUrl('');
 	}
@@ -469,15 +486,15 @@ Blockly.Blocks['b3js_create_mesh_from_file'] = {
 Blockly.Blocks['b3js_create_mesh_group'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('mesh')
+				.appendField(Blockly.Msg['B3JS_MESH_CREATE'])
 				.appendField(new Blockly.FieldTextInput('', (s) => null), 'NAME');
 		this.appendValueInput('VALUE')
 				.setCheck('Mesh')
-				.appendField('groups');
+				.appendField(Blockly.Msg['B3JS_GROUPS']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Group from Meshes or Groups.');
 	this.setHelpUrl('');
 	this.mixin(ADD_MIXIN);
@@ -489,16 +506,17 @@ Blockly.Blocks['b3js_set_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField('set', 'ACTION');
+				.appendField(Blockly.Msg['B3JS_IN_MESH']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_SET'], 'ACTION')
 				.appendField(new Blockly.FieldDropdown(() => block_option(['set', 'mesh'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Geometry')
-				.appendField('to');
+				.appendField(Blockly.Msg['B3JS_TO']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Set property of a previously created Mesh.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -510,16 +528,16 @@ Blockly.Blocks['b3js_update_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField(new Blockly.FieldDropdown([['translate','TRANSLATE'], ['rotate','ROTATE'], ['scale','SCALE']]), 'FIELD');
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_TRANSLATE'],'TRANSLATE'], [Blockly.Msg['B3JS_ROTATE'],'ROTATE'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]), 'FIELD');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([['x','X'], ['y','Y'], ['z','Z'], ['xyz','XYZ'], ['along','AXIS']], block_validator), 'COMPONENT');
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_X'],'X'], [Blockly.Msg['B3JS_Y'],'Y'], [Blockly.Msg['B3JS_Z'],'Z'], [Blockly.Msg['B3JS_XYZ'],'XYZ'], [Blockly.Msg['B3JS_ALONG'],'AXIS']], block_validator), 'COMPONENT');
 		this.appendValueInput('VALUE')
 				.setCheck('Number')
-				.appendField('by');
+				.appendField(Blockly.Msg['B3JS_BY']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Update property of a previously created Mesh.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -531,12 +549,13 @@ Blockly.Blocks['b3js_getfrom_mesh'] = {
 	init: function() {
 		this.appendValueInput('INPUT')
 				.setCheck('Mesh')
-				.appendField('get');
+				.appendField(Blockly.Msg['B3JS_FROM_MESH']);
 		this.appendDummyInput()
+				.appendField(Blockly.Msg['B3JS_GET'])
 				.appendField(new Blockly.FieldDropdown(() => block_option(['getfrom', 'mesh'], this.getInputTargetBlock('INPUT')), block_validator), 'FIELD');
 		this.setOutput(true, null);
 		this.setInputsInline(true);
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Get property of a previously created Mesh.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -549,7 +568,7 @@ Blockly.Blocks['b3js_value_mesh'] = {
 		this.appendDummyInput()
 				.appendField(new Blockly.FieldDropdown(() => block_option(['value', 'mesh'])), 'VAL');
 		this.setOutput(true, 'Mesh');
-		this.setColour(100);
+		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Retrieve a Mesh.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -561,13 +580,13 @@ Blockly.Blocks['b3js_render_loop'] = {
 	init: function() {
 		this.appendValueInput('CAMERA')
 				.setCheck('Camera')
-				.appendField('render with camera');
+				.appendField(Blockly.Msg['B3JS_RENDER']);
 		this.appendStatementInput('RENDER')
 				.setCheck(null);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(50);
+		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Render a Scene with a previously created Camera.');
 	this.setHelpUrl('');
 	this.setDisabled(!valDex['camera'].size != workspace.getBlocksByType('b3js_render_loop').length > 0);
@@ -577,16 +596,16 @@ Blockly.Blocks['b3js_render_loop'] = {
 Blockly.Blocks['b3js_upon_event'] = {
 	init: function() {
 		this.appendDummyInput()
-				.appendField('upon event')
+				.appendField(Blockly.Msg['B3JS_UPON'])
 				.appendField(new Blockly.FieldDropdown([['click','CLICK'], ['keyDown','KEYDOWN']], block_validator), 'EVENT');
 		this.appendStatementInput('STEPS')
 				.setCheck(null)
-				.appendField('do');
+				.appendField(Blockly.Msg['B3JS_DO']);
 		this.appendDummyInput('VARIABLE')
-				.appendField('on')
+				.appendField(Blockly.Msg['B3JS_ON'])
 				.appendField(new Blockly.FieldVariable('targetMesh'), 'ARGUMENT');
 		this.setInputsInline(true);
-		this.setColour(50);
+		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Append an Event Listener to the document.');
 	this.setHelpUrl('');
 	this.mixin(BLOCK_MIXIN);
@@ -598,14 +617,14 @@ Blockly.Blocks['b3js_play_animation'] = {
 	init: function() {
 		this.appendValueInput('MESH')
 				.setCheck('Mesh')
-				.appendField('play');
+				.appendField(Blockly.Msg['B3JS_IN_MESH']);
 		this.appendValueInput('NUM')
 				.setCheck('Number')
-				.appendField('animation #');
+				.appendField(Blockly.Msg['B3JS_PLAY_ANIM']);
 		this.setInputsInline(true);
 		this.setPreviousStatement(true, null);
 		this.setNextStatement(true, null);
-		this.setColour(50);
+		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Play the nth Mesh animation.');
 	this.setHelpUrl('');
 	}
@@ -720,7 +739,7 @@ Blockly.JavaScript['b3js_set_camera'] = function(block) {
 					code += value_input + '.lookAt(' + value_value + ');\n';
 				break;
 
-				case 'TRANSLATE':
+				case 'TRANSLATION':
 					var v = block.getInputTargetBlock('VALUE');
 					if (v.type === 'b3js_vector_vec3') {
 						var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
@@ -1043,7 +1062,7 @@ Blockly.JavaScript['b3js_set_geometry'] = function(block) {
 	if (block.getInputTargetBlock('INPUT')) {
 		if (block.getInputTargetBlock('VALUE')) {
 			switch (dropdown_field) {
-				case 'TRANSLATE':
+				case 'TRANSLATION':
 					var v = block.getInputTargetBlock('VALUE');
 					if (v.type === 'b3js_vector_vec3') {
 						var value_x = Blockly.JavaScript.valueToCode(v, 'X', Blockly.JavaScript.ORDER_ATOMIC);
@@ -1476,7 +1495,23 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 				break;
 
 				case 'POSITION':
-					code += value_input + '.position.copy(' + value_value + ');\n';
+					switch (block.getFieldValue('COMP')) {
+						case 'XYZ':
+							code += value_input + '.position.copy(' + value_value + ');\n';
+						break;
+
+						case 'X':
+							code += value_input + '.position.x = ' + value_value + ';\n';
+						break;
+
+						case 'Y':
+							code += value_input + '.position.y = ' + value_value + ';\n';
+						break;
+
+						case 'Z':
+							code += value_input + '.position.z = ' + value_value + ';\n';
+						break;
+					}
 				break;
 
 				case 'LOOKAT':
@@ -1510,34 +1545,33 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 	if (block.getInputTargetBlock('INPUT')) {
 		if (block.getInputTargetBlock('VALUE')) {
 			var v = block.getInputTargetBlock('VALUE');
-			var operation = block.getField('FIELD').getText(); // SAFE acting on this
 			switch (dropdown_component) {
 				case 'X':
 				case 'Y':
 				case 'Z':
 					if (dropdown_field === 'TRANSLATE') {
-						code += value_input + '.' + operation + dropdown_component + '(' + value_value + ');\n';
+						code += value_input + '.' + dropdown_field.toLowerCase() + dropdown_component + '(' + value_value + ');\n';
 					}
 					else if (dropdown_field === 'ROTATE') {
 						var value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_NONE);
 						if (!isNaN(value)) {
-							code += value_input + '.' + operation + dropdown_component + '(' + rad(value) + ');\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + dropdown_component + '(' + rad(value) + ');\n';
 						}
 						else {
-							code += value_input + '.' + operation + dropdown_component + '(rad(' + value + '));\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + dropdown_component + '(rad(' + value + '));\n';
 						}
 					}
 					else {
 						if (dropdown_component === 'X') {
-							code += value_input + '.' + operation + '.copy(' +
+							code += value_input + '.' + dropdown_field.toLowerCase() + '.copy(' +
 								'new THREE.Vector3(' + value_value + ', ' + '1' + ', ' + '1' + '));\n';
 						}
 						else if (dropdown_component === 'Y') {
-							code += value_input + '.' + operation + '.copy(' +
+							code += value_input + '.' + dropdown_field.toLowerCase() + '.copy(' +
 								'new THREE.Vector3(' + '1' + ', ' + value_value + ', ' + '1' + '));\n';
 						}
 						else {
-							code += value_input + '.' + operation + '.copy(' +
+							code += value_input + '.' + dropdown_field.toLowerCase() + '.copy(' +
 								'new THREE.Vector3(' + '1' + ', ' + '1' + ', ' + value_value + '));\n';
 						}
 					}
@@ -1549,50 +1583,50 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 					var value_z = Blockly.JavaScript.valueToCode(v, 'Z', Blockly.JavaScript.ORDER_NONE);
 					if (dropdown_field === 'TRANSLATE') {
 						if (v.type === 'b3js_vector_vec3') {
-							code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
-							code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
-							code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'X' + '(' + value_x + ');\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Y' + '(' + value_y + ');\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Z' + '(' + value_z + ');\n';
 						}
 						else {
-							code += value_input + '.' + operation + 'X' + '(' + value_value + '.x);\n';
-							code += value_input + '.' + operation + 'Y' + '(' + value_value + '.y);\n';
-							code += value_input + '.' + operation + 'Z' + '(' + value_value + '.z);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'X' + '(' + value_value + '.x);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Y' + '(' + value_value + '.y);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Z' + '(' + value_value + '.z);\n';
 						}
 					}
 					else if (dropdown_field === 'ROTATE') {
 						if (v.type === 'b3js_vector_vec3') {
 							if (!isNaN(value_x)) {
 								value_x = rad(value_x);
-								code += value_input + '.' + operation + 'X' + '(' + value_x + ');\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'X' + '(' + value_x + ');\n';
 							}
 							else {
-								code += value_input + '.' + operation + 'X' + '(rad(' + value_x + '));\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'X' + '(rad(' + value_x + '));\n';
 							}
 
 							if (!isNaN(value_y)) {
 								value_y = rad(value_y);
-								code += value_input + '.' + operation + 'Y' + '(' + value_y + ');\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'Y' + '(' + value_y + ');\n';
 							}
 							else {
-								code += value_input + '.' + operation + 'Y' + '(rad(' + value_y + '));\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'Y' + '(rad(' + value_y + '));\n';
 							}
 
 							if (!isNaN(value_z)) {
 								value_z = rad(value_z);
-								code += value_input + '.' + operation + 'Z' + '(' + value_z + ');\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'Z' + '(' + value_z + ');\n';
 							}
 							else {
-								code += value_input + '.' + operation + 'Z' + '(rad(' + value_z + '));\n';
+								code += value_input + '.' + dropdown_field.toLowerCase() + 'Z' + '(rad(' + value_z + '));\n';
 							}
 						}
 						else {
-							code += value_input + '.' + operation + 'X' + '(' + value_value + '.x);\n';
-							code += value_input + '.' + operation + 'Y' + '(' + value_value + '.y);\n';
-							code += value_input + '.' + operation + 'Z' + '(' + value_value + '.z);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'X' + '(' + value_value + '.x);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Y' + '(' + value_value + '.y);\n';
+							code += value_input + '.' + dropdown_field.toLowerCase() + 'Z' + '(' + value_value + '.z);\n';
 						}
 					}
 					else {
-						code += value_input + '.' + operation + '.copy(' + value_value + ');\n';
+						code += value_input + '.' + dropdown_field.toLowerCase() + '.copy(' + value_value + ');\n';
 					}
 				break;
 

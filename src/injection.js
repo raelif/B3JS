@@ -7,6 +7,40 @@ const webglCanvas = document.getElementById('webglCanvas');
 const blocklyArea = document.getElementById('blocklyArea');
 const blocklyDiv = document.getElementById('blocklyDiv');
 
+const tr_lang = {
+	en : {
+		file : 'File',
+		saveButton : 'Save Project',
+		importButton : 'Import Project',
+		genButton : 'Generate Javascript',
+		uploadButton : 'Upload Resources',
+		view : 'View',
+		canvEnlButton : 'Canvas Fullscreen',
+		wrksEnlButton : 'Workspace Fullscreen',
+		languageButton : 'Language:\
+			Eng <input id="enLan" type="radio" name="lan" onclick="changeLanguage(this)" value="en" checked="checked">\
+			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it">',
+		showButton : 'Show Code',
+		stopButton : 'Stop',
+		runButton : 'Run'
+	},
+	it : {
+		file : 'File',
+		saveButton : 'Salva Progetto',
+		importButton : 'Importa Progetto',
+		genButton : 'Genera Javascript',
+		uploadButton : 'Carica Risorse',
+		view : 'Vista',
+		canvEnlButton : 'Canvas a Schermo Intero',
+		wrksEnlButton : 'Workspace a Schermo Intero',
+		languageButton : 'Lingua:\
+			Eng <input id="enLan" type="radio" name="lan" onclick="changeLanguage(this)" value="en">\
+			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it" checked="checked">',
+		showButton : 'Mostra Codice',
+		stopButton : 'Ferma',
+		runButton : 'Esegui'
+	}
+};
 const checkExp = document.getElementById('checkExp');
 
 const valDex = {
@@ -448,7 +482,7 @@ function loadWorkspace() {
 				horizontalLayout : false,
 				toolboxPosition : 'start',
 				css : true,
-				media : 'https://blockly-demo.appspot.com/static/media/',
+				media : '../lib/media/',
 				rtl : false,
 				scrollbars : true,
 				sounds : true,
@@ -483,49 +517,46 @@ function loadWorkspace() {
 	};
 
 	xhr.overrideMimeType('text/xml');
-	if (checkExp.checked) {
-		xhr.open('GET', 'src/e_toolbox.xml', true);
-	}
-	else {
-		xhr.open('GET', 'src/toolbox.xml', true);
-	}
+	if (document.getElementById('language').lang === 'en')
+		xhr.open('GET', 'src/toolbox_en.xml', true);
+	else
+		xhr.open('GET', 'src/toolbox_it.xml', true);
 	xhr.send();
 }
 
 // /=====================================================================\
-//	void saveProject()
+//	void saveProject(type)
 // \=====================================================================/
-function saveProject() {
-	// Generate JavaScript and Xml and save them.
-	Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
-	const code = Blockly.JavaScript.workspaceToCode(workspace);
-	const xml_text = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-
-	var comment = '';
-	Object.keys(valDex).forEach((k) => {
-		comment += '<!--' + k + ':';
-		comment += Array.from(valDex[k]).reduce(((res, e) => res + e[0]+'='+e[1][1] + ' '), '');
-		comment += '-->\n';
-	});
-
+function saveProject(type) {
 	const filename = prompt('Save As');
-	console.log('Saved ' + filename);
+	if (filename !== null && filename !== '') {
+		// Generate JavaScript or Xml and save them.
+		var content = null;
+		if (type === 'js') {
+			Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+			const code = Blockly.JavaScript.workspaceToCode(workspace);
+			content = 'data:text/javascript; charset=utf-8,' + encodeURIComponent(code);
+		}
+		else {
+			const xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
 
-	const downloadFile = function(content, type) {
+			var comment = '';
+			Object.keys(valDex).forEach((k) => {
+				comment += '<!--' + k + ':';
+				comment += Array.from(valDex[k]).reduce(((res, e) => res + e[0]+'='+e[1][1] + ' '), '');
+				comment += '-->\n';
+			});
+			content = 'data:text/javascript; charset=utf-8,' + encodeURIComponent(xml + '\n' + comment);
+		}
+
 		const download = document.createElement('a');
 		download.style.display = 'none';
-		download.setAttribute('href', 'data:text/' + type + '; charset=utf-8,' + encodeURIComponent(content));
-		type === 'xml' ? type = type : type = 'js';
+		download.setAttribute('href', content);
 		download.setAttribute('download', filename + '.' + type);
 
 		document.body.appendChild(download);
 		download.click();
 		document.body.removeChild(download);
-	};
-
-	if (filename !== null && filename !== '') {
-		downloadFile(code, 'javascript');
-		downloadFile(xml_text + '\n' + comment, 'xml');
 	}
 }
 
@@ -610,6 +641,32 @@ function openFullscreen(div) {
 }
 
 // /=====================================================================\
+//	void changeLanguage(radio)
+// \=====================================================================/
+function changeLanguage(radio) {
+	var language = document.getElementById('language');
+	if (language)
+		document.head.removeChild(language);
+
+	language = document.createElement('script');
+	language.setAttribute('id', 'language');
+	language.setAttribute('lang', radio.value);
+	language.setAttribute('type', 'text/javascript');
+	language.setAttribute('src', 'lib/msg/js/' + radio.value + '.js');
+	document.head.appendChild(language);
+
+	document.querySelectorAll('a').forEach((a) => {
+		if (a.id === 'languageButton' || a.id === 'expertButton')
+			a.innerHTML = tr_lang[radio.value][a.id];
+		else
+			a.textContent = tr_lang[radio.value][a.id];
+	});
+
+	loadWorkspace();
+	stopCode();
+}
+
+// /=====================================================================\
 //	void expertMode()
 // \=====================================================================/
 function expertMode() {
@@ -659,7 +716,7 @@ function preLoad() {
 // \=====================================================================/
 function showCode() {
 	Promise.all(preLoad()).then((neverland) => {
-		if (neverland)
+		if (neverland && !anim_id)
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
 		console.log(usr_res);
 

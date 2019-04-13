@@ -1,6 +1,6 @@
 <xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
   <category name="B3JS"></category>
-  <category name="Scene" colour="#a55b5b">
+  <category name="Scena" colour="#a55b5b">
     <block type="b3js_add_scene"></block>
     <block type="b3js_set_scene">
       <field name="FIELD">BACKGROUND</field>
@@ -24,7 +24,7 @@
       <field name="VAL"></field>
     </block>
   </category>
-  <category name="Light" colour="#a55ba5">
+  <category name="Luce" colour="#a55ba5">
     <block type="b3js_create_light">
       <field name="NAME"></field>
       <field name="TYPE">AMBIENT</field>
@@ -41,7 +41,7 @@
       <field name="VAL"></field>
     </block>
   </category>
-  <category name="Geometry" colour="#5ba593">
+  <category name="Geometria" colour="#5ba593">
     <block type="b3js_create_geometry">
       <field name="NAME"></field>
       <field name="TYPE">PLANE</field>
@@ -50,7 +50,7 @@
       <field name="DETAIL">1</field>
     </block>
     <block type="b3js_set_geometry">
-      <field name="FIELD">TRANSLATE</field>
+      <field name="FIELD">TRANSLATION</field>
     </block>
     <block type="b3js_getfrom_geometry">
       <field name="FIELD">POSITION</field>
@@ -110,7 +110,7 @@
       </value>
     </block>
   </category>
-  <category name="Material" colour="#6d5ba5">
+  <category name="Materiale" colour="#6d5ba5">
     <block type="b3js_create_material">
       <field name="NAME"></field>
       <field name="TYPE">BASIC</field>
@@ -169,7 +169,7 @@
       <field name="VAL"></field>
     </block>
   </category>
-  <category name="Animation" colour="#a5a55b">
+  <category name="Animazione" colour="#a5a55b">
     <block type="b3js_render_loop"></block>
     <block type="b3js_upon_event">
       <field name="EVENT">CLICK</field>
@@ -184,7 +184,7 @@
     </block>
   </category>
   <sep></sep>
-  <category name="Logic" colour="#5C81A6">
+  <category name="Logica" colour="#5C81A6">
     <block type="controls_if"></block>
     <block type="logic_compare">
       <field name="OP">EQ</field>
@@ -199,7 +199,7 @@
     <block type="logic_null"></block>
     <block type="logic_ternary"></block>
   </category>
-  <category name="Loops" colour="#5CA65C">
+  <category name="Cicli" colour="#5CA65C">
     <block type="controls_repeat_ext">
       <value name="TIMES">
         <shadow type="math_number">
@@ -235,7 +235,7 @@
       <field name="FLOW">BREAK</field>
     </block>
   </category>
-  <category name="Math" colour="#5C68A6">
+  <category name="Matematica" colour="#5C68A6">
     <block type="math_number">
       <field name="NUM">0</field>
     </block>
@@ -335,7 +335,7 @@
     </block>
     <block type="math_random_float"></block>
   </category>
-  <category name="Text" colour="#5CA68D">
+  <category name="Testo" colour="#5CA68D">
     <block type="text">
       <field name="TEXT"></field>
     </block>
@@ -429,7 +429,7 @@
       </value>
     </block>
   </category>
-  <category name="Lists" colour="#745CA6">
+  <category name="Liste" colour="#745CA6">
     <block type="lists_create_with">
       <mutation items="0"></mutation>
     </block>
@@ -497,7 +497,7 @@
       <field name="DIRECTION">1</field>
     </block>
   </category>
-  <category name="Colour" colour="#A6745C">
+  <category name="Colore" colour="#A6745C">
     <block type="colour_picker">
       <field name="COLOUR">#ff0000</field>
     </block>
@@ -538,6 +538,6 @@
     </block>
   </category>
   <sep></sep>
-  <category name="Variables" colour="#A65C81" custom="VARIABLE"></category>
-  <category name="Functions" colour="#9A5CA6" custom="PROCEDURE"></category>
+  <category name="Variabili" colour="#A65C81" custom="VARIABLE"></category>
+  <category name="Funzioni" colour="#9A5CA6" custom="PROCEDURE"></category>
 </xml>

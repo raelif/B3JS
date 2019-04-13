@@ -1,54 +1,14 @@
 <!DOCTYPE html>
 <meta charset='utf-8'>
-<html lang='en-US'>
+<html>
 	<head>
 		<title>B3JS</title>
 		<link rel='stylesheet' type='text/css' href='b3js.css'>
 		<link rel='icon' type='image/x-icon' href='resources/favicon.ico'>
-	</head>
-
-	<body onLoad='loadWorkspace()'>
-		<div id='menu'>
-			<ul>
-				<li><a>File</a>
-					<ul>
-						<li><a id='saveButton' onClick='saveProject()'>Save Project</a></li>
-						<li><a id='importButton' onClick='document.getElementById("importedXml").click();'>Import Project</a>
-							<input id='importedXml' type='file' accept='text/xml' onInput='importProject()' onChange='this.value=null;'>
-						</li>
-						<li><a id='uploadButton' onClick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
-							<form action='upload.php' method='post' target='dummyframe' enctype='multipart/form-data'>
-								<input id='uploadRes[]' name='uploadRes[]'  type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*'
-								onInput='this.parentElement.submit();' multiple>
-							</form>
-						</li>
-					</ul>
-				</li>
-				<li><a>View</a>
-					<ul>
-						<li><a id='enlargeButton' onClick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
-						<li><a id='enlargeButton' onClick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
-						<li><a id='expertButton' onClick='expertMode()'>
-							Expert Mode <input id='checkExp' type='checkbox' onClick='this.checked = !this.checked;'></a>
-						</li>
-					</ul>
-				</li>
-				<li><a id='showButton' onClick='showCode()'>Show Code</a></li>
-				<li><a id='stopButton' onClick='stopCode()'>Stop</a></li>
-				<li><a id='runButton' onClick='runCode()'>Run</a></li>
-			</ul>
-		</div>
-
-		<iframe name='dummyframe' onLoad='if(this.contentWindow.document.body.innerHTML)
-		alert(this.contentWindow.document.body.innerHTML);'></iframe>
-
-		<div id='webglArea'><canvas id='webglCanvas'/></div>
-		<div id='blocklyArea'><div id='blocklyDiv'/></div>
 
 		<script type='text/javascript' src='lib/blockly_compressed.js'></script>
 		<script type='text/javascript' src='lib/blocks_compressed.js'></script>
 		<script type='text/javascript' src='lib/javascript_compressed.js'></script>
-		<script type='text/javascript' src='lib/msg/js/en.js'></script>
 
 		<script type='text/javascript' src='lib/three.js'></script>
 		<script type='text/javascript' src='lib/loaders/LoaderSupport.js'></script>
@@ -56,6 +16,50 @@
 		<script type='text/javascript' src='lib/loaders/MTLLoader.js'></script>
 		<script type='text/javascript' src='lib/loaders/GLTFLoader.js'></script>
 		<script type='text/javascript' src='lib/loaders/ColladaLoader.js'></script>
+
+		<script id='language' lang='en' type='text/javascript' src='lib/msg/js/en.js'></script>
+	</head>
+
+	<body onload='loadWorkspace()'>
+		<div id='menu'>
+			<ul>
+				<li><a id='file'>File</a>
+					<ul>
+						<li><a id='saveButton' onclick='saveProject("xml")'>Save Project</a></li>
+						<li><a id='importButton' onclick='document.getElementById("importedXml").click();'>Import Project</a>
+							<input id='importedXml' type='file' accept='text/xml' oninput='importProject()'
+								onchange='this.value=null;'>
+						</li>
+						<li><a id='genButton' onclick='saveProject("js")'>Generate Javascript</a></li>
+						<li><a id='uploadButton' onclick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
+							<form action='upload.php' method='post' target='dummyframe' enctype='multipart/form-data'>
+								<input id='uploadRes[]' name='uploadRes[]' type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*'
+									oninput='this.parentElement.submit();' multiple>
+							</form>
+						</li>
+					</ul>
+				</li>
+				<li><a id='view'>View</a>
+					<ul>
+						<li><a id='canvEnlButton' onclick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
+						<li><a id='wrksEnlButton' onclick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
+						<li><a id='languageButton'>Language:
+							Eng <input id='enLan' type='radio' name='lan' onclick='changeLanguage(this)' value='en' checked='checked'>
+							Ita <input id='itLan' type='radio' name='lan' onclick='changeLanguage(this)' value='it'></a>
+						</li>
+					</ul>
+				</li>
+				<li><a id='showButton' onclick='showCode()'>Show Code</a></li>
+				<li><a id='stopButton' onclick='stopCode()'>Stop</a></li>
+				<li><a id='runButton' onclick='runCode()'>Run</a></li>
+			</ul>
+		</div>
+
+		<iframe name='dummyframe' onload='if(this.contentWindow.document.body.innerHTML)
+			alert(this.contentWindow.document.body.innerHTML);'></iframe>
+
+		<div id='webglArea'><canvas id='webglCanvas'/></div>
+		<div id='blocklyArea'><div id='blocklyDiv'/></div>
 
 		<script type='text/javascript' src='src/injection.js'></script>
 		<script type='text/javascript' src='src/extensions.js'></script>
