@@ -41,7 +41,6 @@ const tr_lang = {
 		runButton : 'Esegui'
 	}
 };
-const checkExp = document.getElementById('checkExp');
 
 const valDex = {
 	'camera': new Map(),
@@ -67,7 +66,6 @@ Blockly.JavaScript.addReservedWords('\
 	webglCanvas,\
 	blocklyArea,\
 	blocklyDiv,\
-	checkExp,\
 	valDex,\
 	workspace,\
 	elapsed_time,\
@@ -656,21 +654,12 @@ function changeLanguage(radio) {
 	document.head.appendChild(language);
 
 	document.querySelectorAll('a').forEach((a) => {
-		if (a.id === 'languageButton' || a.id === 'expertButton')
+		if (a.id === 'languageButton')
 			a.innerHTML = tr_lang[radio.value][a.id];
 		else
 			a.textContent = tr_lang[radio.value][a.id];
 	});
 
-	loadWorkspace();
-	stopCode();
-}
-
-// /=====================================================================\
-//	void expertMode()
-// \=====================================================================/
-function expertMode() {
-	checkExp.checked = !checkExp.checked;
 	loadWorkspace();
 	stopCode();
 }
