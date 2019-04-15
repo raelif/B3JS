@@ -66,6 +66,7 @@ Blockly.JavaScript.addReservedWords('\
 	webglCanvas,\
 	blocklyArea,\
 	blocklyDiv,\
+	tr_lang\
 	valDex,\
 	workspace,\
 	elapsed_time,\
@@ -203,6 +204,13 @@ function flicker(block) {
 				if (field) {
 					block.setFieldValue('', fid);
 					block.setFieldValue(field, fid);
+
+					// Additional work for getfrom with component
+					const comp = block.getFieldValue('COMP');
+					if (comp) {
+						block.updateShape_(comp);
+					}
+
 					// Invalid option => reset
 					const text = block.getField(fid).getText(); // SAFE fid != null
 					if (text === text.toUpperCase()) {

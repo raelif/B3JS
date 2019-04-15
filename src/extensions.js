@@ -779,13 +779,15 @@ const GETFROM_MATERIAL_SHAPE = {
 
 const GETFROM_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
-		console.log(typeInput);
 		if (this.getInput('NUM'))
 			this.removeInput('NUM');
-		if (['XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
+
+		const field = this.getFieldValue('FIELD');
+		if (field !== 'POSITION' && field !== 'LOOKAT') {
 			if (this.getInput('COMPONENT'))
 				this.removeInput('COMPONENT');
 		}
+
 		switch (typeInput) {
 			case 'GEOMETRY':
 				this.setOutput(true, 'Geometry');
@@ -804,9 +806,12 @@ const GETFROM_MESH_SHAPE = {
 
 			case 'POSITION':
 			case 'LOOKAT':
-				this.appendDummyInput('COMPONENT')
-					.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']], block_validator), 'COMP');
-				this.setOutput(true, 'Vec3');
+				if (!this.getInput('COMPONENT')) {
+					this.appendDummyInput('COMPONENT')
+						.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']],
+							block_validator), 'COMP');
+					this.setOutput(true, 'Vec3');
+				}
 			break;
 
 			case 'XYZ':
