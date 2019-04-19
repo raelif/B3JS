@@ -488,7 +488,7 @@ function loadWorkspace() {
 				horizontalLayout : false,
 				toolboxPosition : 'start',
 				css : true,
-				media : '../lib/media/',
+				media : 'lib/media/',
 				rtl : false,
 				scrollbars : true,
 				sounds : true,
