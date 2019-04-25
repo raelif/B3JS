@@ -1361,7 +1361,7 @@ Blockly.JavaScript['b3js_image_texture'] = function(block) {
 	var code = '';
 	// TODO: Change ORDER_NONE to the correct strength.
 	// image, mapping, wrapS, wrapT, magFilter, minFilter);\n';
-	code += 'new THREE.TextureLoader().setPath("./resources/uploads/").load(' + value_texture + ', ';
+	code += 'new THREE.TextureLoader().setPath("./resources/").load(' + value_texture + ', ';
 	code += '(texture) => {\n';
 	switch (dropdown_wrap) {
 		case 'CLAMP':
@@ -1441,25 +1441,28 @@ Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	var text_name = block.getFieldValue('NAME');
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
+	var key = 'mesh_' + text_name;
 	var check = [];
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (block.getInputTargetBlock('VALUE')) {
-		if (value_value.indexOf('mesh_' + text_name) < 0) {
-			code += 'const mesh_' + text_name + ' = new THREE.Group();\n';
-			code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
+		if (value_value.indexOf(key) < 0) {
+			code += 'const ' + key + ' = new THREE.Group();\n';
+			code += key + '.add(' + value_value + ');\n';
 			check.push(value_value);
 		}
 	}
 	var i = 0;
 	while (block.getInputTargetBlock('ADD' + i)) {
 		value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
-		if (value_value.indexOf('mesh_' + text_name) < 0) {
+		if (value_value.indexOf(key) < 0) {
 			if (check.indexOf(value_value) >= 0) {
-				code += 'mesh_' + text_name + '.add(' + value_value + '.clone());\n';
+				if (!usr_res[value_value] || !usr_res[value_value].animations) {
+					code += key + '.add(' + value_value + '.clone());\n';
+				}
 			}
 			else {
-				code += 'mesh_' + text_name + '.add(' + value_value + ');\n';
+				code += key + '.add(' + value_value + ');\n';
 				check.push(value_value);
 			}
 		}
@@ -1761,7 +1764,8 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 
 		code +=
 			'const animate = function () {\n'+
-			'	anim_id = requestAnimationFrame( animate );\n';
+			'	anim_id = requestAnimationFrame( animate );\n'+
+			'	delta = global_clock.getDelta();\n';
 
 		statements_render.split('\n').forEach((line) => {
 			if (line !== '') {
@@ -1827,9 +1831,8 @@ Blockly.JavaScript['b3js_play_animation'] = function(block) {
 	var code = '';
 	if (usr_res[value_mesh] && usr_res[value_mesh].animations) {
 		if (usr_res[value_mesh].animations.length > value_num) {
-			code +=
-			'	usr_res["' + value_mesh + '"].mixer.clipAction(usr_res["' + value_mesh + '"].animations[' + value_num + ']).play();\n'+
-			'	usr_res["' + value_mesh + '"].mixer.update(global_clock.getDelta());\n';
+			usr_res[value_mesh].mixer.clipAction(usr_res[value_mesh].animations[value_num]).play();
+			code += 'usr_res["' + value_mesh + '"].mixer.update(delta);\n';
 		}
 	}
 	return code;

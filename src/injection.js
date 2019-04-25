@@ -634,7 +634,6 @@ function importProject() {
 //	void openFullScreen(div)
 // \=====================================================================/
 function openFullscreen(div) {
-	console.log(document.fullscreenElement);
 	if (div.requestFullscreen) {
 		div.requestFullscreen();
 	} else if (div.mozRequestFullScreen) { //Firefox
@@ -684,23 +683,23 @@ function preLoad() {
 		if (file_name.indexOf('.obj') >= 0) {
 			const mtl = file_name.replace('.obj', '.mtl');
 			promises.push(new Promise((resolve, reject) => {
-				new THREE.MTLLoader().setResourcePath('./resources/uploads/')
-					.load('./resources/uploads/' + mtl, (m) => {
+				new THREE.MTLLoader().setResourcePath('./resources/')
+					.load('./resources/' + mtl, (m) => {
 						new THREE.OBJLoader().setMaterials(m)
-							.load('./resources/uploads/' + file_name, (obj) => resolve([key, obj]), undefined, reject);
+							.load('./resources/' + file_name, (obj) => resolve([key, obj]), undefined, reject);
 					});
 			}));
 		}
 		else if (file_name.indexOf('.dae') >= 0) {
 			promises.push(new Promise((resolve, reject) => {
 				new THREE.ColladaLoader()
-					.load('./resources/uploads/' + file_name, (dae) => resolve([key, dae]), undefined, reject);
+					.load('./resources/' + file_name, (dae) => resolve([key, dae]), undefined, reject);
 			}));
 		}
 		else if (file_name.indexOf('.gltf') >= 0) {
 			promises.push(new Promise((resolve, reject) => {
 				new THREE.GLTFLoader()
-					.load('./resources/uploads/' + file_name, (gltf) => resolve([key, gltf]), undefined, reject);
+					.load('./resources/' + file_name, (gltf) => resolve([key, gltf]), undefined, reject);
 			}));
 		}
 	});

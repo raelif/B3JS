@@ -1,7 +1,7 @@
 <?php
 // Count # of uploaded files in array
 $total = count($_FILES['uploadRes']['name']);
-$target_dir = './resources/uploads/';
+$target_dir = './resources/';
 
 // Loop through each file
 for($i=0; $i<$total; $i++) {
