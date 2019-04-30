@@ -1427,7 +1427,7 @@ Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 			code += 'const ' + key + ' = usr_res["' + key + '"];\n';
 		}
 	}
-	else if (value_value.indexOf('.dae') >= 0 || value_value.indexOf('.gltf') >= 0) {
+	else if (value_value.indexOf('.dae') >= 0 || value_value.indexOf('.gltf') >= 0 || value_value.indexOf('.glb') >= 0) {
 		if (usr_res[key]) {
 			code += 'const ' + key + ' = usr_res["' + key + '"].scene;\n';
 			if (usr_res[key].animations.length) {
@@ -1435,6 +1435,7 @@ Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 			}
 		}
 	}
+	code += key + '.name = "' + key + '";\n';
 	return code;
 };
 
@@ -1443,35 +1444,41 @@ Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	var key = 'mesh_' + text_name;
 	// Cloning gallery
-	const toDo = Blockly.JavaScript.provideFunction_('addChild', [
-		'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(group, ig, n, child) {',
-		'	if (n === null) {',
+	const toDo = Blockly.JavaScript.provideFunction_('cloneChild', [
+		'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(group, child, n) {',
+		'	if (n === null)',
 		'		n = group.children.length;',
+		'	if (child.type === "Scene") {',
+		'		if (!usr_res[group.name]) usr_res[group.name] = {};',
+		'		usr_res[group.name]["animations"+n] = usr_res[child.name].animations;',
+		'		usr_res[group.name]["scene"+n] = THREE.SkeletonUtils.clone(child);',
+		'		usr_res[group.name]["mixer"+n] = new THREE.AnimationMixer(usr_res[group.name]["scene"+n]);',
+		'		group.add(usr_res[group.name]["scene"+n]);',
+		'		group.children[n].name = group.name + ":" + n;',
 		'	}',
-		'	const ign = ig + n;',
-		'	if (usr_res[ign]) {',
-		'		usr_res[ign].scene.name = ign;',
-		'		usr_res[ign].mixer = new THREE.AnimationMixer(usr_res[ign].scene);',
-		'		group.add(usr_res[ign].scene);',
-		'	}',
-		'	else {',
+		'	else if (child.type === "Mesh") {',
 		'		group.add(child.clone());',
+		'	}',
+		'	else if (child.type === "Group") {',
+		'		var invalid = false;',
+		'		child.traverse((e) => {if (e.type === "SkinnedMesh") invalid = true;});',
+		'		if (!invalid) group.add(child.clone());',
 		'	}',
 		'}']);
 
 	// TODO: Assemble JavaScript into code variable.
 	var code = 'const ' + key + ' = new THREE.Group();\n';
+	code += key + '.name = "' + key + '";\n';
 	if (block.getInputTargetBlock('VALUE')) {
 		var i = 0, n = 0;
-		code += 'addChild(' + key + ', "' + key + '", ' + n + ', ' + value_value + ');\n';
+		code += 'cloneChild(' + key + ', ' + value_value + ', ' + n + ');\n';
 		while (block.getInputTargetBlock('ADD' + i)) {
 			value_value = Blockly.JavaScript.valueToCode(block, 'ADD' + i, Blockly.JavaScript.ORDER_ATOMIC);
 			n = i + 1;
-			code += 'addChild(' + key + ', "' + key + '", ' + n + ', ' + value_value + ');\n';
+			code += 'cloneChild(' + key + ', ' + value_value + ', ' + n + ');\n';
 			i++;
 		}
 	}
-	code += 'console.log(usr_res);\n';
 	return code;
 };
 
@@ -1494,7 +1501,7 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 
 				case 'CHILD':
 					if (value_input !== value_value) {
-						code += 'addChild(' + value_input + ', "' + value_input + '", ' + null + ', ' + value_value + ');\n';
+						code += 'cloneChild(' + value_input + ', ' + value_value + ', ' + null + ');\n';
 					}
 				break;
 
@@ -1689,7 +1696,6 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 					'			count++;',
 					'		}',
 					'	});',
-					'	console.log(ithMesh);',
 					'	return ithMesh;',
 					'}']);
 
@@ -1854,27 +1860,21 @@ Blockly.JavaScript['b3js_play_animation'] = function(block) {
 	var value_mesh = Blockly.JavaScript.valueToCode(block, 'MESH', Blockly.JavaScript.ORDER_ATOMIC);
 	var value_num = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
-	var code = '';
-	if (usr_res[value_mesh] && usr_res[value_mesh].animations) {
-		if (usr_res[value_mesh].animations.length > value_num) {
-			code += 'usr_res["' + value_mesh + '"].mixer\
-				.clipAction(usr_res["' + value_mesh + '"].animations[' + value_num + ']).play();\n';
-			code += 'usr_res["' + value_mesh + '"].mixer.update(delta);\n';
-		}
-	}
-	else {
-		const toDo = Blockly.JavaScript.provideFunction_('animateChild', [
-			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(mesh, num) {',
-			'	if (!mesh) return;',
-			'	var id = mesh.name;',
-			'	if (usr_res[id] && usr_res[id].animations) {',
-			'		if (usr_res[id].animations.length > num) {',
-			'			usr_res[id].mixer.clipAction(usr_res[id].animations[num]).play();',
-			'			usr_res[id].mixer.update(delta);',
-			'		}',
-			'	}',
-			'}']);
-		code += 'animateChild(' + value_mesh + ', ' + value_num +');\n';
-	}
+
+	const toDo = Blockly.JavaScript.provideFunction_('animateChild', [
+		'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(mesh, num) {',
+		'	if (!mesh) return;',
+		'	var id = mesh.name.split(":");',
+		'	if (id.length > 1 && usr_res[id[0]]["mixer"+id[1]]) {',
+		'		usr_res[id[0]]["mixer"+id[1]].clipAction(usr_res[id[0]]["animations"+id[1]][num]).play();',
+		'		usr_res[id[0]]["mixer"+id[1]].update(delta);',
+		'	}',
+		'	else if (usr_res[id].mixer){',
+		'		usr_res[id].mixer.clipAction(usr_res[id].animations[num]).play();',
+		'		usr_res[id].mixer.update(delta);',
+		'	}',
+		'}']);
+
+	var code = 'animateChild(' + value_mesh + ', ' + value_num +');\n';
 	return code;
 };

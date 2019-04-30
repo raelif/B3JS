@@ -660,67 +660,31 @@ function changeLanguage(radio) {
 // \=====================================================================/
 function preLoad() {
 	const promises = [];
-	const stackProm = function (prom, k, name) {
-		if (name.indexOf('.obj') >= 0) {
-			const mtl = name.replace('.obj', '.mtl');
-			prom.push(new Promise((resolve, reject) => {
-				new THREE.MTLLoader().setResourcePath('./resources/')
-					.load('./resources/' + mtl, (m) => {
-						new THREE.OBJLoader().setMaterials(m)
-							.load('./resources/' + name, (obj) => resolve([k, obj]), undefined, reject);
-					});
-			}));
-		}
-		else if (name.indexOf('.dae') >= 0) {
-			prom.push(new Promise((resolve, reject) => {
-				new THREE.ColladaLoader()
-					.load('./resources/' + name, (dae) => resolve([k, dae]), undefined, reject);
-			}));
-		}
-		else if (name.indexOf('.gltf') >= 0) {
-			prom.push(new Promise((resolve, reject) => {
-				new THREE.GLTFLoader()
-					.load('./resources/' + name, (gltf) => resolve([k, gltf]), undefined, reject);
-			}));
-		}
-	};
-
 	workspace.getBlocksByType('b3js_create_mesh_from_file').forEach((b) => {
 		const key = 'mesh_' + b.getFieldValue('NAME');
 		const file_name = b.getInputTargetBlock('VALUE').getFieldValue('TEXT');
-		stackProm(promises, key, file_name);
-	});
 
-	var offset = new Map();
-	workspace.getBlocksByType('b3js_create_mesh_group').forEach((b) => {
-		if (b.getInputTargetBlock('VALUE')) {
-			var i = 0, n = 0;
-			var key = 'mesh_' + b.getFieldValue('NAME') + n;
-			var linked = workspace.getBlockById(b.getInputTargetBlock('VALUE').getFieldValue('VAL'));
-			if (linked.type === 'b3js_create_mesh_from_file') {
-				stackProm(promises, key, linked.getInputTargetBlock('VALUE').getFieldValue('TEXT'));
-			}
-			while (b.getInputTargetBlock('ADD' + i)) {
-				n = i + 1;
-				key = 'mesh_' + b.getFieldValue('NAME') + n;
-				linked = workspace.getBlockById(b.getInputTargetBlock('ADD' + i).getFieldValue('VAL'));
-				if (linked.type === 'b3js_create_mesh_from_file') {
-					stackProm(promises, key, linked.getInputTargetBlock('VALUE').getFieldValue('TEXT'));
-				}
-				i++;
-			}
+		if (file_name.indexOf('.obj') >= 0) {
+			const mtl = file_name.replace('.obj', '.mtl');
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.MTLLoader().setResourcePath('./resources/')
+					.load('./resources/' + mtl, (m) => {
+						new THREE.OBJLoader().setMaterials(m)
+							.load('./resources/' + file_name, (obj) => resolve([key, obj]), undefined, reject);
+					});
+			}));
 		}
-		offset.set(b.id, n);
-	});
-
-	workspace.getBlocksByType('b3js_set_mesh').forEach((b) => {
-		if (b.getFieldValue('FIELD') === 'CHILD') {
-			var group = workspace.getBlockById(b.getInputTargetBlock('INPUT').getFieldValue('VAL'));
-			var n = offset.get(group.id) + 1;
-			var key = 'mesh_' + group.getFieldValue('NAME') + (n);
-			var linked = workspace.getBlockById(b.getInputTargetBlock('VALUE').getFieldValue('VAL'));
-			stackProm(promises, key, linked.getInputTargetBlock('VALUE').getFieldValue('TEXT'));
-			offset.set(group.id, n);
+		else if (file_name.indexOf('.dae') >= 0) {
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.ColladaLoader()
+					.load('./resources/' + file_name, (dae) => resolve([key, dae]), undefined, reject);
+			}));
+		}
+		else if (file_name.indexOf('.gltf') >= 0 || file_name.indexOf('.glb') >= 0) {
+			promises.push(new Promise((resolve, reject) => {
+				new THREE.GLTFLoader()
+					.load('./resources/' + file_name, (gltf) => resolve([key, gltf]), undefined, reject);
+			}));
 		}
 	});
 
@@ -774,10 +738,11 @@ function runCode() {
 		/*/ Generate JavaScript code and run it.
 		window.LoopTrap = 1000;
 		Blockly.JavaScript.INFINITE_LOOP_TRAP =
-				'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';*/
-		const code = Blockly.JavaScript.workspaceToCode(workspace);
-		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+				'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
+		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;*/
 		stopCode();
+
+		const code = Blockly.JavaScript.workspaceToCode(workspace);
 		try {
 			eval(code);
 		}

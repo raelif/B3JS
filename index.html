@@ -11,6 +11,7 @@
 		<script type='text/javascript' src='lib/javascript_compressed.js'></script>
 
 		<script type='text/javascript' src='lib/three.js'></script>
+		<script type='text/javascript' src='lib/SkeletonUtils.js'></script>
 		<script type='text/javascript' src='lib/loaders/LoaderSupport.js'></script>
 		<script type='text/javascript' src='lib/loaders/OBJLoader.js'></script>
 		<script type='text/javascript' src='lib/loaders/MTLLoader.js'></script>
@@ -33,7 +34,7 @@
 						<li><a id='genButton' onclick='saveProject("js")'>Generate Javascript</a></li>
 						<li><a id='uploadButton' onclick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
 							<form action='upload.php' method='post' target='dummyframe' enctype='multipart/form-data'>
-								<input id='uploadRes[]' name='uploadRes[]' type='file' accept='.obj,.mtl,.dae,.gltf,.bin,image/*'
+								<input id='uploadRes[]' name='uploadRes[]' type='file' accept='.obj,.mtl,.dae,.gltf,.glb,.bin,image/*'
 									oninput='this.parentElement.submit();' multiple>
 							</form>
 						</li>
