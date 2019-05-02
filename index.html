@@ -17,8 +17,7 @@
 		<script type='text/javascript' src='lib/loaders/MTLLoader.js'></script>
 		<script type='text/javascript' src='lib/loaders/GLTFLoader.js'></script>
 		<script type='text/javascript' src='lib/loaders/ColladaLoader.js'></script>
-
-		<script id='language' lang='en' type='text/javascript' src='lib/msg/js/en.js'></script>
+		<script type='text/javascript' src='src/switch_lan.js'></script>
 	</head>
 
 	<body onload='loadWorkspace()'>
@@ -45,7 +44,7 @@
 						<li><a id='canvEnlButton' onclick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
 						<li><a id='wrksEnlButton' onclick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
 						<li><a id='languageButton'>Language:
-							Eng <input id='enLan' type='radio' name='lan' onclick='changeLanguage(this)' value='en' checked='checked'>
+							Eng <input id='enLan' type='radio' name='lan' onclick='changeLanguage(this)' value='en'>
 							Ita <input id='itLan' type='radio' name='lan' onclick='changeLanguage(this)' value='it'></a>
 						</li>
 					</ul>

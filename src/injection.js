@@ -7,41 +7,6 @@ const webglCanvas = document.getElementById('webglCanvas');
 const blocklyArea = document.getElementById('blocklyArea');
 const blocklyDiv = document.getElementById('blocklyDiv');
 
-const tr_lang = {
-	en : {
-		file : 'File',
-		saveButton : 'Save Project',
-		importButton : 'Import Project',
-		genButton : 'Generate Javascript',
-		uploadButton : 'Upload Resources',
-		view : 'View',
-		canvEnlButton : 'Canvas Fullscreen',
-		wrksEnlButton : 'Workspace Fullscreen',
-		languageButton : 'Language:\
-			Eng <input id="enLan" type="radio" name="lan" onclick="changeLanguage(this)" value="en" checked="checked">\
-			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it">',
-		showButton : 'Show Code',
-		stopButton : 'Stop',
-		runButton : 'Run'
-	},
-	it : {
-		file : 'File',
-		saveButton : 'Salva Progetto',
-		importButton : 'Importa Progetto',
-		genButton : 'Genera Javascript',
-		uploadButton : 'Carica Risorse',
-		view : 'Vista',
-		canvEnlButton : 'Canvas a Schermo Intero',
-		wrksEnlButton : 'Workspace a Schermo Intero',
-		languageButton : 'Lingua:\
-			Eng <input id="enLan" type="radio" name="lan" onclick="changeLanguage(this)" value="en">\
-			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it" checked="checked">',
-		showButton : 'Mostra Codice',
-		stopButton : 'Ferma',
-		runButton : 'Esegui'
-	}
-};
-
 const valDex = {
 	'camera': new Map(),
 	'geometry': new Map(),
@@ -52,7 +17,7 @@ const valDex = {
 
 var workspace;
 var elapsed_time = 0;
-var usr_res = {};
+var usr_res;
 
 var scene = new THREE.Scene();
 var current_camera;
@@ -61,25 +26,14 @@ var anim_id;
 var shadow_mapping = false;
 var global_clock = new THREE.Clock();
 
-Blockly.JavaScript.addReservedWords('\
-	webglArea,\
-	webglCanvas,\
-	blocklyArea,\
-	blocklyDiv,\
-	tr_lang\
-	valDex,\
-	workspace,\
-	elapsed_time,\
-	usr_res,\
-	scene,\
-	current_camera,\
-	renderer,\
-	anim_id,\
-	shadow_mapping,\
-	global_clock,\
-	keyCode,\
-	targetMesh\
-');
+Blockly.JavaScript.addReservedWords('webglArea,webglCanvas,blocklyArea,blocklyDiv,global_language,lang_elem,tr_langvalDex,workspace,elapsed_time,usr_res,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock,keyCode,targetMesh');
+
+document.querySelectorAll('a').forEach((a) => {
+	if (a.id === 'languageButton')
+		a.innerHTML = tr_lang[global_language][a.id];
+	else
+		a.textContent = tr_lang[global_language][a.id];
+});
 
 // /=====================================================================\
 //	void setVal(block, type)
@@ -633,26 +587,9 @@ function openFullscreen(div) {
 //	void changeLanguage(radio)
 // \=====================================================================/
 function changeLanguage(radio) {
-	var language = document.getElementById('language');
-	if (language)
-		document.head.removeChild(language);
-
-	language = document.createElement('script');
-	language.setAttribute('id', 'language');
-	language.setAttribute('lang', radio.value);
-	language.setAttribute('type', 'text/javascript');
-	language.setAttribute('src', 'lib/msg/js/' + radio.value + '.js');
-	document.head.appendChild(language);
-
-	document.querySelectorAll('a').forEach((a) => {
-		if (a.id === 'languageButton')
-			a.innerHTML = tr_lang[radio.value][a.id];
-		else
-			a.textContent = tr_lang[radio.value][a.id];
-	});
-
-	loadWorkspace();
 	stopCode();
+	localStorage.setItem('lan', JSON.stringify(radio.value));
+	location.reload();
 }
 
 // /=====================================================================\
@@ -660,6 +597,7 @@ function changeLanguage(radio) {
 // \=====================================================================/
 function preLoad() {
 	const promises = [];
+	usr_res = {};
 	workspace.getBlocksByType('b3js_create_mesh_from_file').forEach((b) => {
 		const key = 'mesh_' + b.getFieldValue('NAME');
 		const file_name = b.getInputTargetBlock('VALUE').getFieldValue('TEXT');
@@ -734,6 +672,7 @@ function runCode() {
 	Promise.all(preLoad()).then((neverland) => {
 		if (neverland)
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
+		console.log(usr_res);
 
 		/*/ Generate JavaScript code and run it.
 		window.LoopTrap = 1000;
