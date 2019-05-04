@@ -1818,17 +1818,11 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 Blockly.JavaScript['b3js_upon_event'] = function(block) {
 	var dropdown_event = block.getFieldValue('EVENT');
 	var statements_steps = Blockly.JavaScript.statementToCode(block, 'STEPS');
-	var variable_argument = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('ARGUMENT'), Blockly.Variables.NAME_TYPE);
+	var variable_argument = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('ARGUMENT'),
+		Blockly.Variables.NAME_TYPE);
 
 	// TODO: Assemble JavaScript into code variable.
-	var code = '';
 	if (dropdown_event === 'CLICK') {
-		statements_steps.split('\n').forEach((line) => {
-			if (line !== '') {
-				line = line.replace('targetMesh', 'targetMesh[0].object');
-				code += '		' + line + '\n';
-			}
-		});
 		const toDo = Blockly.JavaScript.provideFunction_('uponClick', [
 			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
 			'	var vector = new THREE.Vector3((event.clientX / webglCanvas.offsetWidth) * 2 - 1,',
@@ -1837,21 +1831,19 @@ Blockly.JavaScript['b3js_upon_event'] = function(block) {
 			'	var raycaster = new THREE.Raycaster(current_camera.position, vector.sub(current_camera.position).normalize());',
 			'	' + variable_argument +' = raycaster.intersectObjects(scene.children, true);',
 			'	if (' + variable_argument +'.length > 0) {',
-				'' + code + '',
+			'		' + variable_argument + ' = ' + variable_argument + '[0].object;',
+			'		if (' + variable_argument + '.type === "SkinnedMesh")',
+			'		'	+	variable_argument + ' = ' + variable_argument + '.parent;',
+			'		'	+	statements_steps,
 			'	}',
 			'}',
 			'webglCanvas.onclick = uponClick;']);
 	}
 	else if (dropdown_event === 'KEYDOWN') {
-		statements_steps.split('\n').forEach((line) => {
-			if (line !== '') {
-				code += '	' + line + '\n';
-			}
-		});
 		const toDo = Blockly.JavaScript.provideFunction_('uponDown', [
 			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
-			'	' + variable_argument + ' = event.keyCode;',
-			'' + code + '',
+			'	'	+	variable_argument + ' = event.keyCode;',
+			'	'	+	statements_steps,
 			'}',
 			'window.onkeydown = uponDown;']);
 	}

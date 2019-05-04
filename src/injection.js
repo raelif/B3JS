@@ -26,7 +26,7 @@ var anim_id;
 var shadow_mapping = false;
 var global_clock = new THREE.Clock();
 
-Blockly.JavaScript.addReservedWords('webglArea,webglCanvas,blocklyArea,blocklyDiv,global_language,lang_elem,tr_langvalDex,workspace,elapsed_time,usr_res,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock,keyCode,targetMesh');
+Blockly.JavaScript.addReservedWords('webglArea,webglCanvas,blocklyArea,blocklyDiv,global_language,lang_elem,tr_lang,valDex,workspace,elapsed_time,usr_res,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock');
 
 document.querySelectorAll('a').forEach((a) => {
 	if (a.id === 'languageButton')
@@ -639,7 +639,6 @@ function showCode() {
 		console.log(usr_res);
 
 		// Generate JavaScript code and display it.
-		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
 		const code = Blockly.JavaScript.workspaceToCode(workspace);
 		alert(code);
 	}).catch((err) => {
@@ -653,7 +652,7 @@ function showCode() {
 function stopCode() {
 	// Remove listeners
 	webglCanvas.onclick = null;
-	window.onkeypress = null;
+	window.onkeydown = null;
 
 	// Stop rendering and clear canvas.
 	if (anim_id && renderer) {
@@ -674,11 +673,6 @@ function runCode() {
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
 		console.log(usr_res);
 
-		/*/ Generate JavaScript code and run it.
-		window.LoopTrap = 1000;
-		Blockly.JavaScript.INFINITE_LOOP_TRAP =
-				'if (--window.LoopTrap == 0) throw \'Infinite loop.\';\n';
-		Blockly.JavaScript.INFINITE_LOOP_TRAP = null;*/
 		stopCode();
 
 		const code = Blockly.JavaScript.workspaceToCode(workspace);
