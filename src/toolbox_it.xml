@@ -170,7 +170,9 @@
     </block>
   </category>
   <category name="Animazione" colour="#a5a55b">
-    <block type="b3js_render_loop"></block>
+    <block type="b3js_render_loop">
+      <field name="FPS">60</field>
+    </block>
     <block type="b3js_upon_event">
       <field name="EVENT">CLICK</field>
       <field name="ARGUMENT" id="{AU_p[ISef/4}xEg|(g^" variabletype="">targetMesh</field>

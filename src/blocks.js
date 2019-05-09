@@ -581,6 +581,9 @@ Blockly.Blocks['b3js_render_loop'] = {
 		this.appendValueInput('CAMERA')
 				.setCheck('Camera')
 				.appendField(Blockly.Msg['B3JS_RENDER']);
+		this.appendDummyInput()
+				.appendField("fps")
+				.appendField(new Blockly.FieldNumber(60, 1, 60, 1), "FPS");
 		this.appendStatementInput('RENDER')
 				.setCheck(null);
 		this.setInputsInline(true);
@@ -699,7 +702,7 @@ Blockly.JavaScript['b3js_create_camera'] = function(block) {
 	var number_near = block.getFieldValue('NEAR');
 	var number_far = block.getFieldValue('FAR');
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const camera_' + text_name + ' = ';
+	var code = 'camera_' + text_name + ' = ';
 	switch (dropdown_type) {
 		case 'PERSPECTIVE':
 			code += 'new THREE.PerspectiveCamera('
@@ -715,7 +718,7 @@ Blockly.JavaScript['b3js_create_camera'] = function(block) {
 				+ webglCanvas.offsetHeight / number_fovscale + ','
 				+ webglCanvas.offsetHeight / -number_fovscale + ','
 				+ number_near + ',' + number_far + ');\n';
-			// artificial info
+			// Artificial info
 			code += 'camera_' + text_name + '.fovscale = ' + number_fovscale + ';\n';
 		break;
 	}
@@ -822,7 +825,7 @@ Blockly.JavaScript['b3js_create_light'] = function(block) {
 	var colour_colour = block.getFieldValue('COLOUR');
 	var number_intensity = block.getFieldValue('INTENSITY');
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const light_' + text_name + ' = ';
+	var code = 'light_' + text_name + ' = ';
 	switch (dropdown_type) {
 		case 'AMBIENT':
 			code += 'new THREE.AmbientLight(' + hex(colour_colour) + ',' + number_intensity + ');\n';
@@ -1017,7 +1020,7 @@ Blockly.JavaScript['b3js_create_geometry'] = function(block) {
 	var number_height = block.getFieldValue('HEIGHT');
 	var number_detail = block.getFieldValue('DETAIL');
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const geometry_' + text_name + ' = ';
+	var code = 'geometry_' + text_name + ' = ';
 	switch (dropdown_type) {
 		case 'PLANE':
 			code += 'new THREE.PlaneGeometry(' + number_width + ',' + number_height +
@@ -1172,7 +1175,7 @@ Blockly.JavaScript['b3js_create_material'] = function(block) {
 	var dropdown_type = block.getFieldValue('TYPE');
 	var colour_colour = block.getFieldValue('COLOUR');
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const material_' + text_name + ' = ';
+	var code = 'material_' + text_name + ' = ';
 	switch (dropdown_type) {
 		case 'BASIC':
 			code += 'new THREE.MeshBasicMaterial({ color: ' + hex(colour_colour) + '});\n';
@@ -1411,9 +1414,9 @@ Blockly.JavaScript['b3js_create_mesh'] = function(block) {
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (value_geometry && value_material)
-		code += 'const mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
+		code += 'mesh_' + text_name + ' = new THREE.Mesh(' + value_geometry + ',' + value_material + ');\n';
 	/*else
-		code += 'const mesh_' + text_name + ' = new THREE.Mesh();\n';*/
+		code += 'mesh_' + text_name + ' = new THREE.Mesh();\n';*/
 	return code;
 };
 
@@ -1424,12 +1427,12 @@ Blockly.JavaScript['b3js_create_mesh_from_file'] = function(block) {
 	var code = '';
 	if (value_value.indexOf('.obj') >= 0) {
 		if (usr_res[key]) {
-			code += 'const ' + key + ' = usr_res["' + key + '"];\n';
+			code += key + ' = usr_res["' + key + '"];\n';
 		}
 	}
 	else if (value_value.indexOf('.dae') >= 0 || value_value.indexOf('.gltf') >= 0 || value_value.indexOf('.glb') >= 0) {
 		if (usr_res[key]) {
-			code += 'const ' + key + ' = usr_res["' + key + '"].scene;\n';
+			code += key + ' = usr_res["' + key + '"].scene;\n';
 			if (usr_res[key].animations.length) {
 				usr_res[key].mixer = new THREE.AnimationMixer(usr_res[key].scene);
 			}
@@ -1469,7 +1472,7 @@ Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 		'}']);
 
 	// TODO: Assemble JavaScript into code variable.
-	var code = 'const ' + key + ' = new THREE.Group();\n';
+	var code = key + ' = new THREE.Group();\n';
 	code += key + '.name = "' + key + '";\n';
 	if (block.getInputTargetBlock('VALUE')) {
 		var i = 0, n = 0;
@@ -1543,6 +1546,11 @@ Blockly.JavaScript['b3js_set_mesh'] = function(block) {
 				}
 				break;
 			}
+		}
+		else if (dropdown_field === 'CHILDREN') {
+			code += 'while(' + value_input + '.children.length > 0) {\n'+
+			'	' + value_input + '.remove(' + value_input + '.children[0]);\n'+
+			'}\n';
 		}
 	}
 	return code;
@@ -1714,6 +1722,10 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 				}
 			break;
 
+			case 'CHILDREN':
+				code += value_input + '.children';
+			break;
+
 			case 'POSITION':
 				switch (block.getFieldValue('COMP')) {
 					case 'XYZ':
@@ -1735,23 +1747,7 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 			break;
 
 			case 'LOOKAT':
-				switch (block.getFieldValue('COMP')) {
-					case 'XYZ':
-						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
-					break;
-
-					case 'X':
-						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).x';
-					break;
-
-					case 'Y':
-						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).y';
-					break;
-
-					case 'Z':
-						code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion).z';
-					break;
-				}
+				code += 'new THREE.Vector3(0,0, -1).applyQuaternion(' + value_input + '.quaternion)';
 			break;
 
 			case 'CASTSHADOW': {
@@ -1778,17 +1774,19 @@ Blockly.JavaScript['b3js_value_mesh'] = function(block) {
 
 Blockly.JavaScript['b3js_render_loop'] = function(block) {
 	var value_camera = Blockly.JavaScript.valueToCode(block, 'CAMERA', Blockly.JavaScript.ORDER_ATOMIC);
+	var number_fps = block.getFieldValue('FPS');
 	var statements_render = Blockly.JavaScript.statementToCode(block, 'RENDER');
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
 	if (value_camera) {
 		code +=
-			'const context = webglCanvas.getContext( \'webgl2\' );\n'+
+			'const context = webglCanvas.getContext( "webgl2" );\n'+
 
 			'current_camera = ' + value_camera + ';\n'+
 
 			'renderer = new THREE.WebGLRenderer( { canvas: webglCanvas, context: context } );\n'+
-			'renderer.setSize( webglCanvas.offsetWidth, webglCanvas.offsetHeight );\n';
+			'renderer.setSize( webglCanvas.offsetWidth, webglCanvas.offsetHeight );\n'+
+			'var delta = 0, tmp = 0, interval = 1 / ' + number_fps + ';\n';
 
 		if (shadow_mapping) {
 			code +=
@@ -1799,16 +1797,33 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 		code +=
 			'const animate = function () {\n'+
 			'	anim_id = requestAnimationFrame( animate );\n'+
-			'	delta = global_clock.getDelta();\n';
+			'	delta += global_clock.getDelta();\n';
 
+		var commands = ''
 		statements_render.split('\n').forEach((line) => {
 			if (line !== '') {
-				code += '	' + line + '\n';
+				commands += '		' + line + '\n';
 			}
 		});
 
-		code +=
+		if (number_fps === '60') {
+			code += commands +
 			'	renderer.render( scene, current_camera );\n'+
+			'	delta = 0;\n';
+		}
+
+		else {
+			code +=
+			'	if (delta >= interval) {\n'+
+			'		tmp = delta;\n'+
+			'		delta = interval;\n'+
+					commands +
+			'		renderer.render( scene, current_camera );\n'+
+			'		delta = tmp % interval;\n'+
+			'	}\n';
+		}
+
+		code +=
 			'};\n'+
 			'animate();\n';
 	}

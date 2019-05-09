@@ -111,9 +111,9 @@ const block_option = function(type, input) {
 
 							case 'GROUP':
 								if (type[0] === 'set')
-									return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
+									return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_CHILDREN'],'CHILDREN'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
 								else
-									return [[Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'],
+									return [[Blockly.Msg['B3JS_MESH'],'MESH'], [Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_CHILDREN'],'CHILDREN'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'],
 									[Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']];
 							break;
 
@@ -127,7 +127,7 @@ const block_option = function(type, input) {
 						}
 					}
 				}
-				return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_MESH'],'MESH'],[Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
+				return [[Blockly.Msg['B3JS_GEOMETRY'],'GEOMETRY'], [Blockly.Msg['B3JS_MATERIAL'],'MATERIAL'], [Blockly.Msg['B3JS_MESH'],'MESH'],[Blockly.Msg['B3JS_CHILD'],'CHILD'], [Blockly.Msg['B3JS_CHILDREN'],'CHILDREN'], [Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_CASTSHADOW'],'CASTSHADOW'], [Blockly.Msg['B3JS_RECEIVESHADOW'],'RECEIVESHADOW']]
 			break;
 		}
 	}
@@ -623,20 +623,22 @@ const SET_MESH_SHAPE = {
 	updateShape_: function(typeInput) {
 		this.setFieldValue(Blockly.Msg['B3JS_SET'], 'ACTION');
 
-		if (['POSITION', 'LOOKAT', 'XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
+		if (['POSITION', 'XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
 			if (this.getInput('COMPONENT'))
 				this.removeInput('COMPONENT');
 		}
 		switch (typeInput) {
 			case 'GEOMETRY':
-				this.removeInput('VALUE');
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Geometry')
 					.appendField(Blockly.Msg['B3JS_TO']);
 			break;
 
 			case 'MATERIAL':
-				this.removeInput('VALUE');
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Material')
 					.appendField(Blockly.Msg['B3JS_TO']);
@@ -644,19 +646,26 @@ const SET_MESH_SHAPE = {
 
 			case 'CHILD':
 				this.setFieldValue(Blockly.Msg['B3JS_ADD'], 'ACTION');
-				this.removeInput('VALUE');
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Mesh')
 					.appendField(' ');
 			break;
 
+			case 'CHILDREN':
+				this.setFieldValue(Blockly.Msg['B3JS_CLEAR'], 'ACTION');
+					if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
+			break;
+
 			case 'POSITION':
-			case 'LOOKAT':
 				if (!this.getInput('COMPONENT')) {
 					this.appendDummyInput('COMPONENT')
 						.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']],
 							block_validator), 'COMP');
-					this.removeInput('VALUE');
+							if (this.getInput('VALUE'))
+						this.removeInput('VALUE');
 					this.appendValueInput('VALUE')
 						.setCheck('Vec3')
 						.appendField(Blockly.Msg['B3JS_TO']);
@@ -664,7 +673,9 @@ const SET_MESH_SHAPE = {
 			break;
 
 			case 'XYZ':
-				this.removeInput('VALUE');
+			case 'LOOKAT':
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Vec3')
 					.appendField(Blockly.Msg['B3JS_TO']);
@@ -673,7 +684,8 @@ const SET_MESH_SHAPE = {
 			case 'X':
 			case 'Y':
 			case 'Z':
-				this.removeInput('VALUE');
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
 					.appendField(Blockly.Msg['B3JS_TO']);
@@ -681,7 +693,8 @@ const SET_MESH_SHAPE = {
 
 			case 'CASTSHADOW':
 			case 'RECEIVESHADOW':
-				this.removeInput('VALUE');
+				if (this.getInput('VALUE'))
+					this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Boolean')
 					.appendField(Blockly.Msg['B3JS_TO']);
@@ -798,7 +811,7 @@ const GETFROM_MESH_SHAPE = {
 		if (this.getInput('NUM'))
 			this.removeInput('NUM');
 
-		if (['POSITION', 'LOOKAT', 'XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
+		if (['POSITION', 'XYZ', 'X', 'Y', 'Z'].indexOf(typeInput) < 0) {
 			if (this.getInput('COMPONENT'))
 				this.removeInput('COMPONENT');
 		}
@@ -826,8 +839,11 @@ const GETFROM_MESH_SHAPE = {
 					.appendField('#');
 			break;
 
+			case 'CHILDREN':
+				this.setOutput(true, 'Array');
+			break;
+
 			case 'POSITION':
-			case 'LOOKAT':
 				if (!this.getInput('COMPONENT')) {
 					this.appendDummyInput('COMPONENT')
 						.appendField(new Blockly.FieldDropdown([['. xyz','XYZ'],['. x','X'],['. y','Y'],['. z','Z']],
@@ -837,6 +853,7 @@ const GETFROM_MESH_SHAPE = {
 			break;
 
 			case 'XYZ':
+			case 'LOOKAT':
 				this.setOutput(true, 'Vec3');
 			break;
 

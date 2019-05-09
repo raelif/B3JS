@@ -119,7 +119,7 @@ function flicker(block) {
 
 	// Adjust render_block
 	if (block.type === 'b3js_render_loop') {
-		if (workspace.getBlocksByType('b3js_render_loop').length > 1) {
+		if (valDex['camera'].size < 1 || workspace.getBlocksByType('b3js_render_loop').length > 1) {
 			forget(block);
 			return;
 		}
@@ -150,25 +150,21 @@ function flicker(block) {
 			}
 			// Else if present => flicker
 			else {
-				// Only for set/update/get_block
-				flicker(block.getInputTargetBlock('INPUT'));
-
-				// For all blocks
-				const field = block.getFieldValue(fid);
-				if (field) {
+				var temp = block.getFieldValue(fid);
+				if (temp) {
 					block.setFieldValue('', fid);
-					block.setFieldValue(field, fid);
+					block.setFieldValue(temp, fid);
 
 					// Additional work for getfrom with component
-					const comp = block.getFieldValue('COMP');
-					if (comp) {
+					temp = block.getFieldValue('COMP');
+					if (temp) {
 						block.setFieldValue('', 'COMP');
-						block.setFieldValue(comp, 'COMP');
+						block.setFieldValue(temp, 'COMP');
 					}
 
 					// Invalid option => reset
-					const text = block.getField(fid).getText(); // SAFE fid != null
-					if (text === text.toUpperCase()) {
+					temp = block.getField(fid).getText(); // SAFE fid != null
+					if (temp === temp.toUpperCase()) {
 						reset(block); // no following instruction after disable
 					}
 				}
@@ -304,7 +300,10 @@ function valManagement(event) {
 				});
 
 				// ...and correct blocks
-				workspace.getAllBlocks().forEach((b) => { flicker(b); });
+				workspace.getAllBlocks().forEach((b) => {
+					if (b.type.indexOf('b3js') >= 0)
+						flicker(b);
+				});
 				console.log(valDex);
 			}
 		}
@@ -321,7 +320,10 @@ function valManagement(event) {
 			});
 
 			// ...and correct blocks
-			workspace.getAllBlocks().forEach((b) => { flicker(b); });
+			workspace.getAllBlocks().forEach((b) => {
+				if (b.type.indexOf('b3js') >= 0)
+					flicker(b);
+			});
 			console.log(valDex);
 		}
 		break;
@@ -553,9 +555,11 @@ function importProject() {
 					const type = b.type.split('_')[2];
 					valDex[type].get(b.getFieldValue('NAME')).unshift(b.id);
 				}
-				else {
+			});
+
+			workspace.getAllBlocks().forEach((b) => {
+				if (b.type.indexOf('b3js') >= 0)
 					flicker(b);
-				}
 			});
 			console.log(valDex);
 			Blockly.Events.enable();
