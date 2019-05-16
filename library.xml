@@ -1,0 +1,2556 @@
+<xml xmlns="http://www.w3.org/1999/xhtml"><block type="factory_base" id=":Brsa,R2!Wtn^juC3Rb0" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_add_scene</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="^|Kd7[U^k=JIBRg},D.6">
+        <field name="INPUTNAME">ELEMENT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="~=B=QA+*hZCz$2O`VP)I">
+            <field name="TEXT">add</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="wi]EdRfQ%Sop}ljn%mC)"></shadow>
+          <block type="type_group" id="i$fo]Dp600_(j:1ty5(E">
+            <mutation types="3"></mutation>
+            <value name="TYPE0">
+              <block type="type_other" id="jm)A4IMx+*{w]I9KZ,QP">
+                <field name="TYPE">Camera</field>
+              </block>
+            </value>
+            <value name="TYPE1">
+              <block type="type_other" id=".6PL++y#j8k(yy~@j_kT">
+                <field name="TYPE">Light</field>
+              </block>
+            </value>
+            <value name="TYPE2">
+              <block type="type_other" id="x-B63o*}~|aZhEDRojrv">
+                <field name="TYPE">Mesh</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="5g0Gx?On~r~Ni)/So}ad">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="j*^dGpCI#%AXQ8w,fA+p">
+                <field name="TEXT">to scene</field>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="W//)@Ko6`B/-:GU^S-h4" deletable="false" movable="false">
+        <field name="TEXT">Add Mesh, Light or Camera to the Scene.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="o_ATGb,j6pigN!UbdQtg" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/scenes/Scene</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="#=XG)Hy0#Qd#-%F}zb0g"></shadow>
+      <block type="type_null" id="5,A9N6ao%={6Nk,N+E05"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="#6WTVyGcM)}G^x^$nGfk"></shadow>
+      <block type="type_null" id="x#z.ljc^PjX:*D]2+*BV"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="r2S|xI1if*D{A7?s*-~0">
+        <mutation colour="#a55b5b"></mutation>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="Vu*E5Nu4)?B:@Q#9p2C/" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_scene</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="X~2kvaE#6Fbd6Cy[to;v">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="l~R^8s}Lz0w6MXNaIU-R">
+            <field name="TEXT">in scene</field>
+            <next>
+              <block type="field_static" id=":J,5)}e[)Jmsy.4Lj]uM">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="qb8AB{55UDpzPl132S9X">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">background</field>
+                    <field name="CPU0">BACKGROUND</field>
+                    <field name="USER1">fog</field>
+                    <field name="CPU1">FOG</field>
+                    <field name="USER2">autoUpdate</field>
+                    <field name="CPU2">AUPDATE</field>
+                    <field name="USER3">overrideMaterial</field>
+                    <field name="CPU3">OMATERIAL</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_value" id="pcN;53VhSyU-]Cgp6Z?P">
+            <field name="INPUTNAME">VALUE</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="7O56ZC,zZZ8*GFQSd0QC">
+                <field name="TEXT">to</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="Sf,yBDu6WbyQm3Fe1;Fp"></shadow>
+              <block type="type_group" id="Bc}_s:pQmZ;^^9#1gx-0">
+                <mutation types="3"></mutation>
+                <value name="TYPE0">
+                  <block type="type_other" id="Lc|L|YI4*Izp?WHo}_{D">
+                    <field name="TYPE">Colour</field>
+                  </block>
+                </value>
+                <value name="TYPE1">
+                  <block type="type_string" id="oDx3^SIjOa.8X36-h4,H"></block>
+                </value>
+                <value name="TYPE2">
+                  <block type="type_other" id="RD~u[zx`--7},J(KN^(t">
+                    <field name="TYPE">Texture</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="Xo*H@IbqXO~sb$2=BqbV" deletable="false" movable="false">
+        <field name="TEXT">Set property of the Scene.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="KeOx%@]mHn`FtJG;t%vL" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/scenes/Scene</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="~6|XMrBd)0ILU1A6DiZ^"></shadow>
+      <block type="type_null" id=")Ta%:I6uzd8GGx-*iG@."></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="?FY*Nxv49,_=Z#}yp(A)"></shadow>
+      <block type="type_null" id="-6hK#1l5^Ro[paa%g-@]"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="7y%3aM%w0UYtQzux|jyD">
+        <mutation colour="#a55b5b"></mutation>
+        <field name="HUE">0</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_camera</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create camera</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+                <next>
+                  <block type="field_static" id="f9}c|mnj0O;=2%j)dI!Q">
+                    <field name="TEXT">as</field>
+                    <next>
+                      <block type="field_dropdown" id="S(TNPN|pXElM/b1dmgb+">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">TYPE</field>
+                        <field name="USER0">perspective</field>
+                        <field name="CPU0">PERSPECTIVE</field>
+                        <field name="USER1">orthographic</field>
+                        <field name="CPU1">ORTHOGRAPHIC</field>
+                        <next>
+                          <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                            <field name="TEXT">with</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="sk,t,j;Qrpuw(/rqw-J5">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="XzIxqT%Ya$_NeFs`Skfm">
+                <field name="TEXT">fov</field>
+                <next>
+                  <block type="field_number" id="2|rO^V72*m~[qxCANb#m">
+                    <field name="VALUE">50</field>
+                    <field name="FIELDNAME">FOVSCALE</field>
+                    <field name="MIN">-Infinity</field>
+                    <field name="MAX">Infinity</field>
+                    <field name="PRECISION">0</field>
+                    <next>
+                      <block type="field_static" id="(q5)WPFasX2^Vl#`IF)!">
+                        <field name="TEXT">near</field>
+                        <next>
+                          <block type="field_number" id="R-#mQNfN5nwdWE}UFSqB">
+                            <field name="VALUE">0.1</field>
+                            <field name="FIELDNAME">NEAR</field>
+                            <field name="MIN">-Infinity</field>
+                            <field name="MAX">Infinity</field>
+                            <field name="PRECISION">0</field>
+                            <next>
+                              <block type="field_static" id="Yi{qhvi/tGvuGax0$=|{">
+                                <field name="TEXT">far</field>
+                                <next>
+                                  <block type="field_number" id="GxT}wPGubUb$F+)r9^-3">
+                                    <field name="VALUE">1000</field>
+                                    <field name="FIELDNAME">FAR</field>
+                                    <field name="MIN">-Infinity</field>
+                                    <field name="MAX">Infinity</field>
+                                    <field name="PRECISION">0</field>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Camera.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/cameras/Camera</field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#5b8ca5"></mutation>
+        <field name="HUE">200</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="Eo~J%wtSlKgHjN5J)Iby" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_camera</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="YOv}bVuAfKoX8:cJ%x$+">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="Gx,^jE;fD~:0_eSM(}Pj">
+            <field name="TEXT">in camera</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="6|`DQk9T93[H%Wu#ldBd"></shadow>
+          <block type="type_other" id="RPxG4V]ZkjsD=@BNS,Gr">
+            <field name="TYPE">Camera</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="D1Srk4R|{?#V%(60(*6N">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="}^T:Dwq!|;F:j~,0J[L|">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="Y;$xj}N,CRN~Oy5Wyvn7">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">position</field>
+                    <field name="CPU0">POSITION</field>
+                    <field name="USER1">lookAt</field>
+                    <field name="CPU1">LOOKAT</field>
+                    <field name="USER2">translation</field>
+                    <field name="CPU2">TRANSLATION</field>
+                    <field name="USER3">rotationX</field>
+                    <field name="CPU3">RX</field>
+                    <field name="USER4">rotationY</field>
+                    <field name="CPU4">RY</field>
+                    <field name="USER5">rotationZ</field>
+                    <field name="CPU5">RZ</field>
+                    <field name="USER6">scale</field>
+                    <field name="CPU6">SCALE</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="#LlLww~Z*]30eAOX+1`7">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Je)zDHbczneHnRr};v(;">
+                    <field name="TEXT">to</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="y+;#z2WkrWl,`f9O_d9l"></shadow>
+                  <block type="type_group" id="buzJAq],v3h:O9q.x+Ff">
+                    <mutation types="1"></mutation>
+                    <value name="TYPE0">
+                      <block type="type_other" id="H1p~tQP06pq$(.K)68Fb">
+                        <field name="TYPE">Vec3</field>
+                      </block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="FsO5VoW16^N^oGy+q8LL" deletable="false" movable="false">
+        <field name="TEXT">Set property of a previously created Camera. Position and lookAt require a Geometry Vec3 type.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1P7A/AQU7dddsqux48Hk" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="/?`ihZ%B0`$hik7dDFkI"></shadow>
+      <block type="type_null" id="Nu*Mzz5az}oHp.xTNT_z"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="qoO7A^[8x}bV):z^@;97"></shadow>
+      <block type="type_null" id=".bo;U9[;a_}cg_q._d.9"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="Nkwu])P%d8!DcN*:o0N6">
+        <mutation colour="#5b8ca5"></mutation>
+        <field name="HUE">200</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="ga?t4iUaLy$m6VWkxjz1" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_getfrom_camera</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="#IQqblspT-,TSrQd[Z|w">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="X13n5fn[z96#6ymj0=@p">
+            <field name="TEXT">from camera</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nn]y9p-Ub{l$rbxE.5U)"></shadow>
+          <block type="type_other" id="_Xx=owJB)su}f-IX)68T">
+            <field name="TYPE">Camera</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="c|@Zk|d3%]b,`PGZq$5o">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="Gx,^jE;fD~:0_eSM(}Pj">
+                <field name="TEXT">get</field>
+                <next>
+                  <block type="field_dropdown" id="Y;$xj}N,CRN~Oy5Wyvn7">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">position</field>
+                    <field name="CPU0">POSITION</field>
+                    <field name="USER1">lookAt</field>
+                    <field name="CPU1">LOOKAT</field>
+                    <field name="USER2">rotation</field>
+                    <field name="CPU2">ROTATION</field>
+                    <field name="USER3">scale</field>
+                    <field name="CPU3">SCALE</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="fM$~/?i(~6e2IfL4?9Pl" deletable="false" movable="false">
+        <field name="TEXT">Get property of a previously created Camera.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1=AqK3i7?3aGVg3hGF(K" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="VTvk~YhVgH`mT]5Z60ab"></shadow>
+      <block type="type_other" id="u?$P`TbON#X;^a(w4+kF">
+        <field name="TYPE">Vec3</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="P`-U-^i/p3wTlFa*(xtR">
+        <mutation colour="#5b8ca5"></mutation>
+        <field name="HUE">200</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="*.`?i~|SZi{3XS.dOLoj" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_value_camera</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id=";#lPU{;KCxgKuFSZgqjR">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="yc_NbE]Cd1VXY5O42smH">
+            <mutation options="[&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">VAL</field>
+            <field name="USER0"></field>
+            <field name="CPU0"></field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="8~YPA#zCrkgoYuhNl)?J" deletable="false" movable="false">
+        <field name="TEXT">Retrieve a Camera.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="H{W~CDqha}cPE/YoG5K~" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/cameras/Camera</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="78UNC7]I0{Ux.OB:RfF!"></shadow>
+      <block type="type_other" id="aDmA0ZvrzORsgU]`ow+{">
+        <field name="TYPE">Camera</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="#UwSc$BXv^n(.v_s(Ri@">
+        <mutation colour="#5b8ca5"></mutation>
+        <field name="HUE">200</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_light</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create light</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+                <next>
+                  <block type="field_static" id="f9}c|mnj0O;=2%j)dI!Q">
+                    <field name="TEXT">as</field>
+                    <next>
+                      <block type="field_dropdown" id="S(TNPN|pXElM/b1dmgb+">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">TYPE</field>
+                        <field name="USER0">ambient</field>
+                        <field name="CPU0">AMBIENT</field>
+                        <field name="USER1">point</field>
+                        <field name="CPU1">POINT</field>
+                        <field name="USER2">spot</field>
+                        <field name="CPU2">SPOT</field>
+                        <field name="USER3">directional</field>
+                        <field name="CPU3">DIRECTIONAL</field>
+                        <field name="USER4">hemisphere</field>
+                        <field name="CPU4">HEMISPHERE</field>
+                        <next>
+                          <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                            <field name="TEXT">with</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="d:87DSr/o(6Dl5_|?#[x">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="4M762Lu6=_^`h,|orUDu">
+                <field name="TEXT">color</field>
+                <next>
+                  <block type="field_colour" id="ud4~DW;l7+h%UZ0rT+X|">
+                    <field name="COLOUR">#ffffff</field>
+                    <field name="FIELDNAME">COLOUR</field>
+                    <next>
+                      <block type="field_static" id="!cyWA4y%L~~+Yi:Q9M=n">
+                        <field name="TEXT">intensity</field>
+                        <next>
+                          <block type="field_number" id="(E);/dUBk,RlD/Mq`D)6">
+                            <field name="VALUE">1</field>
+                            <field name="FIELDNAME">INTENSITY</field>
+                            <field name="MIN">0</field>
+                            <field name="MAX">Infinity</field>
+                            <field name="PRECISION">0</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Light.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#a55ba5"></mutation>
+        <field name="HUE">300</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="_vmc/~a5c`@g}t}FcJN," deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_light</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id=".4^,IA`ZUXYm,M~hg]D+">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="q)ScO}#`-DonX(hv*G?%">
+            <field name="TEXT">in light</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="m^SK[Yg+Ehg_818LBC.-"></shadow>
+          <block type="type_other" id="u2WepHe^)R?C=)qWUN@c">
+            <field name="TYPE">Light</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="#0X(raG;4Q?[~JEbdgI0">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">color</field>
+                    <field name="CPU0">COLOR</field>
+                    <field name="USER1">intensity</field>
+                    <field name="CPU1">INTENSITY</field>
+                    <field name="USER2">groundColor</field>
+                    <field name="CPU2">GROUND</field>
+                    <field name="USER3">distance</field>
+                    <field name="CPU3">DISTANCE</field>
+                    <field name="USER4">decay</field>
+                    <field name="CPU4">DECAY</field>
+                    <field name="USER5">position</field>
+                    <field name="CPU5">POSITION</field>
+                    <field name="USER6">target</field>
+                    <field name="CPU6">TARGET</field>
+                    <field name="USER7">penumbra</field>
+                    <field name="CPU7">PENUMBRA</field>
+                    <field name="USER8">angle</field>
+                    <field name="CPU8">ANGLE</field>
+                    <field name="USER9">visible</field>
+                    <field name="CPU9">VISIBLE</field>
+                    <field name="USER10">castShadow</field>
+                    <field name="CPU10">CASTSHADOW</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="gB99G?hr7Dn;LyI)AJU2">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Je)zDHbczneHnRr};v(;">
+                    <field name="TEXT">to</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="R`=A[6XJZ)hXBXRTY$d6"></shadow>
+                  <block type="type_group" id="B=]73Hr1`3Aq%A+f{b,Q">
+                    <mutation types="2"></mutation>
+                    <value name="TYPE0">
+                      <block type="type_other" id="qbYirCF%6Ao`fTFLV42K">
+                        <field name="TYPE">Colour</field>
+                      </block>
+                    </value>
+                    <value name="TYPE1">
+                      <block type="type_string" id="(8Bj^Gy_?|k|Yv0T)p^,"></block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ggb||#lp[Pu/edJVv?j!" deletable="false" movable="false">
+        <field name="TEXT">Set property of a previously created Light.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="DRUSf@_sE^bZXt]0fqU6" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="ZMYs$)I26,8TRSGOhAS_"></shadow>
+      <block type="type_null" id="LWy/gm3)ImJ)EauOcf{!"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id=",7wu?XmUwiunysjqrf}@"></shadow>
+      <block type="type_null" id="t],qc.h:U?M/d9Z9}?Y$"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="/1CYp-pw~4L6vx@h!a4^">
+        <mutation colour="#a55ba5"></mutation>
+        <field name="HUE">300</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="ga?t4iUaLy$m6VWkxjz1" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_getfrom_light</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="#IQqblspT-,TSrQd[Z|w">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+            <field name="TEXT">from light</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nn]y9p-Ub{l$rbxE.5U)"></shadow>
+          <block type="type_other" id="_Xx=owJB)su}f-IX)68T">
+            <field name="TYPE">Light</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="c|@Zk|d3%]b,`PGZq$5o">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="X13n5fn[z96#6ymj0=@p">
+                <field name="TEXT">get</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">color</field>
+                    <field name="CPU0">COLOR</field>
+                    <field name="USER1">intensity</field>
+                    <field name="CPU1">INTENSITY</field>
+                    <field name="USER2">groundColor</field>
+                    <field name="CPU2">GROUND</field>
+                    <field name="USER3">distance</field>
+                    <field name="CPU3">DISTANCE</field>
+                    <field name="USER4">decay</field>
+                    <field name="CPU4">DECAY</field>
+                    <field name="USER5">position</field>
+                    <field name="CPU5">POSITION</field>
+                    <field name="USER6">target</field>
+                    <field name="CPU6">TARGET</field>
+                    <field name="USER7">penumbra</field>
+                    <field name="CPU7">PENUMBRA</field>
+                    <field name="USER8">angle</field>
+                    <field name="CPU8">ANGLE</field>
+                    <field name="USER9">visible</field>
+                    <field name="CPU9">VISIBLE</field>
+                    <field name="USER10">castShadow</field>
+                    <field name="CPU10">CASTSHADOW</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="fM$~/?i(~6e2IfL4?9Pl" deletable="false" movable="false">
+        <field name="TEXT">Get property of a previously created Light.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1=AqK3i7?3aGVg3hGF(K" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="VTvk~YhVgH`mT]5Z60ab"></shadow>
+      <block type="type_null" id="Z)GuDj/!I1P#0p1P~Kto"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="P`-U-^i/p3wTlFa*(xtR">
+        <mutation colour="#a55ba5"></mutation>
+        <field name="HUE">300</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="}c{utnXtZYu=%}R4Owlh" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_value_light</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="]=Bcg`u2_gOzoNf|?-,N">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="Wd`5Zg`!p-~]TJ9vP%hy">
+            <mutation options="[&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">VAL</field>
+            <field name="USER0"></field>
+            <field name="CPU0"></field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="F6PBzUf;`(wU,m}gZjnI" deletable="false" movable="false">
+        <field name="TEXT">Retrieve a Light.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="^Cm$4DsXdNf+|5B]}iAO" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="hXa`GCjT}k1GCdzj*{t/"></shadow>
+      <block type="type_other" id="gt{GI=8(`Ekd`4fxnW`n">
+        <field name="TYPE">Light</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="%j6-I5twHEOmYxbX]0Bo">
+        <mutation colour="#a55ba5"></mutation>
+        <field name="HUE">300</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_geometry</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create geometry</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+                <next>
+                  <block type="field_static" id="f9}c|mnj0O;=2%j)dI!Q">
+                    <field name="TEXT">as</field>
+                    <next>
+                      <block type="field_dropdown" id="S(TNPN|pXElM/b1dmgb+">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">TYPE</field>
+                        <field name="USER0">plane</field>
+                        <field name="CPU0">PLANE</field>
+                        <field name="USER1">box</field>
+                        <field name="CPU1">BOX</field>
+                        <field name="USER2">sphere</field>
+                        <field name="CPU2">SPHERE</field>
+                        <field name="USER3">cylinder</field>
+                        <field name="CPU3">CYLINDER</field>
+                        <field name="USER4">torus</field>
+                        <field name="CPU4">TORUS</field>
+                        <next>
+                          <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                            <field name="TEXT">with</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="yp3S~wKY9dK|;?yK}cFv">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="(q5)WPFasX2^Vl#`IF)!">
+                <field name="TEXT">width</field>
+                <next>
+                  <block type="field_number" id="R-#mQNfN5nwdWE}UFSqB">
+                    <field name="VALUE">1</field>
+                    <field name="FIELDNAME">WIDTH</field>
+                    <field name="MIN">0</field>
+                    <field name="MAX">Infinity</field>
+                    <field name="PRECISION">0</field>
+                    <next>
+                      <block type="field_static" id="Yi{qhvi/tGvuGax0$=|{">
+                        <field name="TEXT">height</field>
+                        <next>
+                          <block type="field_number" id="GxT}wPGubUb$F+)r9^-3">
+                            <field name="VALUE">1</field>
+                            <field name="FIELDNAME">HEIGHT</field>
+                            <field name="MIN">0</field>
+                            <field name="MAX">Infinity</field>
+                            <field name="PRECISION">0</field>
+                            <next>
+                              <block type="field_static" id="+r.mJ)f[~aeGMOb$G.me">
+                                <field name="TEXT">detail</field>
+                                <next>
+                                  <block type="field_number" id="8C,f^tn?R)}H!/}XoW$7">
+                                    <field name="VALUE">1</field>
+                                    <field name="FIELDNAME">DETAIL</field>
+                                    <field name="MIN">1</field>
+                                    <field name="MAX">10</field>
+                                    <field name="PRECISION">0</field>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Geometry.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="_vmc/~a5c`@g}t}FcJN," deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_geometry</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id=".4^,IA`ZUXYm,M~hg]D+">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="pNNsZ(1mDvKPq!M;y(N]">
+            <field name="TEXT">in geometry</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="m^SK[Yg+Ehg_818LBC.-"></shadow>
+          <block type="type_other" id="u2WepHe^)R?C=)qWUN@c">
+            <field name="TYPE">Geometry</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id=")z?x$|[BSNE!H[]gu|7z">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">translation</field>
+                    <field name="CPU0">TRANSLATION</field>
+                    <field name="USER1">rotationX</field>
+                    <field name="CPU1">RX</field>
+                    <field name="USER2">rotationY</field>
+                    <field name="CPU2">RY</field>
+                    <field name="USER3">rotationZ</field>
+                    <field name="CPU3">RZ</field>
+                    <field name="USER4">scale</field>
+                    <field name="CPU4">SCALE</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="gB99G?hr7Dn;LyI)AJU2">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Je)zDHbczneHnRr};v(;">
+                    <field name="TEXT">to</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="R`=A[6XJZ)hXBXRTY$d6"></shadow>
+                  <block type="type_other" id="qbYirCF%6Ao`fTFLV42K">
+                    <field name="TYPE">Vec3</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ggb||#lp[Pu/edJVv?j!" deletable="false" movable="false">
+        <field name="TEXT">Set property of a previously created Geometry.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="DRUSf@_sE^bZXt]0fqU6" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="ZMYs$)I26,8TRSGOhAS_"></shadow>
+      <block type="type_null" id="LWy/gm3)ImJ)EauOcf{!"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id=",7wu?XmUwiunysjqrf}@"></shadow>
+      <block type="type_null" id="t],qc.h:U?M/d9Z9}?Y$"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="/1CYp-pw~4L6vx@h!a4^">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="ga?t4iUaLy$m6VWkxjz1" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_getfrom_geometry</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="#IQqblspT-,TSrQd[Z|w">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+            <field name="TEXT">from geometry</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nn]y9p-Ub{l$rbxE.5U)"></shadow>
+          <block type="type_other" id="u2WepHe^)R?C=)qWUN@c">
+            <field name="TYPE">Geometry</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="c|@Zk|d3%]b,`PGZq$5o">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="X13n5fn[z96#6ymj0=@p">
+                <field name="TEXT">get</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">position</field>
+                    <field name="CPU0">POSITION</field>
+                    <field name="USER1">rotation</field>
+                    <field name="CPU1">ROTATION</field>
+                    <field name="USER2">scale</field>
+                    <field name="CPU2">SCALE</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="fM$~/?i(~6e2IfL4?9Pl" deletable="false" movable="false">
+        <field name="TEXT">Get property of a previously created Geometry.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1=AqK3i7?3aGVg3hGF(K" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="VTvk~YhVgH`mT]5Z60ab"></shadow>
+      <block type="type_other" id="B-=C@qD[p}5O`HK}2(4x">
+        <field name="TYPE">Vec3</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="P`-U-^i/p3wTlFa*(xtR">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="x~?yszSQC|n.N_[_)pt*" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_value_geometry</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="C,#mg7+a`4oGk%NG1GwF">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="s?M=c.W`8/b)F`STuxSU">
+            <mutation options="[&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">VAL</field>
+            <field name="USER0"></field>
+            <field name="CPU0"></field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="G#1Ot%l[?+%@sx%U+`Kr" deletable="false" movable="false">
+        <field name="TEXT">Retrieve a Geometry.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="vjTj8x!bW`GQ^9)F1(!9" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="%T__dP).`Li^,G;u[X`k"></shadow>
+      <block type="type_other" id="q7HfyG8E@ME^{)-j*fXp">
+        <field name="TYPE">Geometry</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="8A7%mCtWL~GS$ZO_X.Y#">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="KIz.KkMS/_V[dFLOGz`o" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_vector_vec2</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="p,#7@|5849T[Lp-?DSP]">
+        <field name="INPUTNAME">X</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="-n:bGcNB6p;o:w=Qs:@W">
+            <field name="TEXT">x</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="?CFKokbU=0oP/~)a^Rrs"></shadow>
+          <block type="type_number" id="0)8ha)u]N_[?+f#ILSwf"></block>
+        </value>
+        <next>
+          <block type="input_value" id="As6Lz$?KL=o@/Id3x8g0">
+            <field name="INPUTNAME">Y</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="(%.4oir`UVQUUOSW1*il">
+                <field name="TEXT">y</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="r=BjQHdq102b5R-Xq0TW"></shadow>
+              <block type="type_number" id="xOmw7mr1[Q4,:d`qZ(+K"></block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ns$X)4h|SG_0DwC#Do3]" deletable="false" movable="false">
+        <field name="TEXT">Return a new Vector of 2 dimensions.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="S[wz(4[x0*^llD:2R2h7" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/math/Vector2</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id=".MypKsejYPdbJ/sa0i)H"></shadow>
+      <block type="type_other" id="YB)ykF@%`,Ajqg5+e3o@">
+        <field name="TYPE">Vec2</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="Y64PmhP5;*;e$!]12,~Z">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="KIz.KkMS/_V[dFLOGz`o" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_vector_vec3</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="^M3lLy^/$I8U]Y7O;Q[j">
+        <field name="INPUTNAME">X</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="%m%s=M{)M(ZxSo!OM=Zs">
+            <field name="TEXT">x</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nnpsuk)bRaC,dW@89MQ6"></shadow>
+          <block type="type_number" id="Z7Jzza/?%$zc{P=jswu2"></block>
+        </value>
+        <next>
+          <block type="input_value" id="3fQb:|%kK~!|Zr?^Je=.">
+            <field name="INPUTNAME">Y</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="+~W]R`].~!xueo+)e*:Q">
+                <field name="TEXT">y</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="{F88|7($|3yU?5NRm|gU"></shadow>
+              <block type="type_number" id="z`@~#YDLI+PZfhN;[B^]"></block>
+            </value>
+            <next>
+              <block type="input_value" id="~s}Q)~@/#wT{n02T^rb:">
+                <field name="INPUTNAME">Z</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="QkUU?r)+DClehE%vste.">
+                    <field name="TEXT">z</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="D$V.p^y,[;p8V}M?wt|."></shadow>
+                  <block type="type_number" id="zlYU-j2xe3uzMU8BQVH("></block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ns$X)4h|SG_0DwC#Do3]" deletable="false" movable="false">
+        <field name="TEXT">Return a new Vector of 3 dimensions.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="S[wz(4[x0*^llD:2R2h7" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/math/Vector3</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="!=UQ,EF5=M/Djb8n@Ie2"></shadow>
+      <block type="type_other" id="DVT7!*kh@1.u1Bf*2PiB">
+        <field name="TYPE">Vec3</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="Y64PmhP5;*;e$!]12,~Z">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="KIz.KkMS/_V[dFLOGz`o" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_vector_vec4</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="Dyn?5W)rbyJ[wl-{+$tC">
+        <field name="INPUTNAME">X</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="XWjJjopHN6Hpsxt5`hz(">
+            <field name="TEXT">x</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="~?)`k[hm2NLVpZAUp:.J"></shadow>
+          <block type="type_number" id="ylJ_:H4e1H~Rp0:le-Z,"></block>
+        </value>
+        <next>
+          <block type="input_value" id="crR1-LX9=CHP[tX2u`$C">
+            <field name="INPUTNAME">Y</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id=")p-ZM=uTy`:D#{{78bJB">
+                <field name="TEXT">y</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="d^!jsT[}E4Ul[YFI[a);"></shadow>
+              <block type="type_number" id="lU4#|-^r[P_H[Ja;iRg$"></block>
+            </value>
+            <next>
+              <block type="input_value" id="b^zyK$Fh]PuY|QZO6E;{">
+                <field name="INPUTNAME">Z</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="u:n=/uDx/U*GA90fv97@">
+                    <field name="TEXT">z</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="6FAV1Valr`nZKnmm)D9C"></shadow>
+                  <block type="type_number" id="@g24Q(RtB-yhBU+Be5VL"></block>
+                </value>
+                <next>
+                  <block type="input_value" id="T/0_^ws!`__e{J;-yp5i">
+                    <field name="INPUTNAME">W</field>
+                    <field name="ALIGN">LEFT</field>
+                    <statement name="FIELDS">
+                      <block type="field_static" id="rdRZH!VeqPt9#M!J8wS/">
+                        <field name="TEXT">w</field>
+                      </block>
+                    </statement>
+                    <value name="TYPE">
+                      <shadow type="type_null" id="7}U,~.YBo[L]$?AGZ^IP"></shadow>
+                      <block type="type_number" id="68`551yr1.x+K?H~*m[k"></block>
+                    </value>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ns$X)4h|SG_0DwC#Do3]" deletable="false" movable="false">
+        <field name="TEXT">Return a new Vector of 4 dimensions.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="S[wz(4[x0*^llD:2R2h7" deletable="false" movable="false">
+        <field name="TEXT">https://threejs.org/docs/index.html#api/en/math/Vector4</field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id=":8kthB6G;GS^Zh_/U~Gk"></shadow>
+      <block type="type_other" id="?;xtX4X)bymSZKk5HD+R">
+        <field name="TYPE">Vec4</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="Y64PmhP5;*;e$!]12,~Z">
+        <mutation colour="#5ba580"></mutation>
+        <field name="HUE">150</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_material</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create material</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+                <next>
+                  <block type="field_static" id="f9}c|mnj0O;=2%j)dI!Q">
+                    <field name="TEXT">as</field>
+                    <next>
+                      <block type="field_dropdown" id="S(TNPN|pXElM/b1dmgb+">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">TYPE</field>
+                        <field name="USER0">basicMat</field>
+                        <field name="CPU0">BASIC</field>
+                        <field name="USER1">depthMat</field>
+                        <field name="CPU1">DEPTH</field>
+                        <field name="USER2">normalMat</field>
+                        <field name="CPU2">NORMAL</field>
+                        <field name="USER3">lambertMat</field>
+                        <field name="CPU3">LAMBERT</field>
+                        <field name="USER4">phongMat</field>
+                        <field name="CPU4">PHONG</field>
+                        <next>
+                          <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                            <field name="TEXT">with</field>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_dummy" id="byG)c*s`J*kEWNf07Wu?">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="4M762Lu6=_^`h,|orUDu">
+                <field name="TEXT">color</field>
+                <next>
+                  <block type="field_colour" id="0/2b[~SlI~,80Tt(s6(0">
+                    <field name="COLOUR">#ffffff</field>
+                    <field name="FIELDNAME">COLOUR</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Material.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="_vmc/~a5c`@g}t}FcJN," deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_material</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id=".4^,IA`ZUXYm,M~hg]D+">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="@dY3~yDuM7Xq}/l)w{zm">
+            <field name="TEXT">in material</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="m^SK[Yg+Ehg_818LBC.-"></shadow>
+          <block type="type_other" id="u2WepHe^)R?C=)qWUN@c">
+            <field name="TYPE">Material</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id=")z?x$|[BSNE!H[]gu|7z">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">color</field>
+                    <field name="CPU0">COLOR</field>
+                    <field name="USER1">opacity</field>
+                    <field name="CPU1">OPACITY</field>
+                    <field name="USER2">transparent</field>
+                    <field name="CPU2">TRANSPARENT</field>
+                    <field name="USER3">visible</field>
+                    <field name="CPU3">VISIBLE</field>
+                    <field name="USER4">map</field>
+                    <field name="CPU4">MAP</field>
+                    <field name="USER5">bumpMap</field>
+                    <field name="CPU5">BUMPMAP</field>
+                    <field name="USER6">normalMap</field>
+                    <field name="CPU6">NORMALMAP</field>
+                    <field name="USER7">depthTest</field>
+                    <field name="CPU7">DEPTHTEST</field>
+                    <field name="USER8">wireframe</field>
+                    <field name="CPU8">WIREFRAME</field>
+                    <field name="USER9">emissive</field>
+                    <field name="CPU9">EMISSIVE</field>
+                    <field name="USER10">specular</field>
+                    <field name="CPU10">SPECULAR</field>
+                    <field name="USER11">shininess</field>
+                    <field name="CPU11">SHININESS</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="gB99G?hr7Dn;LyI)AJU2">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Je)zDHbczneHnRr};v(;">
+                    <field name="TEXT">to</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="R`=A[6XJZ)hXBXRTY$d6"></shadow>
+                  <block type="type_group" id="B=]73Hr1`3Aq%A+f{b,Q">
+                    <mutation types="2"></mutation>
+                    <value name="TYPE0">
+                      <block type="type_other" id="qbYirCF%6Ao`fTFLV42K">
+                        <field name="TYPE">Colour</field>
+                      </block>
+                    </value>
+                    <value name="TYPE1">
+                      <block type="type_string" id="oC[;RTu(*AjtH0.Wpl(/"></block>
+                    </value>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ggb||#lp[Pu/edJVv?j!" deletable="false" movable="false">
+        <field name="TEXT">Set property of a previously created Material.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="DRUSf@_sE^bZXt]0fqU6" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="ZMYs$)I26,8TRSGOhAS_"></shadow>
+      <block type="type_null" id="LWy/gm3)ImJ)EauOcf{!"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id=",7wu?XmUwiunysjqrf}@"></shadow>
+      <block type="type_null" id="t],qc.h:U?M/d9Z9}?Y$"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="/1CYp-pw~4L6vx@h!a4^">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="ga?t4iUaLy$m6VWkxjz1" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_getfrom_material</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="#IQqblspT-,TSrQd[Z|w">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+            <field name="TEXT">from material</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nn]y9p-Ub{l$rbxE.5U)"></shadow>
+          <block type="type_other" id="_Xx=owJB)su}f-IX)68T">
+            <field name="TYPE">Material</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="c|@Zk|d3%]b,`PGZq$5o">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="X13n5fn[z96#6ymj0=@p">
+                <field name="TEXT">get</field>
+                <next>
+                  <block type="field_dropdown" id="H(FVz!BXb7xakWWa8v(N">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">color</field>
+                    <field name="CPU0">COLOR</field>
+                    <field name="USER1">opacity</field>
+                    <field name="CPU1">OPACITY</field>
+                    <field name="USER2">transparent</field>
+                    <field name="CPU2">TRANSPARENT</field>
+                    <field name="USER3">visible</field>
+                    <field name="CPU3">VISIBLE</field>
+                    <field name="USER4">map</field>
+                    <field name="CPU4">MAP</field>
+                    <field name="USER5">bumpMap</field>
+                    <field name="CPU5">BUMPMAP</field>
+                    <field name="USER6">normalMap</field>
+                    <field name="CPU6">NORMALMAP</field>
+                    <field name="USER7">depthTest</field>
+                    <field name="CPU7">DEPTHTEST</field>
+                    <field name="USER8">wireframe</field>
+                    <field name="CPU8">WIREFRAME</field>
+                    <field name="USER9">emissive</field>
+                    <field name="CPU9">EMISSIVE</field>
+                    <field name="USER10">specular</field>
+                    <field name="CPU10">SPECULAR</field>
+                    <field name="USER11">shininess</field>
+                    <field name="CPU11">SHININESS</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="fM$~/?i(~6e2IfL4?9Pl" deletable="false" movable="false">
+        <field name="TEXT">Get property of a previously created Material.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1=AqK3i7?3aGVg3hGF(K" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="VTvk~YhVgH`mT]5Z60ab"></shadow>
+      <block type="type_null" id="Z)GuDj/!I1P#0p1P~Kto"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="P`-U-^i/p3wTlFa*(xtR">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="OA^:R8=50LzruDlrOL,E" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_value_material</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="cg(bS_8tA/mT?=C.qGyN">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="2deR+iZEx1N}pYantpnT">
+            <mutation options="[&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">VAL</field>
+            <field name="USER0"></field>
+            <field name="CPU0"></field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="@t}:[%8oXS,iSqdESaCZ" deletable="false" movable="false">
+        <field name="TEXT">Create a new Material.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="Bt*#YMH/9W:10x-6iV$t" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="vF/:2CtOmjJeQ2d@`)S="></shadow>
+      <block type="type_other" id="!M+=yvxT}dv2V-(YbHr+">
+        <field name="TYPE">Material</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="StFzZmob[AcEv:rQjiW0">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="`m!!Rg*ht#|t%64yf,eq" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_image_texture</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="hPc!S#9pk9hyg{Z$UVME">
+        <field name="INPUTNAME">TEXTURE</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="GE:G1l(XUbJP{Q1jGEP`">
+            <field name="TEXT">create texture</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="-X9,{y)E@8v|Ad4Wz1Xr"></shadow>
+          <block type="type_string" id="JOM03Oia-/+X5Y-++?xp"></block>
+        </value>
+        <next>
+          <block type="input_dummy" id="$_*UES}k)0np6OjI.B`:">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                <field name="TEXT">with</field>
+                <next>
+                  <block type="field_static" id="=6|gdiPHB|f`5fedA45+">
+                    <field name="TEXT">wrap</field>
+                    <next>
+                      <block type="field_dropdown" id="a;w]r8(@I4^zuL20x8M9">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">WRAP</field>
+                        <field name="USER0">clamp</field>
+                        <field name="CPU0">CLAMP</field>
+                        <field name="USER1">repeat</field>
+                        <field name="CPU1">REPEAT</field>
+                        <field name="USER2">mirror</field>
+                        <field name="CPU2">MIRROR</field>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_dummy" id="-{3@+Ui/aE.V[ZgkRT6]">
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="?rSMmSAkoeogtbkqeY-V">
+                    <field name="TEXT">filter</field>
+                    <next>
+                      <block type="field_dropdown" id="OV6JO9Sjb;LNh[:nzG[P">
+                        <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
+                        <field name="FIELDNAME">FILTER</field>
+                        <field name="USER0">linear</field>
+                        <field name="CPU0">LINEAR</field>
+                        <field name="USER1">nearest</field>
+                        <field name="CPU1">NEAREST</field>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="4*paosx|ygO;X:ID0VBt" deletable="false" movable="false">
+        <field name="TEXT">Return a new Texture.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="5PyzFdFGE2bk.biUjW!v" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="K0r1;$7;,3`]J-A#g5x-"></shadow>
+      <block type="type_other" id="Yhx2!HGA)JORMbH_N_,F">
+        <field name="TYPE">Texture</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="?^Ud-Aox/,ML{z/zD7o3">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_linear_fog</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create fog</field>
+            <next>
+              <block type="field_static" id="|fWAr!^4w0iuu}bYQfON">
+                <field name="TEXT">with</field>
+                <next>
+                  <block type="field_static" id="4M762Lu6=_^`h,|orUDu">
+                    <field name="TEXT">color</field>
+                    <next>
+                      <block type="field_colour" id="0/2b[~SlI~,80Tt(s6(0">
+                        <field name="COLOUR">#ffffff</field>
+                        <field name="FIELDNAME">COLOUR</field>
+                        <next>
+                          <block type="field_static" id="s.okSJk|@lG/!J%c3Pow">
+                            <field name="TEXT">near</field>
+                            <next>
+                              <block type="field_number" id="??t2JNnD@uS4U0+clTf;">
+                                <field name="VALUE">1</field>
+                                <field name="FIELDNAME">NEAR</field>
+                                <field name="MIN">-Infinity</field>
+                                <field name="MAX">Infinity</field>
+                                <field name="PRECISION">0</field>
+                                <next>
+                                  <block type="field_static" id="lD{:dC.,@W,1r{fK[6#p">
+                                    <field name="TEXT">far</field>
+                                    <next>
+                                      <block type="field_number" id="`JqI@s8MxdG]{e~=l7/y">
+                                        <field name="VALUE">100</field>
+                                        <field name="FIELDNAME">FAR</field>
+                                        <field name="MIN">-Infinity</field>
+                                        <field name="MAX">Infinity</field>
+                                        <field name="PRECISION">0</field>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Return a new Fog element.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="jZl4QGMG%mUOG:8{!IG7"></shadow>
+      <block type="type_other" id=":MOwm(;%-S%o7OG^bPo,">
+        <field name="TYPE">Fog</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#675ba5"></mutation>
+        <field name="HUE">250</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_mesh</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create mesh</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+                <next>
+                  <block type="field_static" id="ABfN/%eh%b}MYc=S_}j{">
+                    <field name="TEXT">with</field>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_value" id="+Va^%c5j3Qmasn28JJW/">
+            <field name="INPUTNAME">GEOMETRY</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="T6Q+gKRyI7SE:DL6WFhO">
+                <field name="TEXT">geometry</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="@yBztZ[eGGtd?*[uFge6"></shadow>
+              <block type="type_other" id="nzh$@qjfm=2h,%oH+w{8">
+                <field name="TYPE">Geometry</field>
+              </block>
+            </value>
+            <next>
+              <block type="input_value" id="/$WH/fW7%2V=L~kzB}.]">
+                <field name="INPUTNAME">MATERIAL</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="ab#m5,~w}yGtr*k**2~x">
+                    <field name="TEXT">material</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="@yBztZ[eGGtd?*[uFge6"></shadow>
+                  <block type="type_other" id="BPpHA/5N2)zVyJ,RPHTl">
+                    <field name="TYPE">Material</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Mesh.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_mesh_from_file</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create mesh</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_value" id="DmE1vy#0[c+=tVZO77{V">
+            <field name="INPUTNAME">VALUE</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="GR/ImJ]gI%oxzMTFEpR6">
+                <field name="TEXT">from file</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="^B@zW;7sbC@tN4k()7:O"></shadow>
+              <block type="type_string" id="=`:V}G$#HHWXI:_c^?Ym"></block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Mesh from a glTF, OBJ or Collada file.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lE?b;NyTc20}~|:JI]ET" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_create_mesh_group</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="qVK9-=Iu|Ayhw*}TqG5b">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="!D5!$M|s|sA+!a`s;Vc$">
+            <field name="TEXT">create mesh</field>
+            <next>
+              <block type="field_input" id="b;RaRmP;edwFN@K@-rf`">
+                <field name="TEXT"></field>
+                <field name="FIELDNAME">NAME</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_value" id="+Va^%c5j3Qmasn28JJW/">
+            <field name="INPUTNAME">VALUE</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="T6Q+gKRyI7SE:DL6WFhO">
+                <field name="TEXT">grouping</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="@yBztZ[eGGtd?*[uFge6"></shadow>
+              <block type="type_group" id="6ZtSAY:751DNeB0}Pcy!">
+                <mutation types="1"></mutation>
+                <value name="TYPE0">
+                  <block type="type_other" id="nzh$@qjfm=2h,%oH+w{8">
+                    <field name="TYPE">Mesh</field>
+                  </block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="#4RSq7;mdz1s0[9[g50E" deletable="false" movable="false">
+        <field name="TEXT">Create a new Group from Meshes or Groups.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="?,B$Qo2:ztxvU9vV,^Gn" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="Q41[yexIz`L9r,dpPYV*"></shadow>
+      <block type="type_null" id="Oei$=*+KKeX^(LwTd`xS"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="wy(Eq!C`^$,kf-mwvqRy"></shadow>
+      <block type="type_null" id="*Lwgn6qc^irLD@u-VGK1"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="iQmL1[)PfMU(WPwW@aBi">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="_vmc/~a5c`@g}t}FcJN," deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_set_mesh</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id=".4^,IA`ZUXYm,M~hg]D+">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="PHus@B{FCy2x(7YDe|+m">
+            <field name="TEXT">in mesh</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="m^SK[Yg+Ehg_818LBC.-"></shadow>
+          <block type="type_group" id="-#.tPbmw%!sOG$-Wf)@k">
+            <mutation types="1"></mutation>
+            <value name="TYPE0">
+              <block type="type_other" id="u2WepHe^)R?C=)qWUN@c">
+                <field name="TYPE">Mesh</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id=")z?x$|[BSNE!H[]gu|7z">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="^q]I]1krtaj#SQ@:Cb`=">
+                <field name="TEXT">set</field>
+                <next>
+                  <block type="field_dropdown" id="Nn;[XT}y[I6Pu%3f7{K8">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">geometry</field>
+                    <field name="CPU0">GEOMETRY</field>
+                    <field name="USER1">material</field>
+                    <field name="CPU1">MATERIAL</field>
+                    <field name="USER2">mesh</field>
+                    <field name="CPU2">MESH</field>
+                    <field name="USER3">child</field>
+                    <field name="CPU3">CHILD</field>
+                    <field name="USER4">children</field>
+                    <field name="CPU4">CHILDREN</field>
+                    <field name="USER5">position</field>
+                    <field name="CPU5">POSITION</field>
+                    <field name="USER6">lookAt</field>
+                    <field name="CPU6">LOOKAT</field>
+                    <field name="USER7">castShadow</field>
+                    <field name="CPU7">CASTSHADOW</field>
+                    <field name="USER8">receiveShadow</field>
+                    <field name="CPU8">RECEIVESHADOW</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="gB99G?hr7Dn;LyI)AJU2">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Je)zDHbczneHnRr};v(;">
+                    <field name="TEXT">to</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="R`=A[6XJZ)hXBXRTY$d6"></shadow>
+                  <block type="type_other" id="qbYirCF%6Ao`fTFLV42K">
+                    <field name="TYPE">Geometry</field>
+                  </block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="ggb||#lp[Pu/edJVv?j!" deletable="false" movable="false">
+        <field name="TEXT">Set property of a previously created Mesh.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="DRUSf@_sE^bZXt]0fqU6" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="ZMYs$)I26,8TRSGOhAS_"></shadow>
+      <block type="type_null" id="LWy/gm3)ImJ)EauOcf{!"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id=",7wu?XmUwiunysjqrf}@"></shadow>
+      <block type="type_null" id="t],qc.h:U?M/d9Z9}?Y$"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="/1CYp-pw~4L6vx@h!a4^">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="kpT-vjv4hmp)odexZ0~g" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_update_mesh</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="DvW{(b/W:LbW$=k0+U[a">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="wtjUQ^A|pX6oHkF=0!iz">
+            <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">FIELD</field>
+            <field name="USER0">translate</field>
+            <field name="CPU0">TRANSLATE</field>
+            <field name="USER1">rotate</field>
+            <field name="CPU1">ROTATE</field>
+            <field name="USER2">scale</field>
+            <field name="CPU2">SCALE</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="!F[KC0VAEfpJ7QK@[rg/"></shadow>
+          <block type="type_group" id="DEnYZ?8KnJ)t}$XDw/2a">
+            <mutation types="1"></mutation>
+            <value name="TYPE0">
+              <block type="type_other" id="eQdOOYfdv/Bo]/n0{MKx">
+                <field name="TYPE">Mesh</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="^$GP:I#xkK|%42]=sEOP">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_dropdown" id="st^jq]THea`zQvQ6BW5#">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                <field name="FIELDNAME">COMPONENT</field>
+                <field name="USER0">x</field>
+                <field name="CPU0">X</field>
+                <field name="USER1">y</field>
+                <field name="CPU1">Y</field>
+                <field name="USER2">z</field>
+                <field name="CPU2">Z</field>
+                <field name="USER3">xyz</field>
+                <field name="CPU3">XYZ</field>
+                <field name="USER4">along</field>
+                <field name="CPU4">AXIS</field>
+              </block>
+            </statement>
+            <next>
+              <block type="input_value" id="GlwOzDPX{x03q2ye%r@1">
+                <field name="INPUTNAME">VALUE</field>
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="Z16b@b]cBuNS?TLc*`2_">
+                    <field name="TEXT">by</field>
+                  </block>
+                </statement>
+                <value name="TYPE">
+                  <shadow type="type_null" id="Yn-m7Kw*zjxB4#tKg/bi"></shadow>
+                  <block type="type_number" id="WTg]mI#C/ir7m,j/-80["></block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="/].%_Dlt#!tfe%Fx;|@;" deletable="false" movable="false">
+        <field name="TEXT">Update property of a previously created Mesh.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="^cm10l_MIfjHTPh!=IN1" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="L=22PQe{s@+79)3#q^gB"></shadow>
+      <block type="type_null" id="q2M-+SgP4d$`t0r[U2@h"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="=!g9L,nO42i(j~eWLT1|"></shadow>
+      <block type="type_null" id="SG~YP7~mH(Xtl?$PpZVD"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="{kguMLzbg@^~k:vU[7Ym">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="ga?t4iUaLy$m6VWkxjz1" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_getfrom_mesh</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="#IQqblspT-,TSrQd[Z|w">
+        <field name="INPUTNAME">INPUT</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="8mIDk0c$ad-k341aMZ%n">
+            <field name="TEXT">from mesh</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="nn]y9p-Ub{l$rbxE.5U)"></shadow>
+          <block type="type_other" id="_Xx=owJB)su}f-IX)68T">
+            <field name="TYPE">Mesh</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="c|@Zk|d3%]b,`PGZq$5o">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="X13n5fn[z96#6ymj0=@p">
+                <field name="TEXT">get</field>
+                <next>
+                  <block type="field_dropdown" id="q8@/wi*:3[T$EoQo@dzw">
+                    <mutation options="[&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;,&quot;text&quot;]"></mutation>
+                    <field name="FIELDNAME">FIELD</field>
+                    <field name="USER0">geometry</field>
+                    <field name="CPU0">GEOMETRY</field>
+                    <field name="USER1">material</field>
+                    <field name="CPU1">MATERIAL</field>
+                    <field name="USER2">mesh</field>
+                    <field name="CPU2">MESH</field>
+                    <field name="USER3">child</field>
+                    <field name="CPU3">CHILD</field>
+                    <field name="USER4">position</field>
+                    <field name="CPU4">POSITION</field>
+                    <field name="USER5">lookAt</field>
+                    <field name="CPU5">LOOKAT</field>
+                    <field name="USER6">rotation</field>
+                    <field name="CPU6">ROTATION</field>
+                    <field name="USER7">scale</field>
+                    <field name="CPU7">SCALE</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="fM$~/?i(~6e2IfL4?9Pl" deletable="false" movable="false">
+        <field name="TEXT">Get property of a previously created Mesh.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="1=AqK3i7?3aGVg3hGF(K" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="VTvk~YhVgH`mT]5Z60ab"></shadow>
+      <block type="type_null" id="E-VdBUk_*`][1Wiyd7}L"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="P`-U-^i/p3wTlFa*(xtR">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="s5kh.Jn{k1B#DpqPg3O!" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="LEFT"></mutation>
+    <field name="NAME">b3js_value_mesh</field>
+    <field name="INLINE">AUTO</field>
+    <field name="CONNECTIONS">LEFT</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="@E$RhtZ0s}fJqkr`X[VV">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_dropdown" id="F0i$R;ly;*Eg1BstT5r`">
+            <mutation options="[&quot;text&quot;]"></mutation>
+            <field name="FIELDNAME">VAL</field>
+            <field name="USER0"></field>
+            <field name="CPU0"></field>
+          </block>
+        </statement>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="r]!gc6;7-WwAq$p6DsJ(" deletable="false" movable="false">
+        <field name="TEXT">Retrieve a Mesh.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="CynhZx`YAQKzd4{XA6TC" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="OUTPUTTYPE">
+      <shadow type="type_null" id="=U3^w#eCGOKKU8oFTfQe"></shadow>
+      <block type="type_other" id="]T5:W!hxfc.%a3vxv!ZS">
+        <field name="TYPE">Mesh</field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="[z0_-bVkL:S.X1LHNSK0">
+        <mutation colour="#74a55b"></mutation>
+        <field name="HUE">100</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="lS0kL]M!WZ{B!fS-B5eT" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_render_loop</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="^)2X9,GG4w}f9Q-RX=*;">
+        <field name="INPUTNAME">CAMERA</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="h@3*JMY{X{ALt|5Ef3Q2">
+            <field name="TEXT">render with camera</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="s#%[69.`65J?T/0xItnY"></shadow>
+          <block type="type_other" id="uJT8b6t-X`(LCWQ:%tLa">
+            <field name="TYPE">Camera</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_dummy" id="VPFA9%.Bqaa}?dt^?My(">
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="XPn6w,`f)H)kFmDOWu$Y">
+                <field name="TEXT">fps</field>
+                <next>
+                  <block type="field_number" id="oN8[%iRuX7H|@KZ%DqW`">
+                    <field name="VALUE">60</field>
+                    <field name="FIELDNAME">FPS</field>
+                    <field name="MIN">1</field>
+                    <field name="MAX">60</field>
+                    <field name="PRECISION">1</field>
+                  </block>
+                </next>
+              </block>
+            </statement>
+            <next>
+              <block type="input_statement" id="6SK+]C4X8;Ut8A,xN^S{">
+                <field name="INPUTNAME">RENDER</field>
+                <field name="ALIGN">LEFT</field>
+                <value name="TYPE">
+                  <shadow type="type_null" id="lzg`~1%|kC`/*)SD=;iI"></shadow>
+                  <block type="type_null" id="SmuB@F94CVK](o[6:2pd"></block>
+                </value>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="jAw8/)EYddB`YdQBPgk8" deletable="false" movable="false">
+        <field name="TEXT">Render a Scene with a previously created Camera.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="*E*z5MT4F@X9Y.Ww~rmp" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="S:p]@8L8Y3W!C~fIR#G}"></shadow>
+      <block type="type_null" id="*3q8OjNv_j#5`!!rHo[4"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="W`[I%bw8owvj{4Z0GM;a"></shadow>
+      <block type="type_null" id="bbl6;dkW%.j+~S:*03KL"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="k.7R97#05SvIi`6T/L3P">
+        <mutation colour="#a5995b"></mutation>
+        <field name="HUE">50</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="kEa1[(Qo`%pC$P}];Gan" x="14" y="22">
+    <mutation connections="NONE"></mutation>
+    <field name="NAME">b3js_upon_event</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">NONE</field>
+    <statement name="INPUTS">
+      <block type="input_dummy" id="ozETZ-zE$W%SIY5!R4yt">
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="O,|?hPF}Z{6u1|z!T_Qe">
+            <field name="TEXT">upon event</field>
+            <next>
+              <block type="field_dropdown" id="vo%M-|/7R?xWS4#6$}?n">
+                <mutation options="[&quot;text&quot;,&quot;text&quot;]"></mutation>
+                <field name="FIELDNAME">EVENT</field>
+                <field name="USER0">click</field>
+                <field name="CPU0">CLICK</field>
+                <field name="USER1">keyDown</field>
+                <field name="CPU1">KEYDOWN</field>
+              </block>
+            </next>
+          </block>
+        </statement>
+        <next>
+          <block type="input_statement" id="k~tFtde;6~YApcO0=AA1">
+            <field name="INPUTNAME">STEPS</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="@b$v%~3_zy_X-F4+HrE5">
+                <field name="TEXT">do</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="-VRcK/d{O[;1,q!e.sbX"></shadow>
+              <block type="type_null" id="P8StAbM?L+9Lpv2O{EHd"></block>
+            </value>
+            <next>
+              <block type="input_dummy" id="tJC)J)|SP?_(oN23}7se">
+                <field name="ALIGN">LEFT</field>
+                <statement name="FIELDS">
+                  <block type="field_static" id="|m~]%UG9beVjJAx#OHA[">
+                    <field name="TEXT">on</field>
+                    <next>
+                      <block type="field_variable" id="3^sv+4I;3-.O]qBA[gej">
+                        <field name="TEXT">targetMesh</field>
+                        <field name="FIELDNAME">ARGUMENT</field>
+                      </block>
+                    </next>
+                  </block>
+                </statement>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="QStqO9CLbMjR=$Bc9RET">
+        <field name="TEXT">Append an Event Listener to the document.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="$cseX]n9?Sl1*%`MR:=p">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="DX_ZIGBLFQxyS$v$Uih8">
+        <mutation colour="#a5995b"></mutation>
+        <field name="HUE">50</field>
+      </block>
+    </value>
+  </block><block type="factory_base" id="dUZhKqRzf+(-;4iE*%!b" deletable="false" movable="false" x="10" y="10">
+    <mutation connections="BOTH"></mutation>
+    <field name="NAME">b3js_play_animation</field>
+    <field name="INLINE">INT</field>
+    <field name="CONNECTIONS">BOTH</field>
+    <statement name="INPUTS">
+      <block type="input_value" id="EpsB.3hL=0do=uvfx1Fo">
+        <field name="INPUTNAME">MESH</field>
+        <field name="ALIGN">LEFT</field>
+        <statement name="FIELDS">
+          <block type="field_static" id="i2*Q!@i4*NYUmk9~pFiZ">
+            <field name="TEXT">play</field>
+          </block>
+        </statement>
+        <value name="TYPE">
+          <shadow type="type_null" id="QkSh!@4-+t0P_!NWc;t."></shadow>
+          <block type="type_other" id="GL4.S`f[6n(tEp|ZE7uP">
+            <field name="TYPE">Mesh</field>
+          </block>
+        </value>
+        <next>
+          <block type="input_value" id="{Y#yZ*0[#2`g=SnIJ_X~">
+            <field name="INPUTNAME">NUM</field>
+            <field name="ALIGN">LEFT</field>
+            <statement name="FIELDS">
+              <block type="field_static" id="4[JFwQQx=aJ/CX`$]#s+">
+                <field name="TEXT">animation #</field>
+              </block>
+            </statement>
+            <value name="TYPE">
+              <shadow type="type_null" id="5r9cJgNUi9R_%?Z/:%X/"></shadow>
+              <block type="type_number" id="E0=n9DdG5.?jum9m}dCk"></block>
+            </value>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <value name="TOOLTIP">
+      <block type="text" id="V4{~{+@-bJ+aCVc??Xeo" deletable="false" movable="false">
+        <field name="TEXT">Play the nth Mesh animation.</field>
+      </block>
+    </value>
+    <value name="HELPURL">
+      <block type="text" id="[|xuk?`E86xIO#27%tfq" deletable="false" movable="false">
+        <field name="TEXT"></field>
+      </block>
+    </value>
+    <value name="TOPTYPE">
+      <shadow type="type_null" id="qlNy+@I+n,{#+g5Ai*tT"></shadow>
+      <block type="type_null" id="=^VTE@{s4g)2i{ZG]=(_"></block>
+    </value>
+    <value name="BOTTOMTYPE">
+      <shadow type="type_null" id="0O*vu%nV6}jQqSk]|dui"></shadow>
+      <block type="type_null" id="%=W7J*e)%Nc,0hy=$v[0"></block>
+    </value>
+    <value name="COLOUR">
+      <block type="colour_hue" id="OoILay+y_o/xsk+/EFg,">
+        <mutation colour="#a5995b"></mutation>
+        <field name="HUE">50</field>
+      </block>
+    </value>
+  </block></xml>
