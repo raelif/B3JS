@@ -1,2 +1,4 @@
-resources/
+resources/*
+!resources/grass.png
+!resources/ground.png
 .DS_Store
