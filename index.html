@@ -20,38 +20,45 @@
 		<script type='text/javascript' src='src/switch_lan.js'></script>
 	</head>
 
-	<body onload='loadWorkspace()'>
+	<body onload='loadWorkspace();'>
 		<div id='menu'>
 			<ul>
 				<li><a id='file'>File</a>
 					<ul>
-						<li><a id='saveButton' onclick='saveProject("xml")'>Save Project</a></li>
+						<li><a id='saveButton' onclick='saveProject("xml");'>Save Project</a></li>
 						<li><a id='importButton' onclick='document.getElementById("importedXml").click();'>Import Project</a>
-							<input id='importedXml' type='file' accept='text/xml' oninput='importProject()'
+							<input id='importedXml' type='file' accept='text/xml' oninput='importProject();'
 								onchange='this.value=null;'>
 						</li>
-						<li><a id='genButton' onclick='saveProject("js")'>Generate Javascript</a></li>
+						<li><a id='genButton' onclick='saveProject("js");'>Generate Javascript</a></li>
 						<li><a id='uploadButton' onclick='document.getElementById("uploadRes[]").click();'>Upload Resources</a>
 							<form action='upload.php' method='post' target='dummyframe' enctype='multipart/form-data'>
-								<input id='uploadRes[]' name='uploadRes[]' type='file' accept='.obj,.mtl,.dae,.gltf,.glb,.bin,image/*'
-									oninput='this.parentElement.submit();' multiple>
+								<input id='uploadRes[]' name='uploadRes[]' type='file' accept='.obj,.mtl,.dae,.gltf,.glb,.bin,image/*' oninput='this.parentElement.submit();' multiple>
 							</form>
 						</li>
 					</ul>
 				</li>
+				<li><a id='demo'>Demo</a>
+					<ul>
+						<li><a id='playDemo' onclick='playDemo("snake");'>Play Demo</a></li>
+						<li><a id='showMsg' onclick='showMsg();'>Show Message</a></li>
+						<li><a id='startOver' onclick='startOver("snake");'>Play Demo</a></li>
+						<li><a id='exitDemo' onclick='exitDemo();'>Exit Demo</a></li>
+					</ul>
+				</li>
 				<li><a id='view'>View</a>
 					<ul>
-						<li><a id='canvEnlButton' onclick='openFullscreen(webglArea)'>Canvas Fullscreen</a></li>
-						<li><a id='wrksEnlButton' onclick='openFullscreen(blocklyArea)'>Workspace Fullscreen</a></li>
+						<li><a id='showButton' onclick='showCode();'>Show Code</a></li>
+						<li><a id='canvEnlButton' onclick='openFullscreen(webglArea);'>Canvas Fullscreen</a></li>
+						<li><a id='wrksEnlButton' onclick='openFullscreen(blocklyArea);'>Workspace Fullscreen</a></li>
 						<li><a id='languageButton'>Language:
-							Eng <input id='enLan' type='radio' name='lan' onclick='changeLanguage(this)' value='en'>
-							Ita <input id='itLan' type='radio' name='lan' onclick='changeLanguage(this)' value='it'></a>
+							Eng <input id='enLan' type='radio' name='lan' onclick='changeLanguage(this);' value='en'>
+							Ita <input id='itLan' type='radio' name='lan' onclick='changeLanguage(this);' value='it'></a>
 						</li>
 					</ul>
 				</li>
-				<li><a id='showButton' onclick='showCode()'>Show Code</a></li>
-				<li><a id='stopButton' onclick='stopCode()'>Stop</a></li>
-				<li><a id='runButton' onclick='runCode()'>Run</a></li>
+				<li><a id='stopButton' onclick='stopCode();'>Stop</a></li>
+				<li><a id='runButton' onclick='runCode();'>Run</a></li>
 			</ul>
 		</div>
 
@@ -60,6 +67,11 @@
 
 		<div id='webglArea'><canvas id='webglCanvas'></canvas></div>
 		<div id='blocklyArea'><div id='blocklyDiv'></div></div>
+
+		<div id='alertArea'>
+			<pre id='alertPre'></pre>
+			<button id='okButton' onclick='vanish()'>OK</button>
+		</div>
 
 		<script type='text/javascript' src='src/injection.js'></script>
 		<script type='text/javascript' src='src/extensions.js'></script>

@@ -1,0 +1,12 @@
+We are almost there!
+The last quest for you is to forbid the snake to keep on moving, after he bit his tail!
+
+You should guarantee the following:
+• if the head has the same position as one of the elements of the tail, you call again "clearAction()"
+
+In order to conlude the demo let the snake bite his tail.
+
+// Function levelCleared()
+function levelCleared() {
+	return reason === "bite" && direction === "";
+}

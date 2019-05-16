@@ -1,0 +1,24 @@
+Le parti della coda del serpente sono tutte disconnesse!
+Dovresti aiutarlo settando una giusta posizione per ognuna di esse!
+
+Il processo è il seguente: per ogni elemento della coda, cominciando dall'ultimo, la sua posizione diventa quella dell'elemento precedente. Se l'elemento corrente è il primo della coda ("tail"), la sua posizione diventa quella della testa ("head").
+
+Per sorpassare questo livello è richiesto di:
+• settare la posizione del primo figlio della coda (i=0) alla posizione della testa.
+• settare la posizione di ogni altro figlio (i) alla posizione del precedente (i-1)
+
+Una volta fatto, colleziona 3 mele.
+
+// Function levelCleared()
+function levelCleared() {
+	let len = mesh_tail.children.length;
+	if (len > 2) {
+		let s1x = mesh_tail.children[0].position.x - mesh_tail.children[1].position.x;
+		let s1z = mesh_tail.children[0].position.z - mesh_tail.children[1].position.z;
+		let s2x = mesh_tail.children[1].position.x - mesh_tail.children[2].position.x;
+		let s2z = mesh_tail.children[1].position.z - mesh_tail.children[2].position.z;
+		return (Math.abs(s1x) === 1 || Math.abs(s1z) === 1) && (Math.abs(s2x) === 1 || Math.abs(s2z) === 1);
+	}
+	else
+		return false;
+}

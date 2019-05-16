@@ -1,0 +1,124 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+  <category name="B3JS"></category>
+  <category name="Camera" colour="#5b93a5">
+    <block type="b3js_value_camera">
+      <field name="VAL"></field>
+    </block>
+  </category>
+  <category name="Geometria" colour="#5ba593">
+    <block type="b3js_vector_vec3">
+      <value name="X">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="Y">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="Z">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Mesh" colour="#5ba55b">
+    <block type="b3js_set_mesh">
+      <field name="FIELD">GEOMETRY</field>
+    </block>
+    <block type="b3js_update_mesh">
+      <field name="FIELD">TRANSLATE</field>
+      <field name="COMPONENT">X</field>
+    </block>
+    <block type="b3js_getfrom_mesh">
+      <field name="FIELD">GEOMETRY</field>
+    </block>
+    <block type="b3js_value_mesh">
+      <field name="VAL"></field>
+    </block>
+  </category>
+  <category name="Animazione" colour="#a5a55b">
+    <block type="b3js_render_loop">
+      <field name="FPS">60</field>
+    </block>
+    <block type="b3js_upon_event">
+      <field name="EVENT">CLICK</field>
+      <field name="ARGUMENT" id="{AU_p[ISef/4}xEg|(g^" variabletype="">targetMesh</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Logica" colour="#5C81A6">
+    <block type="controls_if"></block>
+    <block type="logic_compare">
+      <field name="OP">EQ</field>
+    </block>
+    <block type="logic_operation">
+      <field name="OP">AND</field>
+    </block>
+  </category>
+  <category name="Cicli" colour="#5CA65C">
+    <block type="controls_for">
+      <field name="VAR" id="i]d,(/bz@k~3z{Q@_ceJ" variabletype="">i</field>
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">10</field>
+        </shadow>
+      </value>
+      <value name="BY">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Matematica" colour="#5C68A6">
+    <block type="math_number">
+      <field name="NUM">0</field>
+    </block>
+    <block type="math_single">
+      <field name="OP">ROOT</field>
+      <value name="NUM">
+        <shadow type="math_number">
+          <field name="NUM">9</field>
+        </shadow>
+      </value>
+    </block>
+    <block type="math_random_int">
+      <value name="FROM">
+        <shadow type="math_number">
+          <field name="NUM">1</field>
+        </shadow>
+      </value>
+      <value name="TO">
+        <shadow type="math_number">
+          <field name="NUM">100</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Testo" colour="#5CA68D">
+    <block type="text">
+      <field name="TEXT"></field>
+    </block>
+    <block type="text_print">
+      <value name="TEXT">
+        <shadow type="text">
+          <field name="TEXT">abc</field>
+        </shadow>
+      </value>
+    </block>
+  </category>
+  <category name="Liste" colour="#745CA6">
+    <block type="lists_length"></block>
+  </category>
+  <sep></sep>
+  <category name="Variabili" colour="#A65C81" custom="VARIABLE"></category>
+  <category name="Funzioni" colour="#9A5CA6" custom="PROCEDURE"></category>
+</xml>

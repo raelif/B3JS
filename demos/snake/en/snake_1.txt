@@ -1,0 +1,20 @@
+This is the first level of the demo building the game "Snake".
+You can see the provided function "setWorld()", which creates the basic elements of the world.
+
+You don't need to modify it but in order to clear this level, you have to:
+• set the variable "direction" to the empty string ("")
+• call the function "setWorld()" from the function panel
+• add the "render with..."" block to the workspace together with its camera
+• set the fps of the renderer to 30
+
+The blocks should be connected, then click the button "Run".
+
+// Function levelCleared()
+function levelCleared() {
+	if (direction === "") {
+		let block = workspace.getBlocksByType('b3js_render_loop')[0];
+		if (block && block.getInputTargetBlock('CAMERA') && block.getFieldValue('FPS') === '30')
+			return true;
+	}
+	return false;
+}

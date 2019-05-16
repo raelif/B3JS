@@ -1,0 +1,22 @@
+<xml xmlns="http://www.w3.org/1999/xhtml" id="toolbox" style="display: none;">
+  <category name="B3JS"></category>
+  <category name="Camera" colour="#5b93a5">
+    <block type="b3js_value_camera">
+      <field name="VAL"></field>
+    </block>
+  </category>
+  <category name="Animazione" colour="#a5a55b">
+    <block type="b3js_render_loop">
+      <field name="FPS">60</field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Testo" colour="#5CA68D">
+    <block type="text">
+      <field name="TEXT"></field>
+    </block>
+  </category>
+  <sep></sep>
+  <category name="Variabili" colour="#A65C81" custom="VARIABLE"></category>
+  <category name="Funzioni" colour="#9A5CA6" custom="PROCEDURE"></category>
+</xml>

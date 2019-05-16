@@ -1,0 +1,23 @@
+Ora il serpente è confinato al campo di gioco ma è affamato!
+Dovremmo permettergli di mangiare delle mele!
+
+Dovresti averla notata come un cubo rosso nella scena, se non è visibile prova a settare la canvas a tutto schermo usando il bottone dentro il pannello "Vista" nel Menu.
+
+Per passare questo livello devi:
+• completare il se-altrimenti dentro il renderer considerando il valore della z della testa ("head") e della mela ("apple")
+• nella mesh coda ("tail") setta la testa ("head") come nuovo figlio
+• nella mesh code rimuovi i figli nella funzione di pulizia ("clearAction()")
+• setta anche la componente z della mela a un numero randomico tra -40 e +40
+
+Per accedere al prossimo livello colleziona 2 mele e sbatti contro un bordo.
+
+// Function levelCleared()
+var collected_apples = 0;
+function levelCleared() {
+	let tail_len = mesh_tail.children.length;
+	collected_apples = collected_apples > tail_len ? collected_apples : tail_len;
+	if (collected_apples >= 2 && direction === "")
+		return true;
+	else
+		return false;
+}

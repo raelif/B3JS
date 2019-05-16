@@ -1,0 +1,23 @@
+Now the snake is bounded to the game field but he is hungry!
+We should allow him to eat some apples!
+
+You may have noticed it as the red cube in the scene, if not visible try to set the canvas fullscreen using the button inside "View" in the Menu.
+
+In order to pass this level you have to:
+• complete the if-else inside the renderer by considering the z value of both the head and the apple
+• in mesh tail set the head as a new child
+• in mesh tail clear children in the function of clearing ("clearAction()")
+• set also the z component of apple to a random integer between -40 and +40
+
+To access the next level you have to collect 2 apples and crash against a boundary.
+
+// Function levelCleared()
+var collected_apples = 0;
+function levelCleared() {
+	let tail_len = mesh_tail.children.length;
+	collected_apples = collected_apples > tail_len ? collected_apples : tail_len;
+	if (collected_apples >= 2 && direction === "")
+		return true;
+	else
+		return false;
+}

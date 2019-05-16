@@ -76,7 +76,7 @@ iframe {
 	background-color: #646464;
 }
 
-#showButton, #stopButton, #runButton {
+#stopButton, #runButton {
 	cursor: pointer;
 }
 
@@ -114,4 +114,52 @@ iframe {
 	height: 100%;
 	margin: 0;
 	border: 0;
+}
+
+#alertArea {
+	width: 49vw;
+	margin-left: 50.5vw;
+	margin-right: 0.5vw;
+	height: 95vh;
+	margin-bottom: 0.5vh;
+	margin-top: 4.5vh;
+	z-index: 2147483647;
+	font-size: 2vmin;
+	padding: 0;
+	background-color: #DDDDDD;
+	opacity: 0.95;
+	display: none;
+	position: absolute;
+}
+
+#alertPre {
+	width: 98%;
+	margin-left: 1%;
+	margin-right: 1%;
+	height: 88%;
+	margin-top: 1%;
+	margin-bottom: 1%;
+	overflow-y: scroll;
+	display: block;
+	white-space: pre-wrap;
+	position: relative;
+}
+
+#okButton {
+	width: 100%;
+	height: 10%;
+	display: flex;
+	position: relative;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	font-family: Arial;
+	color: white;
+	background-color: #4D4D4D;
+}
+
+#okButton:hover {
+	background-color: #646464;
+	cursor: pointer;
 }

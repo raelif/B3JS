@@ -7,6 +7,10 @@ const webglCanvas = document.getElementById('webglCanvas');
 const blocklyArea = document.getElementById('blocklyArea');
 const blocklyDiv = document.getElementById('blocklyDiv');
 
+const alertArea = document.getElementById('alertArea');
+const alertPre = document.getElementById('alertPre');
+const okButton = document.getElementById('okButton');
+
 const valDex = {
 	'camera': new Map(),
 	'geometry': new Map(),
@@ -19,6 +23,8 @@ var workspace;
 var elapsed_time = 0;
 var usr_res;
 
+var demo_msgs, demo_goal, demo_lvl;
+
 var scene = new THREE.Scene();
 var current_camera;
 var renderer;
@@ -26,7 +32,7 @@ var anim_id;
 var shadow_mapping = false;
 var global_clock = new THREE.Clock();
 
-Blockly.JavaScript.addReservedWords('webglArea,webglCanvas,blocklyArea,blocklyDiv,global_language,lang_elem,tr_lang,valDex,workspace,elapsed_time,usr_res,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock');
+Blockly.JavaScript.addReservedWords('global_language,lang_elem,tr_lang,webglArea,webglCanvas,blocklyArea,blocklyDiv,alertArea,alertPre,okButton,valDex,workspace,elapsed_time,usr_res,demo_msgs,demo_goal,demo_lvl,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock');
 
 document.querySelectorAll('a').forEach((a) => {
 	if (a.id === 'languageButton')
@@ -410,16 +416,16 @@ function valManagement(event) {
 }
 
 // /=====================================================================\
-//	void loadWorkspace()
+//	void loadWorkspace(toolbox)
 // \=====================================================================/
-function loadWorkspace() {
+async function loadWorkspace(toolbox) {
 	const xhr = new XMLHttpRequest();
 
 	xhr.onload = function() {
-		if (xhr.readyState === 4 && xhr.status === 200) {
+		if (this.readyState === 4 && this.status === 200) {
 
 			const options = {
-				toolbox : xhr.responseText,
+				toolbox : this.response,
 				collapse : true,
 				comments : true,
 				disable : true,
@@ -442,7 +448,7 @@ function loadWorkspace() {
 				zoom : {
 					controls : false,
 					wheel : true,
-					startScale : 0.75,
+					startScale : toolbox ? 0.25 : 0.75,
 					maxScale : 1,
 					minScale : 0.25,
 					scaleSpeed : 1.2
@@ -463,10 +469,15 @@ function loadWorkspace() {
 	};
 
 	xhr.overrideMimeType('text/xml');
-	if (document.getElementById('language').lang === 'en')
-		xhr.open('GET', 'src/toolbox_en.xml', true);
-	else
-		xhr.open('GET', 'src/toolbox_it.xml', true);
+	if (!toolbox) {
+		if (document.getElementById('language').lang === 'en')
+			xhr.open('GET', 'src/toolbox_en.xml', true);
+		else
+			xhr.open('GET', 'src/toolbox_it.xml', true);
+	}
+	else {
+		xhr.open('GET', toolbox, true);
+	}
 	xhr.send();
 }
 
@@ -507,10 +518,11 @@ function saveProject(type) {
 }
 
 // /=====================================================================\
-//	void importProject()
+//	void importProject(file)
 // \=====================================================================/
-function importProject() {
-	const importedXml = document.getElementById('importedXml').files[0];
+async function importProject(file) {
+	const importedXml = !file ? document.getElementById('importedXml').files[0] : file;
+
 	if (importedXml !== null && importedXml.type === 'text/xml') {
 		const fileReader = new FileReader();
 		fileReader.onload = function(e) {
@@ -570,6 +582,90 @@ function importProject() {
 		alert('File is not a proper .xml!');
 	}
 	stopCode();
+}
+
+// /=====================================================================\
+//	void playDemo(name, lvl)
+// \=====================================================================/
+async function playDemo(name, lvl) {
+	// Retrieve level
+	demo_lvl = !lvl ? JSON.parse(localStorage.getItem(name)) : lvl;
+	if (demo_lvl === null)
+		demo_lvl = '1';
+	if (name !== 'lan')
+		localStorage.setItem(name, JSON.stringify(demo_lvl));
+
+	// Async-Await
+	try {
+		// Load workspace
+		await loadWorkspace('demos/' + name + '/' + global_language + '/toolbox_' + demo_lvl + '.xml');
+
+		// Load project
+		const proj = new XMLHttpRequest();
+		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
+		proj.onload = async function() {
+			await importProject(new Blob([this.response], {type: 'text/xml'}));
+		};
+		proj.send();
+
+		// Load conditions
+		const msgol = new XMLHttpRequest();
+		msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
+		msgol.onload = function() {
+			const temp = this.response.split('// Function levelCleared()');
+			demo_msgs = temp[0];
+			demo_goal = temp[1];
+			alertPre.textContent = demo_msgs;
+			okButton.textContent = 'OK';
+			alertArea.style.display = 'block';
+		};
+		msgol.send();
+	}
+	catch(e) {
+		console.log(e);
+	}
+}
+
+// /=====================================================================\
+//	void showMsg()
+// \=====================================================================/
+function showMsg() {
+	alertArea.style.display = 'block';
+}
+
+// /=====================================================================\
+//	void startOver(name)
+// \=====================================================================/
+function startOver(name) {
+	localStorage.setItem(name, JSON.stringify('1'));
+	playDemo(name);
+}
+
+// /=====================================================================\
+//	void exitDemo()
+// \=====================================================================/
+function exitDemo() {
+	demo_msgs = undefined;
+	demo_goal = undefined;
+	loadWorkspace();
+}
+
+// /=====================================================================\
+//	void vanish()
+// \=====================================================================/
+function vanish() {
+	if (okButton.textContent === tr_lang[global_language]['advance'])
+		playDemo('snake', JSON.stringify((parseInt(demo_lvl, 10) + 1)));
+	alertArea.style.display = 'none';
+}
+
+// /=====================================================================\
+//	void askToAdvance()
+// \=====================================================================/
+function askToAdvance() {
+	okButton.textContent = tr_lang[global_language]['advance'];
+	alertPre.textContent = tr_lang[global_language]['congrats'];
+	alertArea.style.display = 'block';
 }
 
 // /=====================================================================\
@@ -675,7 +771,7 @@ function runCode() {
 	Promise.all(preLoad()).then((neverland) => {
 		if (neverland)
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
-		console.log(usr_res);
+		//console.log(usr_res);
 
 		stopCode();
 

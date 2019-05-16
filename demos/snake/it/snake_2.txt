@@ -1,0 +1,26 @@
+In questo secondo livello cerchiamo di muovere la testa ("head") del serpente (il cubo giallo) usando le frecce direzionali:
+freccia-sinistra (keycode 37), freccia-su (keycode 38), freccia-destra (keycode 39), freccia-giu (keycode 40).
+
+Quando premi uno di questi bottoni dovresti settare la direzione ("direction") corrispondente nella funzione che gestisce il movimento.
+Il renderer invece trasla il cubo della quantità ± 1 lungo la direzione desiderata.
+
+Per completare questo livello devi:
+• complerare la funzione "all'evento keydown" con i blocchi mancanti
+• completare la catena di se-altrimenti nel renderer con i blocchi mancanti
+
+Gioca col bottone "Esegui" e sorpassa tutti e 4 i bordi.
+
+// Function levelCleared()
+var dir_left = false, dir_right = false, dir_up = false, dir_down = false;
+function levelCleared() {
+	if (mesh_head.position.x >= 40)
+		dir_down = true;
+	else if (mesh_head.position.x <= -40)
+		dir_up = true;
+	else if (mesh_head.position.z >= 40)
+		dir_left = true;
+	else if (mesh_head.position.z <= -40)
+		dir_right = true;
+
+	return dir_left && dir_right && dir_up && dir_down;
+}

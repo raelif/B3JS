@@ -1,0 +1,20 @@
+Questo è il primo livello della demo con la quale realizzare il gioco "Snake".
+Puoi vedere la funzione fornita "setWorld()", che crea gli elementi basilari della scena.
+
+Non c'è bisogno di modificarla, ma per superare questo livello devi:
+• settare la variabile "direction" con la stringa vuota ("")
+• chiamare la funzione "setWorld()" dal pannello apposito
+• aggiungere il blocco "renderizza con..." al workspace insieme alla sua camera
+• settare gli fps del renderer a 30
+
+I blocchi dovranno essere connessi, poi clicca il bottone "Esegui".
+
+// Function levelCleared()
+function levelCleared() {
+	if (direction === "") {
+		let block = workspace.getBlocksByType('b3js_render_loop')[0];
+		if (block && block.getInputTargetBlock('CAMERA') && block.getFieldValue('FPS') === '30')
+			return true;
+	}
+	return false;
+}

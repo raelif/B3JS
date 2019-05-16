@@ -1,0 +1,24 @@
+The parts of the snake's tail are all disconnected!
+You should help him out by setting the proper position for all of them!
+
+The process is the following: for each element of the tail, starting from the last one, its position becomes the position of the previous element. If the current element is the first of the tail, its position becomes the one of the head.
+
+Clearing this level requires to:
+• set the position of the first tail's child (i = 0) to the position of the head
+• set the position of each other child (i) to the position of the previous (i-1) one
+
+Once done, collect 3 apples.
+
+// Function levelCleared()
+function levelCleared() {
+	let len = mesh_tail.children.length;
+	if (len > 2) {
+		let s1x = mesh_tail.children[0].position.x - mesh_tail.children[1].position.x;
+		let s1z = mesh_tail.children[0].position.z - mesh_tail.children[1].position.z;
+		let s2x = mesh_tail.children[1].position.x - mesh_tail.children[2].position.x;
+		let s2z = mesh_tail.children[1].position.z - mesh_tail.children[2].position.z;
+		return (Math.abs(s1x) === 1 || Math.abs(s1z) === 1) && (Math.abs(s2x) === 1 || Math.abs(s2z) === 1);
+	}
+	else
+		return false;
+}

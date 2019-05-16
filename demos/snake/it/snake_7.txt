@@ -1,0 +1,7 @@
+Congratulazioni la demo è conclusa!
+Puoi giocare liberamente a "Snake" adesso o ricominciare usando il comando nel Menu.
+
+// Function levelCleared()
+function levelCleared() {
+	return false;
+}

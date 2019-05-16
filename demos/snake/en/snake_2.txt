@@ -1,0 +1,26 @@
+In this second level we try to move the snake's head (the yellow cube) using the arrow keys:
+arrow-left (keycode 37), arrow-up (keycode 38), arrow-right (keycode 39) and arrow-down (keycode 40).
+
+When you press one of these buttons you should set the direction accordingly in the function handling the gesture.
+The renderer instead translate the cube by the quantity ± 1 along the desired direction.
+
+In order to clear this level you have to:
+• complete the function "upon event keydown" with the blocks missing
+• complete the if-else chain in the renderer with the blocks missing
+
+Play with the button "Run" and surpass all 4 boundaries with the head.
+
+// Function levelCleared()
+var dir_left = false, dir_right = false, dir_up = false, dir_down = false;
+function levelCleared() {
+	if (mesh_head.position.x >= 40)
+		dir_down = true;
+	else if (mesh_head.position.x <= -40)
+		dir_up = true;
+	else if (mesh_head.position.z >= 40)
+		dir_left = true;
+	else if (mesh_head.position.z <= -40)
+		dir_right = true;
+
+	return dir_left && dir_right && dir_up && dir_down;
+}

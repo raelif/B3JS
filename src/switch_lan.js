@@ -22,6 +22,11 @@ const tr_lang = {
 		importButton : 'Import Project',
 		genButton : 'Generate Javascript',
 		uploadButton : 'Upload Resources',
+		demo : 'Demo',
+		playDemo : 'Play Demo',
+		showMsg : 'Show Message',
+		startOver : 'Start Over',
+		exitDemo : 'Exit from Demo',
 		view : 'View',
 		canvEnlButton : 'Canvas Fullscreen',
 		wrksEnlButton : 'Workspace Fullscreen',
@@ -30,7 +35,9 @@ const tr_lang = {
 			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it">',
 		showButton : 'Show Code',
 		stopButton : 'Stop',
-		runButton : 'Run'
+		runButton : 'Run',
+		advance : 'ADVANCE',
+		congrats : 'Congratulation you have cleared this level!'
 	},
 	it : {
 		file : 'File',
@@ -38,6 +45,11 @@ const tr_lang = {
 		importButton : 'Importa Progetto',
 		genButton : 'Genera Javascript',
 		uploadButton : 'Carica Risorse',
+		demo : 'Demo',
+		playDemo : 'Gioca Demo',
+		showMsg : 'Mostra Messaggio',
+		startOver : 'Ricomincia',
+		exitDemo : 'Esci dalla Demo',
 		view : 'Vista',
 		canvEnlButton : 'Canvas a Schermo Intero',
 		wrksEnlButton : 'Workspace a Schermo Intero',
@@ -46,6 +58,8 @@ const tr_lang = {
 			Ita <input id="itLan" type="radio" name="lan" onclick="changeLanguage(this)" value="it" checked="checked">',
 		showButton : 'Mostra Codice',
 		stopButton : 'Ferma',
-		runButton : 'Esegui'
+		runButton : 'Esegui',
+		advance : 'AVANZA',
+		congrats : 'Congratulazioni hai completato questo livello!'
 	}
 };

@@ -1,0 +1,24 @@
+The third level is very simple. The fact that the snake can go outside of the game's field is not good.
+So the objective of this stage is to bound the motion to that interval.
+
+A function named clearAction() has been added with the purpose of:
+• resetting the direction to ""
+• resetting the position of the head to {0, 0, 0}
+
+Moreover the if-else inside the renderer has to be completed by:
+• bounding also the z to the range of ± 40
+
+To clear the level try to surpass 2 boundaries.
+
+// Function levelCleared()
+var was_different = false, count = 0;
+function levelCleared() {
+	if (direction !== "") {
+		was_different = true;
+	}
+	if (was_different && direction === "") {
+		count++;
+		was_different = false;
+	}
+	return (count >= 2);
+}

@@ -1447,7 +1447,7 @@ Blockly.JavaScript['b3js_create_mesh_group'] = function(block) {
 	var value_value = Blockly.JavaScript.valueToCode(block, 'VALUE', Blockly.JavaScript.ORDER_ATOMIC);
 	var key = 'mesh_' + text_name;
 	// Cloning gallery
-	const toDo = Blockly.JavaScript.provideFunction_('cloneChild', [
+	Blockly.JavaScript.provideFunction_('cloneChild', [
 		'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(group, child, n) {',
 		'	if (n === null)',
 		'		n = group.children.length;',
@@ -1694,7 +1694,7 @@ Blockly.JavaScript['b3js_getfrom_mesh'] = function(block) {
 			break;
 
 			case 'MESH':
-				const toDo = Blockly.JavaScript.provideFunction_('findMesh', [
+				Blockly.JavaScript.provideFunction_('findMesh', [
 					'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(o3d, index) {',
 					'	var ithMesh = undefined;',
 					'	var count = 0;',
@@ -1778,6 +1778,11 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 	var statements_render = Blockly.JavaScript.statementToCode(block, 'RENDER');
 	// TODO: Assemble JavaScript into code variable.
 	var code = '';
+
+	if (demo_goal && demo_goal !== "") {
+		Blockly.JavaScript.provideFunction_('levelCleared', demo_goal.split('\n'));
+	}
+
 	if (value_camera) {
 		code +=
 			'const context = webglCanvas.getContext( "webgl2" );\n'+
@@ -1799,7 +1804,7 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 			'	anim_id = requestAnimationFrame( animate );\n'+
 			'	delta += global_clock.getDelta();\n';
 
-		var commands = ''
+		var commands = '';
 		statements_render.split('\n').forEach((line) => {
 			if (line !== '') {
 				commands += '		' + line + '\n';
@@ -1823,6 +1828,10 @@ Blockly.JavaScript['b3js_render_loop'] = function(block) {
 			'	}\n';
 		}
 
+		if (demo_goal && demo_goal !== "") {
+			code += ' if(levelCleared()) askToAdvance();\n';
+		}
+
 		code +=
 			'};\n'+
 			'animate();\n';
@@ -1836,9 +1845,16 @@ Blockly.JavaScript['b3js_upon_event'] = function(block) {
 	var variable_argument = Blockly.JavaScript.variableDB_.getName(block.getFieldValue('ARGUMENT'),
 		Blockly.Variables.NAME_TYPE);
 
+	var commands = '';
+	statements_steps.split('\n').forEach((line) => {
+		if (line !== '') {
+			commands += '	' + line + '\n';
+		}
+	});
+
 	// TODO: Assemble JavaScript into code variable.
 	if (dropdown_event === 'CLICK') {
-		const toDo = Blockly.JavaScript.provideFunction_('uponClick', [
+		Blockly.JavaScript.provideFunction_('uponClick', [
 			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
 			'	var vector = new THREE.Vector3((event.clientX / webglCanvas.offsetWidth) * 2 - 1,',
 			'		-(event.clientY / webglCanvas.offsetHeight) * 2 + 1, 0.5);',
@@ -1849,16 +1865,16 @@ Blockly.JavaScript['b3js_upon_event'] = function(block) {
 			'		' + variable_argument + ' = ' + variable_argument + '[0].object;',
 			'		if (' + variable_argument + '.type === "SkinnedMesh")',
 			'		'	+	variable_argument + ' = ' + variable_argument + '.parent;',
-			'		'	+	statements_steps,
+			'	'	+	commands,
 			'	}',
 			'}',
 			'webglCanvas.onclick = uponClick;']);
 	}
 	else if (dropdown_event === 'KEYDOWN') {
-		const toDo = Blockly.JavaScript.provideFunction_('uponDown', [
+		Blockly.JavaScript.provideFunction_('uponDown', [
 			'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(event) {',
-			'	'	+	variable_argument + ' = event.keyCode;',
-			'	'	+	statements_steps,
+			'	' + variable_argument + ' = event.keyCode;',
+			'' + commands,
 			'}',
 			'window.onkeydown = uponDown;']);
 	}
@@ -1870,7 +1886,7 @@ Blockly.JavaScript['b3js_play_animation'] = function(block) {
 	var value_num = Blockly.JavaScript.valueToCode(block, 'NUM', Blockly.JavaScript.ORDER_ATOMIC);
 	// TODO: Assemble JavaScript into code variable.
 
-	const toDo = Blockly.JavaScript.provideFunction_('animateChild', [
+	Blockly.JavaScript.provideFunction_('animateChild', [
 		'function ' + Blockly.JavaScript.FUNCTION_NAME_PLACEHOLDER_ + '(mesh, num) {',
 		'	if (!mesh) return;',
 		'	var id = mesh.name.split(":");',

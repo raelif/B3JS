@@ -1,0 +1,12 @@
+Siamo quasi alla fine!
+L'ultimo compito per te è di impedire al serpente di continuare a muoversi dopo essersi morso la coda!
+
+Dovresti garantire la seguente condizione:
+• se la testa ("head") ha la stessa posizione di uno degli elementi della coda ("tail"), chiama ancora "clearAction()"
+
+Per concludere la demo lascia che il serpente si morda la coda.
+
+// Function levelCleared()
+function levelCleared() {
+	return reason === "bite" && direction === "";
+}

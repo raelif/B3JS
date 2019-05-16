@@ -1,0 +1,24 @@
+Il terzo livello è molto semplice. Il fatto che il serpente possa oltrepassare il bordo del campo non è positivo.
+Quindi l'obiettivo di questa fase è di confinare il movimento a quell'intervallo.
+
+Una funzione chiamata "clearAction()" è stata aggiunta con l'obiettivo di:
+• resettare la direzione ("direction") a ""
+• resettare la pozione della testa ("head") a {0, 0, 0}
+
+Per di più i se-altrimenti dentro il renderer devono essere completati:
+• confinando anche la z nell'intervallo di ± 40
+
+Per completare il livello prova a sorpassare 2 bordi.
+
+// Function levelCleared()
+var was_different = false, count = 0;
+function levelCleared() {
+	if (direction !== "") {
+		was_different = true;
+	}
+	if (was_different && direction === "") {
+		count++;
+		was_different = false;
+	}
+	return (count >= 2);
+}
