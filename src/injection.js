@@ -605,21 +605,21 @@ async function playDemo(name, lvl) {
 		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
 		proj.onload = async function() {
 			await importProject(new Blob([this.response], {type: 'text/xml'}));
+
+			// Load conditions
+			const msgol = new XMLHttpRequest();
+			msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
+			msgol.onload = function() {
+				const temp = this.response.split('// Function levelCleared()');
+				demo_msgs = temp[0];
+				demo_goal = temp[1];
+				alertPre.textContent = demo_msgs;
+				okButton.textContent = 'OK';
+				alertArea.style.display = 'block';
+			};
+			msgol.send();
 		};
 		proj.send();
-
-		// Load conditions
-		const msgol = new XMLHttpRequest();
-		msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
-		msgol.onload = function() {
-			const temp = this.response.split('// Function levelCleared()');
-			demo_msgs = temp[0];
-			demo_goal = temp[1];
-			alertPre.textContent = demo_msgs;
-			okButton.textContent = 'OK';
-			alertArea.style.display = 'block';
-		};
-		msgol.send();
 	}
 	catch(e) {
 		console.log(e);
