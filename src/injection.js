@@ -648,6 +648,7 @@ function startOver(name) {
 function exitDemo() {
 	demo_msgs = undefined;
 	demo_goal = undefined;
+	alertArea.style.display = 'none';
 	loadWorkspace();
 }
 
