@@ -630,6 +630,7 @@ async function playDemo(name, lvl) {
 //	void showMsg()
 // \=====================================================================/
 function showMsg() {
+	okButton.textContent = 'OK';
 	alertArea.style.display = 'block';
 }
 
@@ -654,9 +655,9 @@ function exitDemo() {
 //	void vanish()
 // \=====================================================================/
 function vanish() {
+	alertArea.style.display = 'none';
 	if (okButton.textContent === tr_lang[global_language]['advance'])
 		playDemo('snake', JSON.stringify((parseInt(demo_lvl, 10) + 1)));
-	alertArea.style.display = 'none';
 }
 
 // /=====================================================================\
