@@ -201,7 +201,7 @@ function recover(block, type) {
 				else {
 					setVal(block, type);
 				}
-				console.log(valDex);
+				//console.log(valDex);
 			}
 		}
 		// Else value/set/update_block
@@ -292,7 +292,7 @@ function valManagement(event) {
 				flicker(block.getInputTargetBlock('MATERIAL'));
 				flicker(block.getInputTargetBlock('VALUE'));
 				recover(block, block.type.split('_'));
-				console.log(valDex);
+				//console.log(valDex);
 			}
 			// Multiple create_blocks => undo cataclysm
 			else {
@@ -310,7 +310,7 @@ function valManagement(event) {
 					if (b.type.indexOf('b3js') >= 0)
 						flicker(b);
 				});
-				console.log(valDex);
+				//console.log(valDex);
 			}
 		}
 		break;
@@ -330,7 +330,7 @@ function valManagement(event) {
 				if (b.type.indexOf('b3js') >= 0)
 					flicker(b);
 			});
-			console.log(valDex);
+			//console.log(valDex);
 		}
 		break;
 
@@ -341,7 +341,7 @@ function valManagement(event) {
 				if (type[1] === 'create') {
 					if (block.getFieldValue('NAME') === '') {
 						chooseName(block, type);
-						console.log(valDex);
+						//console.log(valDex);
 					}
 				}
 				// Move value_blocks inside/outside set/update/get_blocks
@@ -573,7 +573,7 @@ async function importProject(file) {
 				if (b.type.indexOf('b3js') >= 0)
 					flicker(b);
 			});
-			console.log(valDex);
+			//console.log(valDex);
 			Blockly.Events.enable();
 		};
 		fileReader.readAsText(importedXml, 'UTF-8');
@@ -609,7 +609,7 @@ async function playDemo(name, lvl) {
 			// Load conditions
 			const msgol = new XMLHttpRequest();
 			msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
-			msgol.onload = function() {
+			msgol.onload = async function() {
 				const temp = this.response.split('// Function levelCleared()');
 				demo_msgs = temp[0];
 				demo_goal = temp[1];
@@ -738,7 +738,7 @@ function showCode() {
 	Promise.all(preLoad()).then((neverland) => {
 		if (neverland && !anim_id)
 			neverland.forEach((p) => {usr_res[p[0]] = p[1];});
-		console.log(usr_res);
+		//console.log(usr_res);
 
 		// Generate JavaScript code and display it.
 		const code = Blockly.JavaScript.workspaceToCode(workspace);
