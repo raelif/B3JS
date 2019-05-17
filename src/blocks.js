@@ -73,8 +73,7 @@ Blockly.Blocks['b3js_set_camera'] = {
 				.appendField(Blockly.Msg['B3JS_IN_CAMERA']);
 		this.appendDummyInput()
 				.appendField(Blockly.Msg['B3JS_SET'])
-				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_TRANSLATION'],'TRANSLATION'], [Blockly.Msg['B3JS_ROTATIONX'],'RX'], [Blockly.Msg['B3JS_ROTATIONY'],'RY'], [Blockly.Msg['B3JS_ROTATIONZ'],'RZ'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]),
-					'FIELD');
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_POSITION'],'POSITION'], [Blockly.Msg['B3JS_LOOKAT'],'LOOKAT'], [Blockly.Msg['B3JS_TRANSLATION'],'TRANSLATION'], [Blockly.Msg['B3JS_ROTATIONX'],'RX'], [Blockly.Msg['B3JS_ROTATIONY'],'RY'], [Blockly.Msg['B3JS_ROTATIONZ'],'RZ'], [Blockly.Msg['B3JS_SCALE'],'SCALE']], block_validator), 'FIELD');
 		this.appendValueInput('VALUE')
 				.setCheck('Vec3')
 				.appendField(Blockly.Msg['B3JS_TO']);
