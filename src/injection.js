@@ -520,7 +520,7 @@ function saveProject(type) {
 // /=====================================================================\
 //	void importProject(file)
 // \=====================================================================/
-async function importProject(file) {
+function importProject(file) {
 	const importedXml = !file ? document.getElementById('importedXml').files[0] : file;
 
 	if (importedXml !== null && importedXml.type === 'text/xml') {
@@ -597,6 +597,17 @@ async function playDemo(name, lvl) {
 
 	// Async-Await
 	try {
+		// Load workspace
+		await loadWorkspace('demos/' + name + '/' + global_language + '/toolbox_' + demo_lvl + '.xml');
+
+		// Load project
+		const proj = new XMLHttpRequest();
+		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
+		proj.onload = function() {
+			importProject(new Blob([this.response], {type: 'text/xml'}));
+		};
+		proj.send();
+
 		// Load conditions
 		const msgol = new XMLHttpRequest();
 		msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
@@ -609,17 +620,6 @@ async function playDemo(name, lvl) {
 			alertArea.style.display = 'block';
 		};
 		msgol.send();
-
-		// Load workspace
-		await loadWorkspace('demos/' + name + '/' + global_language + '/toolbox_' + demo_lvl + '.xml');
-
-		// Load project
-		const proj = new XMLHttpRequest();
-		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
-		proj.onload = function() {
-			importProject(new Blob([this.response], {type: 'text/xml'}));
-		};
-		proj.send();
 	}
 	catch(e) {
 		console.log(e);
@@ -631,6 +631,7 @@ async function playDemo(name, lvl) {
 // \=====================================================================/
 function showMsg() {
 	okButton.textContent = 'OK';
+	alertPre.textContent = demo_msgs;
 	alertArea.style.display = 'block';
 }
 
@@ -657,8 +658,10 @@ function exitDemo() {
 // \=====================================================================/
 function vanish() {
 	alertArea.style.display = 'none';
-	if (okButton.textContent === tr_lang[global_language]['advance'])
+	if (okButton.textContent === tr_lang[global_language]['advance']) {
+		stopCode();
 		playDemo('snake', JSON.stringify((parseInt(demo_lvl, 10) + 1)));
+	}
 }
 
 // /=====================================================================\
