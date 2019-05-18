@@ -520,7 +520,7 @@ function saveProject(type) {
 // /=====================================================================\
 //	void importProject(file)
 // \=====================================================================/
-async function importProject(file) {
+function importProject(file) {
 	const importedXml = !file ? document.getElementById('importedXml').files[0] : file;
 
 	if (importedXml !== null && importedXml.type === 'text/xml') {
@@ -599,16 +599,12 @@ async function playDemo(name, lvl) {
 	try {
 		// Load workspace
 		await loadWorkspace('demos/' + name + '/' + global_language + '/toolbox_' + demo_lvl + '.xml');
+	}
+	catch(e) {
+		console.log(e);
+	}
 
-		// Load project
-		const proj = new XMLHttpRequest();
-		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
-		proj.onload = async function() {
-			await importProject(new Blob([this.response], {type: 'text/xml'}));
-		};
-		proj.send();
-
-		// Load conditions
+	// Load conditions
 		const msgol = new XMLHttpRequest();
 		msgol.open('GET', 'demos/' + name + '/' + global_language + '/' + name + '_' + demo_lvl + '.txt');
 		msgol.onload = function() {
@@ -618,12 +614,16 @@ async function playDemo(name, lvl) {
 			alertPre.textContent = demo_msgs;
 			okButton.textContent = 'OK';
 			alertArea.style.display = 'block';
+
+			// Load project
+			const proj = new XMLHttpRequest();
+			proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
+			proj.onload = function() {
+				importProject(new Blob([this.response], {type: 'text/xml'}));
+			};
+			proj.send();
 		};
 		msgol.send();
-	}
-	catch(e) {
-		console.log(e);
-	}
 }
 
 // /=====================================================================\
