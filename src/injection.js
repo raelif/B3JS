@@ -520,7 +520,7 @@ function saveProject(type) {
 // /=====================================================================\
 //	void importProject(file)
 // \=====================================================================/
-function importProject(file) {
+async function importProject(file) {
 	const importedXml = !file ? document.getElementById('importedXml').files[0] : file;
 
 	if (importedXml !== null && importedXml.type === 'text/xml') {
@@ -603,8 +603,8 @@ async function playDemo(name, lvl) {
 		// Load project
 		const proj = new XMLHttpRequest();
 		proj.open('GET', 'demos/' + name + '/' + name + '_' + demo_lvl + '.xml');
-		proj.onload = function() {
-			importProject(new Blob([this.response], {type: 'text/xml'}));
+		proj.onload = async function() {
+			await importProject(new Blob([this.response], {type: 'text/xml'}));
 		};
 		proj.send();
 
