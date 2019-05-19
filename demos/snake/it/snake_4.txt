@@ -6,7 +6,7 @@ Dovresti averla notata come un cubo rosso nella scena, se non è visibile prova 
 Per passare questo livello devi:
 • completare il se-altrimenti dentro il renderer considerando il valore della z della testa ("head") e della mela ("apple")
 • nella mesh coda ("tail") setta la testa ("head") come nuovo figlio
-• nella mesh code rimuovi i figli nella funzione di pulizia ("clearAction()")
+• nella mesh coda rimuovi i figli nella funzione di pulizia ("clearAction()"), semplicemente selezionando figli
 • setta anche la componente z della mela a un numero randomico tra -40 e +40
 
 Per accedere al prossimo livello colleziona 2 mele e sbatti contro un bordo.

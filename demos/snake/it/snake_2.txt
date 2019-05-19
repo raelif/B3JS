@@ -5,7 +5,7 @@ Quando premi uno di questi bottoni dovresti settare la direzione ("direction") c
 Il renderer invece trasla il cubo della quantità ± 1 lungo la direzione desiderata.
 
 Per completare questo livello devi:
-• complerare la funzione "all'evento keydown" con i blocchi mancanti
+• completare la funzione "all'evento keydown" con i blocchi mancanti
 • completare la catena di se-altrimenti nel renderer con i blocchi mancanti
 
 Gioca col bottone "Esegui" e sorpassa tutti e 4 i bordi.

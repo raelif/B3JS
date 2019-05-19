@@ -651,6 +651,7 @@ function exitDemo() {
 	demo_goal = undefined;
 	alertArea.style.display = 'none';
 	loadWorkspace();
+	stopCode();
 }
 
 // /=====================================================================\
