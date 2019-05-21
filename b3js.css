@@ -123,7 +123,7 @@ iframe {
 	height: 95vh;
 	margin-bottom: 0.5vh;
 	margin-top: 4.5vh;
-	z-index: 2147483647;
+	z-index: 2147483646;
 	font-size: 2vmin;
 	background-color: #DDDDDD;
 	opacity: 0.95;

@@ -13,7 +13,7 @@ Blockly.Blocks['b3js_add_scene'] = {
 		this.setColour(Blockly.Msg['SCENE_HUE']);
 		this.setInputsInline(true);
 	this.setTooltip('Add Mesh, Light or Camera to the Scene.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/scenes/Scene');
+	this.setHelpUrl();
 	this.mixin(ADD_MIXIN);
 	this.setMutator(new Blockly.Mutator(['scene_with_element']));
 	}
@@ -33,7 +33,7 @@ Blockly.Blocks['b3js_set_scene'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['SCENE_HUE']);
 	this.setTooltip('Set property of the Scene.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/scenes/Scene');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_SCENE_SHAPE);
 	}
@@ -60,7 +60,7 @@ Blockly.Blocks['b3js_create_camera'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Create a new Camera.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(CREATE_CAMERA_SHAPE);
 	}
@@ -82,7 +82,7 @@ Blockly.Blocks['b3js_set_camera'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Set property of a previously created Camera.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_CAMERA_SHAPE);
 	}
@@ -100,7 +100,7 @@ Blockly.Blocks['b3js_getfrom_camera'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Get property of a previously created Camera.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -111,7 +111,7 @@ Blockly.Blocks['b3js_value_camera'] = {
 		this.setOutput(true, 'Camera');
 		this.setColour(Blockly.Msg['CAMERA_HUE']);
 	this.setTooltip('Retrieve a Camera.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/cameras/Camera');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.setDisabled(!valDex['camera'].size);
 	}
@@ -135,7 +135,7 @@ Blockly.Blocks['b3js_create_light'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Create a new Light.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(CREATE_LIGHT_SHAPE);
 	}
@@ -158,7 +158,7 @@ Blockly.Blocks['b3js_set_light'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Set property of a previously created Light.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_LIGHT_SHAPE);
 	}
@@ -176,7 +176,7 @@ Blockly.Blocks['b3js_getfrom_light'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Get property of a previously created Light.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(GETFROM_LIGHT_SHAPE);
 	}
@@ -189,7 +189,7 @@ Blockly.Blocks['b3js_value_light'] = {
 		this.setOutput(true, 'Light');
 		this.setColour(Blockly.Msg['LIGHT_HUE']);
 	this.setTooltip('Retrieve a Light.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.setDisabled(!valDex['light'].size);
 	}
@@ -215,7 +215,7 @@ Blockly.Blocks['b3js_create_geometry'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Create a new Geometry.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(CREATE_GEOMETRY_SHAPE);
 	}
@@ -237,7 +237,7 @@ Blockly.Blocks['b3js_set_geometry'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Set property of a previously created Geometry.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_GEOMETRY_SHAPE);
 	}
@@ -255,7 +255,7 @@ Blockly.Blocks['b3js_getfrom_geometry'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Get property of a previously created Geometry.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -266,7 +266,7 @@ Blockly.Blocks['b3js_value_geometry'] = {
 		this.setOutput(true, 'Geometry');
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Retrieve a Geometry.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.setDisabled(!valDex['geometry'].size);
 	}
@@ -284,7 +284,7 @@ Blockly.Blocks['b3js_vector_vec2'] = {
 		this.setOutput(true, 'Vec2');
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 2 dimensions.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector2');
+	this.setHelpUrl();
 	}
 };
 
@@ -303,7 +303,7 @@ Blockly.Blocks['b3js_vector_vec3'] = {
 		this.setOutput(true, 'Vec3');
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 3 dimensions.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector3');
+	this.setHelpUrl();
 	}
 };
 
@@ -325,7 +325,7 @@ Blockly.Blocks['b3js_vector_vec4'] = {
 		this.setOutput(true, 'Vec4');
 		this.setColour(Blockly.Msg['GEOMETRY_HUE']);
 	this.setTooltip('Return a new Vector of 4 dimensions.');
-	this.setHelpUrl('https://threejs.org/docs/index.html#api/en/math/Vector4');
+	this.setHelpUrl();
 	}
 };
 
@@ -346,7 +346,7 @@ Blockly.Blocks['b3js_create_material'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Create a new Material.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(CREATE_MATERIAL_SHAPE);
 	}
@@ -368,7 +368,7 @@ Blockly.Blocks['b3js_set_material'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Set property of a previously created Material.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_MATERIAL_SHAPE);
 	}
@@ -386,7 +386,7 @@ Blockly.Blocks['b3js_getfrom_material'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Get property of a previously created Material.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(GETFROM_MATERIAL_SHAPE);
 	}
@@ -399,7 +399,7 @@ Blockly.Blocks['b3js_value_material'] = {
 		this.setOutput(true, 'Material');
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Retrieve a Material.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.setDisabled(!valDex['material'].size);
 	}
@@ -421,7 +421,7 @@ Blockly.Blocks['b3js_image_texture'] = {
 		this.setOutput(true, 'Texture');
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Return a new Texture.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -440,7 +440,7 @@ Blockly.Blocks['b3js_linear_fog'] = {
 		this.setOutput(true, 'Fog');
 		this.setColour(Blockly.Msg['MATERIAL_HUE']);
 	this.setTooltip('Return a new Fog element.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -461,7 +461,7 @@ Blockly.Blocks['b3js_create_mesh'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Mesh.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -478,7 +478,7 @@ Blockly.Blocks['b3js_create_mesh_from_file'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Mesh from a glTF, OBJ or Collada file.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 
@@ -495,7 +495,7 @@ Blockly.Blocks['b3js_create_mesh_group'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Create a new Group from Meshes or Groups.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(ADD_MIXIN);
 	this.setMutator(new Blockly.Mutator(['mesh_with_element']));
 	}
@@ -517,7 +517,7 @@ Blockly.Blocks['b3js_set_mesh'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Set property of a previously created Mesh.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(SET_MESH_SHAPE);
 	}
@@ -538,7 +538,7 @@ Blockly.Blocks['b3js_update_mesh'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Update property of a previously created Mesh.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(UPDATE_MESH_SHAPE);
 	}
@@ -556,7 +556,7 @@ Blockly.Blocks['b3js_getfrom_mesh'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Get property of a previously created Mesh.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(GETFROM_MESH_SHAPE);
 	}
@@ -569,7 +569,7 @@ Blockly.Blocks['b3js_value_mesh'] = {
 		this.setOutput(true, 'Mesh');
 		this.setColour(Blockly.Msg['MESH_HUE']);
 	this.setTooltip('Retrieve a Mesh.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.setDisabled(!valDex['mesh'].size);
 	}
@@ -590,7 +590,7 @@ Blockly.Blocks['b3js_render_loop'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Render a Scene with a previously created Camera.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.setDisabled(!valDex['camera'].size != workspace.getBlocksByType('b3js_render_loop').length > 0);
 	}
 };
@@ -609,7 +609,7 @@ Blockly.Blocks['b3js_upon_event'] = {
 		this.setInputsInline(true);
 		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Append an Event Listener to the document.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	this.mixin(BLOCK_MIXIN);
 	this.mixin(UPON_EVENT_SHAPE);
 	}
@@ -628,7 +628,7 @@ Blockly.Blocks['b3js_play_animation'] = {
 		this.setNextStatement(true, null);
 		this.setColour(Blockly.Msg['ANIMATION_HUE']);
 	this.setTooltip('Play the nth Mesh animation.');
-	this.setHelpUrl('');
+	this.setHelpUrl();
 	}
 };
 

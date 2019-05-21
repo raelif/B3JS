@@ -32,7 +32,10 @@ var anim_id;
 var shadow_mapping = false;
 var global_clock = new THREE.Clock();
 
-Blockly.JavaScript.addReservedWords('global_language,lang_elem,tr_lang,webglArea,webglCanvas,blocklyArea,blocklyDiv,alertArea,alertPre,okButton,valDex,workspace,elapsed_time,usr_res,demo_msgs,demo_goal,demo_lvl,scene,current_camera,renderer,anim_id,shadow_mapping,global_clock');
+Blockly.JavaScript.addReservedWords('global_language'+'lang_elem'+'tr_lang'+
+	'webglArea'+'webglCanvas'+'blocklyArea'+'blocklyDiv'+'alertArea'+'alertPre'+'okButton'+
+	'valDex'+'workspace'+'elapsed_time'+'usr_res'+'demo_msgs'+'demo_goal'+'demo_lvl'+
+	'scene'+'current_camera'+'renderer'+'anim_id'+'shadow_mapping'+'global_clock');
 
 document.querySelectorAll('a').forEach((a) => {
 	if (a.id === 'languageButton')
