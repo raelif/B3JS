@@ -529,7 +529,7 @@ Blockly.Blocks['b3js_update_mesh'] = {
 				.setCheck('Mesh')
 				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_TRANSLATE'],'TRANSLATE'], [Blockly.Msg['B3JS_ROTATE'],'ROTATE'], [Blockly.Msg['B3JS_SCALE'],'SCALE']]), 'FIELD');
 		this.appendDummyInput()
-				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_X'],'X'], [Blockly.Msg['B3JS_Y'],'Y'], [Blockly.Msg['B3JS_Z'],'Z'], [Blockly.Msg['B3JS_XYZ'],'XYZ'], [Blockly.Msg['B3JS_ALONG'],'AXIS']], block_validator), 'COMPONENT');
+				.appendField(new Blockly.FieldDropdown([[Blockly.Msg['B3JS_X'],'X'], [Blockly.Msg['B3JS_Y'],'Y'], [Blockly.Msg['B3JS_Z'],'Z'], [Blockly.Msg['B3JS_XYZ'],'XYZ'], [Blockly.Msg['B3JS_ALONG'],'ALONG']], block_validator), 'COMPONENT');
 		this.appendValueInput('VALUE')
 				.setCheck('Number')
 				.appendField(Blockly.Msg['B3JS_BY']);
@@ -1650,7 +1650,7 @@ Blockly.JavaScript['b3js_update_mesh'] = function(block) {
 					}
 				break;
 
-				case 'AXIS':
+				case 'ALONG':
 					if (block.getInputTargetBlock('DIRECTION')) {
 						var direction = Blockly.JavaScript.valueToCode(block, 'DIRECTION', Blockly.JavaScript.ORDER_ATOMIC);
 						if (dropdown_field === 'TRANSLATE') {

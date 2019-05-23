@@ -727,14 +727,14 @@ const UPDATE_MESH_SHAPE = {
 					.appendField(Blockly.Msg['B3JS_BY']);
 			break;
 
-			case 'AXIS':
+			case 'ALONG':
 				this.removeInput('VALUE');
 				this.appendValueInput('VALUE')
 					.setCheck('Number')
 					.appendField(Blockly.Msg['B3JS_BY']);
 				this.appendValueInput('DIRECTION')
 					.setCheck('Vec3')
-					.appendField(Blockly.Msg['B3JS_ALONG']);
+					.appendField(Blockly.Msg['B3JS_AXIS']);
 				this.moveInputBefore('DIRECTION', 'VALUE');
 			break;
 		}
