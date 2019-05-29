@@ -94,7 +94,7 @@ The block creates a simple Mesh in Three.js. It is different from the previous o
 Keeping in mind that the *Type* refers only to Blockly, while the *Subtype* helps both the libraries in understanding the concrete handled object, here we don't have any drop-down options, so we just create an object of type mesh and subtype ``mesh``. Meshes are the characters of our scenes and sometimes it is not sufficient to work only with a limited range of geometries. For this reason we have two additional create blocks for importing models from outside or for creating complex groups of simpler meshes.
 
 #### b3js\_create\_mesh\_from\_file
-The block in question accepts as parameter a string, that is the name of one 3D model, dwelling in the *resources* folder. The accepted formats are *.obj* for OBJ models, *.dae* for Collada models or *.gltf* and *.glb* for GLTF models.
+The block in question accepts as parameter a string, that is the name of one 3D model, dwelling in the *resources/* folder. The accepted formats are *.obj* for OBJ models, *.dae* for Collada models or *.gltf* and *.glb* for GLTF models.
 
 <img src="imgMD/Create_imp.png" alt="drawing"/>
 
