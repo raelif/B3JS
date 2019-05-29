@@ -1,4 +1,4 @@
-# B3JS <img src="/Users/matteo/Downloads/random/TH/b3js.png" alt="drawing" width="24" height="24"/>
+# B3JS <img src="imgMD/b3js.png" alt="drawing" width="24" height="24"/>
 
 **B3JS** is a project, whose purpose is that of combining two JavaScript realities, such as **Blockly** and **Three.js**, into a single Web Application.
 
